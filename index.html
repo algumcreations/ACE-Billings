@@ -98,7 +98,7 @@
         .section-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; position: relative; }
         label { font-size: 12px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.5px; }
         
         input, select { padding: 14px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 15px; font-weight: 500; outline: none; background: var(--bg); color: var(--text); width: 100%; transition: all 0.2s ease; }
@@ -110,6 +110,18 @@
         .mobile-prefix { background: transparent; color: var(--text-soft); font-weight: 700; padding: 14px 0 14px 16px; font-size: 15px; }
         .mobile-input-wrapper input { border: none; border-radius: 0; box-shadow: none; background: transparent; padding-left: 12px; }
         .mobile-input-wrapper input:focus { box-shadow: none; }
+
+        /* Offline Suggestion Dropdown Styling */
+        .suggestions-dropdown {
+            position: absolute; top: 100%; left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-top: 4px; box-shadow: var(--shadow-lg); z-index: 100; max-height: 200px; overflow-y: auto; display: none; overflow-x: hidden;
+        }
+        .suggestion-item {
+            padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; transition: background-color 0.2s ease;
+        }
+        .suggestion-item:last-child { border-bottom: none; }
+        .suggestion-item:hover { background: var(--brand-soft); }
+        .sugg-name { font-weight: 700; font-size: 14px; color: var(--text); }
+        .sugg-mob { font-size: 12px; color: var(--text-soft); margin-top: 2px; font-weight: 600; }
 
         .btn-sync { background: var(--text); color: var(--card); border: none; padding: 14px 20px; border-radius: var(--radius-sm); font-weight: 700; font-size: 14px; cursor: pointer; height: 52px; width: 100%; box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-sync:hover { background: var(--brand); color: #000; transform: translateY(-1px); }
@@ -163,6 +175,18 @@
         .btn-main { background: var(--text); color: var(--card); width: 100%; box-shadow: var(--shadow-md); }
         .btn-main:hover { background: var(--brand); color: #000; transform: translateY(-2px); box-shadow: var(--shadow-lg); }
         
+        /* Premium WhatsApp Button Styling */
+        .whatsapp-premium-btn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            border: none;
+        }
+        .whatsapp-premium-btn:hover {
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            transform: translateY(-2px);
+        }
+
         #toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--card); padding: 16px 32px; border-radius: 30px; font-size: 14px; font-weight: 600; display: none; z-index: 10000; box-shadow: var(--shadow-float); border: 1px solid rgba(255,255,255,0.1); }
 
         #tutorialOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; }
@@ -196,7 +220,6 @@
 
 <div id="toast"></div>
 
-<!-- Tutorial -->
 <div id="tutorialOverlay">
     <div class="tut-card">
         <div style="margin-bottom: 32px; text-align: center;">
@@ -207,7 +230,7 @@
         <div style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 40px;">
             <div style="display: flex; gap: 16px; align-items: flex-start;">
                 <span style="background: var(--text); color: var(--card); width: 24px; height: 24px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; margin-top: 2px;">1</span>
-                <p style="margin:0; font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.5;"><b>Cloud Sync:</b> Fetch existing client data instantly.</p>
+                <p style="margin:0; font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.5;"><b>Smart Suggestions:</b> Type to auto-fill regular clients instantly.</p>
             </div>
             <div style="display: flex; gap: 16px; align-items: flex-start;">
                 <span style="background: var(--text); color: var(--card); width: 24px; height: 24px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; margin-top: 2px;">2</span>
@@ -215,7 +238,7 @@
             </div>
             <div style="display: flex; gap: 16px; align-items: flex-start;">
                 <span style="background: var(--text); color: var(--card); width: 24px; height: 24px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; margin-top: 2px;">3</span>
-                <p style="margin:0; font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.5;"><b>WhatsApp Pro:</b> Send branded invoices directly.</p>
+                <p style="margin:0; font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.5;"><b>WhatsApp Pro:</b> Send premium branded invoices directly.</p>
             </div>
         </div>
         <button class="btn-action btn-main" onclick="closeTutorial()">Experience Premium</button>
@@ -244,8 +267,11 @@
             <label>Customer Mobile</label>
             <div class="mobile-input-wrapper" id="mobileWrapper">
                 <span class="mobile-prefix">+91</span>
-                <input type="tel" id="mobile" placeholder="XXXXXXXXXX" maxlength="10" oninput="validateMobile()">
+                <!-- Added handleMobileInput for Smart Suggestions -->
+                <input type="tel" id="mobile" placeholder="XXXXXXXXXX" maxlength="10" oninput="handleMobileInput()">
             </div>
+            <!-- Auto Suggestion Dropdown -->
+            <div id="clientSuggestions" class="suggestions-dropdown"></div>
         </div>
         <div style="display: flex; align-items: flex-end;">
             <button class="btn-sync" onclick="fetchClient()" id="fetchBtn">⚡ Sync Client Data</button>
@@ -295,7 +321,8 @@
     <div class="breakdown-card">
         <div class="breakdown-row"><span>Cart Subtotal:</span><span id="txtSubtotal">₹0.00</span></div>
         <div class="breakdown-row"><span>Applied Tax (GST):</span><span id="txtTax">₹0.00</span></div>
-        <div class="breakdown-row"><span>Global Agency Discount:</span><span id="txtDiscount">-₹0.00</span></div>
+        <!-- Clarified Discount terminology -->
+        <div class="breakdown-row"><span>Total Discounts:</span><span id="txtDiscount">-₹0.00</span></div>
         <div class="breakdown-row" style="opacity: 0.5;"><span>Adjustment:</span><span id="txtRound">₹0.00</span></div>
         <div class="total-row breakdown-row">
             <span>NET PAYABLE</span>
@@ -315,10 +342,10 @@
 
     <!-- Step 3: Authorization -->
     <span class="section-label">3. Payment Authorization</span>
-    <!-- UPDATE: Added Advance Field seamlessly without breaking layout on desktop/mobile -->
+    <!-- Clarified terminology in Inputs -->
     <div class="grid" style="grid-template-columns: 1fr 1fr 1fr 1.5fr;">
         <div class="input-group">
-            <label>Global Discount (₹)</label>
+            <label>Total Discount (₹)</label>
             <input type="number" id="discount" value="0" oninput="updateCalculations()">
         </div>
         <div class="input-group">
@@ -339,7 +366,6 @@
         </div>
     </div>
     
-    <!-- Pro Feature - Custom Invoice Notes -->
     <div class="input-group" style="margin-top: 16px;">
         <label>Invoice Notes / Terms (Optional)</label>
         <input type="text" id="customNotes" placeholder="e.g. Expected delivery in 3-5 business days..." oninput="saveDraft()">
@@ -347,10 +373,9 @@
 
     <button class="btn-action btn-main" onclick="generateInvoice()" style="height: 64px; font-size: 16px; margin-top: 48px; letter-spacing: 0.5px;">Review & Generate Invoice</button>
 
-    <!-- NEW UPDATE: Added "Share Invoice" Button & Preserved Original -->
+    <!-- Action Buttons with Premium WhatsApp Button & Generic Share Removed -->
     <div id="afterButtons" style="display: none; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 32px;">
-        <button class="btn-action" style="background: #128C7E; color: white;" onclick="shareWhatsApp()">🚀 Send to Customer</button>
-        <button class="btn-action" style="background: #25D366; color: white;" onclick="shareInvoiceAnywhere()">👥 Share Invoice</button>
+        <button class="btn-action whatsapp-premium-btn" onclick="shareWhatsApp()">🚀 Send to Customer</button>
         <button class="btn-action" style="background: var(--text); color: var(--card);" onclick="downloadInvoice()">💾 Save Invoice</button>
         <button class="btn-action" style="background: var(--bg); color: var(--text); border: 1px solid var(--border);" onclick="downloadReceipt()">🧾 Save Receipt</button>
     </div>
@@ -370,6 +395,18 @@
 <script>
     const UPI_ID = "tinu01jmp@oksbi";
     const SHEET_API = "https://script.google.com/macros/s/AKfycbz7L7LsHuTui703d62Yt4PO4Wtw69a4ALM-eVJqJmalwYcygLgq6EPPS8kuwRQNh28dcQ/exec";
+
+    // ---------------------------------------------------------
+    // EDITABLE REGULAR CLIENTS LIST (Add or remove freely)
+    // ---------------------------------------------------------
+    const regularClients = [
+        { mobile: "9650853330", name: "Parul Ahuja" },
+        { mobile: "8860876285", name: "Garg Creations" },
+        { mobile: "8210514414", name: "Rohit Gupta" },
+        { mobile: "9873732117", name: "Melt N Daugh" },
+        { mobile: "9810787877", name: "Vicky Ahuja" }
+    ];
+    // ---------------------------------------------------------
 
     const inventory = [
         {name:"Classic Poster Design", price:499, gst:18},
@@ -405,7 +442,6 @@
         }
     });
 
-    // Smart Validation
     function validateMobile() {
         const val = document.getElementById('mobile').value;
         const wrap = document.getElementById('mobileWrapper');
@@ -413,6 +449,53 @@
         else wrap.classList.remove('valid');
         saveDraft();
     }
+
+    // New Smart Suggestion Logic
+    function handleMobileInput() {
+        validateMobile(); 
+        const val = document.getElementById('mobile').value.trim();
+        const dropdown = document.getElementById('clientSuggestions');
+        
+        if (val.length >= 2) {
+            // Filter by digits inside mobile OR text inside name
+            const matches = regularClients.filter(c => 
+                c.mobile.includes(val) || 
+                c.name.toLowerCase().includes(val.toLowerCase())
+            );
+            
+            if (matches.length > 0) {
+                dropdown.innerHTML = matches.map(c => 
+                    `<div class="suggestion-item" onclick="selectClient('${c.mobile}', '${c.name.replace(/'/g, "\\'")}')">
+                        <span class="sugg-name">${c.name}</span>
+                        <span class="sugg-mob">+91 ${c.mobile}</span>
+                    </div>`
+                ).join('');
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        } else {
+            dropdown.style.display = 'none';
+        }
+    }
+
+    // Function to populate data when suggestion is clicked
+    function selectClient(mob, name) {
+        document.getElementById('mobile').value = mob;
+        document.getElementById('customer').value = name;
+        document.getElementById('clientSuggestions').style.display = 'none';
+        validateMobile();
+        saveDraft();
+        showToast("Client auto-filled!");
+    }
+
+    // Close dropdown on outside click
+    document.addEventListener('click', (e) => {
+        if(!e.target.closest('#mobileWrapper') && !e.target.closest('#clientSuggestions')) {
+            const drop = document.getElementById('clientSuggestions');
+            if(drop) drop.style.display = 'none';
+        }
+    });
 
     function handleFileSelect() {
         const input = document.getElementById('mediaPicker');
@@ -431,7 +514,6 @@
         setTimeout(() => t.style.display = 'none', 3000);
     }
 
-    // Toggle theme with safety guard
     function toggleTheme() {
         const b = document.body;
         const next = b.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
@@ -459,7 +541,6 @@
         if(!loadDraft()) addItemRow();
     }
 
-    // Updated to include Discount (data.discount)
     function addItemRow(data = {name: "", qty: 1, rate: 0, discount: 0}) {
         const container = document.getElementById('itemsContainer');
         const row = document.createElement('div');
@@ -529,7 +610,6 @@
         
         const qrc = new QRCode(document.getElementById('qQR'), { text: upi, width: 160, height: 160 });
         
-        // Convert to static image after generation for preview reliability
         setTimeout(() => {
             const canv = document.querySelector('#qQR canvas');
             if(canv) {
@@ -608,7 +688,6 @@
                                 <div style="font-weight:800; font-size:12px; letter-spacing:1px;">ACCOUNT SETTLED</div>
                                </div>`;
         } else if (advReq > 0 && paid === 0) {
-            // User needs advance AND hasn't paid yet: Dual QR Layout
             let remBalance = calc.finalNet - advReq;
             qrSectionHtml = `
                 <div style="display:flex; gap:16px; align-items:flex-end;">
@@ -622,7 +701,6 @@
                     </div>
                 </div>`;
         } else {
-            // Standard Single QR Layout
             qrSectionHtml = `
                 <div style="text-align:left;">
                     <div id="finalQR" style="background:#FFFFFF; padding:12px; border-radius:12px; border:1px solid #E4E4E7; display:inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.02);"></div>
@@ -684,7 +762,7 @@
                                 <span>Tax (GST 18%)</span><span style="font-weight:600; color:#09090B;">₹${calc.totalTax.toLocaleString()}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-size:13px; color:#71717A; font-weight:500;">
-                                <span>Global Discount</span><span style="font-weight:600; color:#09090B;">-₹${calc.disc.toLocaleString()}</span>
+                                <span>Total Discount</span><span style="font-weight:600; color:#09090B;">-₹${calc.disc.toLocaleString()}</span>
                             </div>
                             <div style="border-top:1px solid #E4E4E7; padding-top:20px; display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-weight:800; font-size:11px; color:#71717A; text-transform:uppercase; letter-spacing: 1px;">Amount Due</span>
@@ -824,7 +902,7 @@
         area.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // ORIGINAL DIRECT CUSTOMER WA SENDING PRESERVED 100%
+    // DIRECT CUSTOMER WA SENDING PRESERVED 100%
     async function shareWhatsApp() {
         const name = document.getElementById('customer').value || "Client";
         let mobile = document.getElementById('mobile').value.replace(/\D/g,"");
@@ -866,7 +944,7 @@
         msg += `🔸 Final Amount: ${total}\n`;
         
         if(parseFloat(disc.replace(/[^\d.]/g,'')) > 0) {
-             msg += `🔴 Global Disc Applied: ${disc}\n`;
+             msg += `🔴 Total Disc Applied: ${disc}\n`; // Clarified here too
         }
         
         msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
@@ -895,156 +973,6 @@
         window.open(`https://wa.me/91${mobile}?text=${encodeURIComponent(msg)}`);
     }
 
-    // NEW FUNCTION FOR NATIVE/GROUP SHARING (WEB SHARE API)
-    async function shareInvoiceAnywhere() {
-        const node = document.getElementById("captureNode");
-        if (!node || node.style.display === 'none') {
-            return showToast("Please generate invoice first!");
-        }
-
-        const btn = event.currentTarget || document.activeElement;
-        const originalText = btn.innerHTML;
-        btn.innerHTML = "⏳ Preparing...";
-        btn.disabled = true;
-
-        try {
-            // Build the identical text message from shareWhatsApp()
-            const name = document.getElementById('customer').value || "Client";
-            let mobile = document.getElementById('mobile').value.replace(/\D/g,"");
-            const total = document.getElementById('txtGrandTotal').innerText;
-            const disc = document.getElementById('txtDiscount').innerText;
-            const advReq = parseFloat(document.getElementById('advAmount').value) || 0;
-            const paid = document.getElementById('paidAmount').value;
-            const mode = document.getElementById('paymentMode').value;
-            const balance = Math.max(0, parseFloat(total.replace(/₹|,/g,'')) - parseFloat(paid)).toFixed(2);
-            const notes = document.getElementById('customNotes').value.trim();
-            
-            let itemsList = "";
-            document.querySelectorAll('.item-row').forEach((row) => {
-                const n = row.querySelector('.row-name').value;
-                const q = parseFloat(row.querySelector('.row-qty').value) || 0;
-                const r = parseFloat(row.querySelector('.row-rate').value) || 0;
-                const d = parseFloat(row.querySelector('.row-disc').value) || 0;
-                let lineTotal = (q * r) - d;
-                if (lineTotal < 0) lineTotal = 0;
-                if(n) {
-                    itemsList += `🔹 *${n}* (x${q}) - ₹${r.toLocaleString()}`;
-                    if (d > 0) itemsList += ` [Disc: -₹${d.toLocaleString()}]`;
-                    itemsList += ` = ₹${lineTotal.toLocaleString()}\n`;
-                }
-            });
-
-            let msg = ` *ALGUM CREATIONS - CUSTOMER INVOICE*\n`;
-            msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-            msg += `👤 *Client:* ${name}\n`;
-            if (mobile.length >= 10) msg += `📱 *Mobile:* +91 ${mobile}\n`;
-            msg += `📅 *Date:* ${new Date().toLocaleDateString()}\n`;
-            msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-            msg += `📦 *Services:*\n${itemsList}`;
-            msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-            msg += `💰 *PAYMENT SUMMARY:*\n`;
-            msg += `🔸 Final Amount: ${total}\n`;
-            
-            if(parseFloat(disc.replace(/[^\d.]/g,'')) > 0) {
-                 msg += `🔴 Global Disc Applied: ${disc}\n`;
-            }
-            
-            msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-            msg += `✅ *Amt Paid:* ₹${paid}\n`;
-            msg += `💳 *Channel:* ${mode}\n`;
-            
-            if(notes) msg += `\n📝 *Note:* ${notes}\n`;
-
-            if(balance > 0) {
-                if(advReq > 0 && parseFloat(paid) === 0) {
-                    let remBalance = Math.max(0, parseFloat(total.replace(/₹|,/g,'')) - advReq).toFixed(2);
-                    msg += `\n⚠️ *PAYMENT DUE: ₹${parseFloat(balance).toLocaleString()}*\n\n`;
-                    msg += `🔗 *Tap to Pay Advance (₹${advReq}):*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${advReq}&cu=INR\n\n`;
-                    msg += `🔗 *Tap to Pay Balance (₹${remBalance}):*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${remBalance}&cu=INR\n`;
-                } else {
-                    msg += `\n⚠️ *BALANCE DUE: ₹${parseFloat(balance).toLocaleString()}*\n\n`;
-                    msg += `🔗 *Tap to Pay Balance:*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${balance}&cu=INR\n`;
-                }
-            } else {
-                msg += `🟢 *Status:* SETTLED (FULLY PAID)\n`;
-            }
-            msg += `\n_Thank you for choosing Algum Creations for your branding needs._`;
-
-            // Generate Canvas Image natively for Sharing
-            showToast("Rendering Image for Share...");
-            const canvas = await html2canvas(node, {
-                scale: 3, 
-                backgroundColor: '#ffffff', 
-                useCORS: true,
-                allowTaint: true,
-                logging: false,
-                onclone: (clonedDoc) => {
-                    const clonedFinal = clonedDoc.getElementById('finalQR');
-                    if(clonedFinal) clonedFinal.style.opacity = "1";
-                    const clonedAdv = clonedDoc.getElementById('advQR');
-                    if(clonedAdv) clonedAdv.style.opacity = "1";
-                    const clonedBal = clonedDoc.getElementById('balQR');
-                    if(clonedBal) clonedBal.style.opacity = "1";
-                }
-            });
-
-            canvas.toBlob(async (blob) => {
-                if (!blob) {
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                    return showToast("Failed to render image.");
-                }
-
-                const file = new File([blob], `Algum_Invoice_${Date.now()}.png`, { type: 'image/png' });
-
-                const shareDataWithFile = {
-                    title: `Invoice for ${name}`,
-                    text: msg,
-                    files: [file]
-                };
-
-                const shareDataTextOnly = {
-                    title: `Invoice for ${name}`,
-                    text: msg
-                };
-
-                // Execute Web Share API
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    try {
-                        await navigator.share(shareDataWithFile);
-                    } catch (err) {
-                        if (err.name !== 'AbortError') {
-                            console.error("File share failed:", err);
-                            try { await navigator.share(shareDataTextOnly); } catch (e) {} // Silent Text Fallback
-                        }
-                    }
-                } else if (navigator.share) {
-                    // Fallback to text if browser doesn't support file sharing natively
-                    try {
-                        await navigator.share(shareDataTextOnly);
-                        showToast("Shared text. Downloading image...");
-                        downloadInvoice();
-                    } catch (err) {
-                        if (err.name !== 'AbortError') console.error("Text share failed:", err);
-                    }
-                } else {
-                    // Complete Fallback
-                    showToast("Sharing not supported. Downloading instead...");
-                    downloadInvoice();
-                }
-
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }, 'image/png', 1.0);
-
-        } catch (error) {
-            console.error("Error in generic share:", error);
-            showToast("Failed to share invoice.");
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-    }
-
     function downloadInvoice() {
         const node = document.getElementById("captureNode");
         showToast("Rendering High-Res Image...");
@@ -1056,7 +984,6 @@
             allowTaint: true,
             logging: false,
             onclone: (clonedDoc) => {
-                // Ensuring all possibilities of QRs are visible
                 const clonedFinal = clonedDoc.getElementById('finalQR');
                 if(clonedFinal) clonedFinal.style.opacity = "1";
                 const clonedAdv = clonedDoc.getElementById('advQR');
