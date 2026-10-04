@@ -15,7 +15,7 @@
 
         :root {
             /* V4 Premium Minimalist Palette */
-            --brand: #EAAA00; /* Signature Gold */
+            --brand: #EAAA00;
             --brand-dark: #C68E00;
             --brand-soft: rgba(234, 170, 0, 0.1);
             
@@ -137,7 +137,6 @@
         .btn-danger:hover { background: var(--danger); color: white; }
         .btn-wa { background: #25D366; color: white; box-shadow: 0 4px 12px rgba(37,211,102,0.2); }
 
-        /* Service Item Row */
         .item-row { 
             display: grid; grid-template-columns: 2.5fr 0.8fr 1.2fr 1.2fr 1.2fr 40px; gap: 16px; 
             align-items: end; background: var(--bg); padding: 16px; border-radius: var(--radius-md); 
@@ -159,36 +158,43 @@
         .tag { font-size: 11px; padding: 6px 12px; border-radius: 16px; border: 1px solid var(--border); background: var(--bg); color: var(--text-soft); cursor: pointer; font-weight: 600; transition: 0.2s; }
         .tag:hover { border-color: var(--text); color: var(--text); }
 
-        /* Document Styling (Invoice & Receipt) */
-        .doc-wrapper { margin-top: 40px; display: none; width: 100%; max-width: 800px; }
+        /* True A4 Document Styling */
+        .doc-wrapper { margin-top: 40px; display: none; width: 100%; overflow-x: auto; background: var(--bg); padding: 20px 0; }
         .doc-card { 
             background: #FFFFFF; color: #09090B; position: relative; 
-            border: 1px solid #E4E4E7; border-radius: 0px; box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-            padding: 60px; font-family: 'Plus Jakarta Sans', sans-serif;
+            border: 1px solid #E4E4E7; border-radius: 0px; box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            width: 210mm; min-height: 297mm; padding: 20mm; margin: 0 auto;
+            font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box;
+            display: flex; flex-direction: column;
         }
         
-        .doc-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #09090B; padding-bottom: 32px; margin-bottom: 32px; }
+        .doc-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #E4E4E7; padding-bottom: 24px; margin-bottom: 32px; }
         
         .doc-table { width: 100%; border-collapse: collapse; margin: 32px 0; }
-        .doc-table th { text-align: left; padding: 12px 8px; font-size: 11px; color: #71717A; text-transform: uppercase; border-bottom: 1px solid #E4E4E7; letter-spacing: 0.5px; }
+        .doc-table th { text-align: left; padding: 12px 8px; font-size: 11px; color: #71717A; text-transform: uppercase; border-bottom: 1px solid #09090B; letter-spacing: 0.5px; }
         .doc-table td { padding: 16px 8px; border-bottom: 1px solid #F4F4F5; font-size: 13px; font-weight: 600; }
         
         .doc-summary-box { background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 8px; padding: 24px; width: 100%; }
         
         /* Receipt Specific */
         .receipt-card { border-top: 8px solid #09090B; }
-        .receipt-hero { background: #09090B; color: white; padding: 32px; border-radius: 12px; text-align: center; margin: 32px 0; }
+        .receipt-hero { background: #09090B; color: white; padding: 40px; border-radius: 12px; text-align: center; margin: 32px 0; }
         
+        .footer-bottom { margin-top: auto; border-top: 1px solid #F4F4F5; padding-top: 24px; display: flex; justify-content: space-between; }
+
         #toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--card); padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; display: none; z-index: 1000; box-shadow: var(--shadow-lg); }
+
+        /* Disable button style */
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         @media (max-width: 768px) {
             .app-container { padding: 24px 16px; border-radius: var(--radius-sm); }
             .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 16px; }
             .item-row { grid-template-columns: 1fr; gap: 12px; }
-            .line-total { display: none; } /* Hide on mobile to save space, shown in summary */
-            .doc-card { padding: 32px 24px; }
+            .line-total { display: none; }
             .header { flex-direction: column; gap: 16px; align-items: flex-start; }
             .header-btns { width: 100%; justify-content: flex-end; }
+            #actionButtons { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -223,7 +229,7 @@
             <div id="clientSuggestions" class="suggestions-dropdown"></div>
         </div>
         <div class="input-group" style="justify-content: flex-end;">
-            <button class="btn btn-black" style="height: 44px;" onclick="fetchClient()" id="fetchBtn">Sync Client Data</button>
+            <button class="btn btn-black" style="height: 44px;" onclick="findSavedClient()">Find Saved Client</button>
         </div>
     </div>
     <div id="clientDetails" class="mt-4"></div>
@@ -247,7 +253,7 @@
     <div class="flex justify-between items-center mt-6 p-4" style="background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md);">
         <div>
             <span style="font-weight: 700; font-size: 14px;">Apply GST (18%)</span>
-            <div style="font-size: 11px; color: var(--text-soft); margin-top: 2px;">Generates tax compliant document</div>
+            <div style="font-size: 11px; color: var(--text-soft); margin-top: 2px;">Includes 18% GST calculation</div>
         </div>
         <label class="switch-wrap">
             <input type="checkbox" id="gstEnabled" onchange="updateCalculations()" style="display: none;">
@@ -262,10 +268,10 @@
         <!-- Totals Summary Card -->
         <div class="summary-card">
             <div class="summary-row"><span>Subtotal</span><span id="txtSubtotal">₹0.00</span></div>
-            <div class="summary-row"><span>GST (18%)</span><span id="txtTax">₹0.00</span></div>
-            <div class="summary-row"><span>Item Discounts</span><span id="txtItemDisc">-₹0.00</span></div>
-            <div class="summary-row" style="color: var(--brand); font-weight: 700;"><span>Extra Discount</span><span id="txtExtraDisc">-₹0.00</span></div>
-            <div class="summary-row" style="opacity: 0.6; font-size: 12px;"><span>Round Off</span><span id="txtRound">₹0.00</span></div>
+            <div class="summary-row" id="rowGstDisplay"><span>GST (18%)</span><span id="txtTax">₹0.00</span></div>
+            <div class="summary-row" id="rowItemDiscDisplay"><span>Item Discounts</span><span id="txtItemDisc">-₹0.00</span></div>
+            <div class="summary-row" id="rowExtraDiscDisplay" style="color: var(--brand); font-weight: 700;"><span>Extra Discount</span><span id="txtExtraDisc">-₹0.00</span></div>
+            <div class="summary-row" id="rowRoundDisplay" style="opacity: 0.6; font-size: 12px;"><span>Round Off</span><span id="txtRound">₹0.00</span></div>
             <div class="summary-row summary-total justify-between items-center">
                 <span>GRAND TOTAL</span><span id="txtGrandTotal">₹0.00</span>
             </div>
@@ -280,20 +286,26 @@
             <div class="grid-2 gap-4">
                 <div class="input-group">
                     <label>Amount Received (₹)</label>
-                    <input type="number" id="paidAmount" value="0" oninput="updateCalculations()">
+                    <input type="number" id="paidAmount" value="0" oninput="handlePaidInput()">
                 </div>
+                <div class="input-group">
+                    <label>Payment Date</label>
+                    <input type="date" id="payDate" onchange="saveDraft()">
+                </div>
+            </div>
+            <div class="grid-2 gap-4">
                 <div class="input-group">
                     <label>Advance Required (₹)</label>
                     <input type="number" id="advAmount" value="0" placeholder="0" oninput="updateCalculations()">
                 </div>
-            </div>
-            <div class="input-group">
-                <label>Payment Method</label>
-                <select id="paymentMode" onchange="saveDraft()">
-                    <option value="Online UPI">Online UPI (PhonePe/GPay)</option>
-                    <option value="Cash">Physical Cash</option>
-                    <option value="Bank Transfer">Bank Transfer (NEFT/IMPS)</option>
-                </select>
+                <div class="input-group">
+                    <label>Payment Method</label>
+                    <select id="paymentMode" onchange="saveDraft()">
+                        <option value="Online UPI">Online UPI (PhonePe/GPay)</option>
+                        <option value="Cash">Physical Cash</option>
+                        <option value="Bank Transfer">Bank Transfer (NEFT/IMPS)</option>
+                    </select>
+                </div>
             </div>
             
             <!-- Live Status Badge -->
@@ -310,6 +322,7 @@
             <span class="tag" onclick="addNote('50% advance required to initiate work.')">50% Advance</span>
             <span class="tag" onclick="addNote('Final source files delivered post full payment.')">Final Files</span>
             <span class="tag" onclick="addNote('Revisions subject to agreed scope.')">Revisions</span>
+            <span class="tag" onclick="addNote('Delivery timeline based on approved scope.')">Timeline</span>
             <span class="tag" onclick="clearNote()">Clear</span>
         </div>
     </div>
@@ -327,14 +340,16 @@
     <button class="btn btn-black mt-8" style="width: 100%; height: 56px; font-size: 16px;" onclick="generateDocument()">Review & Generate</button>
 
     <!-- Post-Generation Actions -->
-    <div id="actionButtons" class="grid-3 mt-6" style="display: none;">
-        <button class="btn btn-wa" onclick="shareWhatsApp()">📱 Send WhatsApp</button>
+    <div id="actionButtons" style="display: none; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 32px; width: 100%;">
+        <button class="btn btn-wa" onclick="shareWhatsApp()">📱 WhatsApp</button>
         <button class="btn btn-black" onclick="downloadNode('invoiceNode', 'Invoice')">📄 Save Invoice</button>
-        <button class="btn btn-outline" onclick="downloadNode('receiptNode', 'Receipt')">🧾 Save Receipt</button>
+        <button class="btn btn-outline" id="btnSaveReceipt" onclick="downloadNode('receiptNode', 'Receipt')">🧾 Save Receipt</button>
+        <button class="btn btn-outline" onclick="copySummary()">📋 Copy Summary</button>
+        <button class="btn btn-danger" style="background: var(--danger-soft); color: var(--danger); border:none;" onclick="newInvoice()">➕ New Invoice</button>
     </div>
 
     <!-- Generated Documents Area -->
-    <div id="invoiceArea" class="flex-col items-center">
+    <div id="invoiceArea" class="flex-col items-center" style="width: 100%;">
         <!-- Invoice DOM -->
         <div id="invoiceNode" class="doc-wrapper"></div>
         <!-- Receipt DOM -->
@@ -345,9 +360,8 @@
 </div>
 
 <script>
-    // --- Core Data ---
+    // --- Core Data & Preserved Local Inventory ---
     const UPI_ID = "tinu01jmp@oksbi";
-    const SHEET_API = "https://script.google.com/macros/s/AKfycbz7L7LsHuTui703d62Yt4PO4Wtw69a4ALM-eVJqJmalwYcygLgq6EPPS8kuwRQNh28dcQ/exec";
 
     const regularClients = [
         { mobile: "9650853330", name: "Parul Ahuja" },
@@ -382,10 +396,17 @@
     let autoSaveTimeout;
     let currentCalculations = {};
 
+    // --- HTML Escaping for Safe Rendering ---
+    function escapeHTML(str) {
+        if (!str) return '';
+        return String(str).replace(/[&<>'"]/g, tag => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[tag]));
+    }
+
     // --- Initialization ---
     window.onload = () => {
         document.body.setAttribute('data-theme', localStorage.getItem('algum_theme_v4') || 'light');
-        document.getElementById('billDate').valueAsDate = new Date();
         
         const dl = document.getElementById('itemsData');
         inventory.forEach(item => {
@@ -395,8 +416,9 @@
         });
 
         if(!loadDraft()) {
+            document.getElementById('billDate').valueAsDate = new Date();
             addItemRow();
-            generateInvoiceNumber();
+            initializeDocumentNumbers();
         }
     };
 
@@ -411,6 +433,35 @@
         const t = document.getElementById('toast');
         t.innerText = m; t.style.display = 'block';
         setTimeout(() => t.style.display = 'none', 3000);
+    }
+
+    // --- Permanent Invoice & Receipt Numbering ---
+    function initializeDocumentNumbers() {
+        let invNo = localStorage.getItem('algum_current_inv_no');
+        let recNo = localStorage.getItem('algum_current_rec_no');
+        
+        if (!invNo || !recNo) {
+            let today = new Date().toISOString().slice(0,10).replace(/-/g, "");
+            let seq = parseInt(localStorage.getItem(`algum_seq_${today}`) || "0") + 1;
+            localStorage.setItem(`algum_seq_${today}`, seq);
+            
+            let seqStr = String(seq).padStart(3, '0');
+            invNo = `AC-${today}-${seqStr}`;
+            recNo = `REC-${today}-${seqStr}`;
+            
+            localStorage.setItem('algum_current_inv_no', invNo);
+            localStorage.setItem('algum_current_rec_no', recNo);
+        }
+        return { invNo, recNo };
+    }
+
+    function newInvoice() {
+        if(confirm("Start a completely fresh invoice? Unsaved data will be permanently cleared.")) {
+            localStorage.removeItem('algum_draft_v4');
+            localStorage.removeItem('algum_current_inv_no');
+            localStorage.removeItem('algum_current_rec_no');
+            location.reload();
+        }
     }
 
     // --- Client Workflow ---
@@ -447,25 +498,19 @@
         }
     });
 
-    async function fetchClient() {
+    function findSavedClient() {
         let mob = document.getElementById('mobile').value;
         if(mob.length < 10) return showToast("Enter 10-digit mobile");
-        const btn = document.getElementById('fetchBtn');
-        const origText = btn.innerText;
-        btn.innerText = "Syncing...";
-        try {
-            const res = await fetch(SHEET_API, { method: 'POST', body: JSON.stringify({ action: "getClient", phone: "91"+mob }) });
-            const data = await res.json();
-            if(data.found) {
-                document.getElementById('customer').value = data.name;
-                document.getElementById('clientDetails').innerHTML = `<div class="badge badge-success" style="padding: 12px; display: flex; justify-content: space-between;"><span>Verified: ${data.name}</span><span>Due: ₹${data.totalDue}</span></div>`;
-                showToast("Profile synced");
-                saveDraft();
-            } else showToast("New Customer");
-        } catch(e) {
-            console.warn("Offline or API failed, continuing locally.");
-            showToast("Offline mode active.");
-        } finally { btn.innerText = origText; }
+        
+        const match = regularClients.find(c => c.mobile === mob);
+        if(match) {
+            document.getElementById('customer').value = match.name;
+            document.getElementById('clientDetails').innerHTML = `<div class="badge badge-success" style="padding: 12px; display: flex; justify-content: space-between;"><span>Verified: ${match.name}</span><span>Local Contact</span></div>`;
+            showToast("Client found locally");
+            saveDraft();
+        } else {
+            showToast("Client not found in local records");
+        }
     }
 
     // --- Services Workflow ---
@@ -474,7 +519,7 @@
         const row = document.createElement('div');
         row.className = 'item-row';
         row.innerHTML = `
-            <div class="input-group"><label>Service</label><input type="text" list="itemsData" class="row-name" value="${data.name}" placeholder="Service..." oninput="handleAuto(this)"></div>
+            <div class="input-group"><label>Service</label><input type="text" list="itemsData" class="row-name" value="${escapeHTML(data.name)}" placeholder="Service..." oninput="handleAuto(this)"></div>
             <div class="input-group"><label>Qty</label><input type="number" class="row-qty" value="${data.qty}" min="1" oninput="updateCalculations()"></div>
             <div class="input-group"><label>Rate (₹)</label><input type="number" class="row-rate" value="${data.rate}" placeholder="0" oninput="updateCalculations()"></div>
             <div class="input-group"><label>Disc (₹)</label><input type="number" class="row-disc" value="${data.discount || 0}" placeholder="0" oninput="updateCalculations()"></div>
@@ -491,6 +536,16 @@
             input.parentElement.parentElement.querySelector('.row-rate').value = match.price;
             updateCalculations();
         }
+    }
+
+    // --- Date/Payment Handling ---
+    function handlePaidInput() {
+        const paidInput = document.getElementById('paidAmount');
+        const payDateInput = document.getElementById('payDate');
+        if (parseFloat(paidInput.value) > 0 && !payDateInput.value) {
+            payDateInput.valueAsDate = new Date();
+        }
+        updateCalculations();
     }
 
     // --- Core Calculations ---
@@ -523,12 +578,19 @@
         const finalNet = Math.max(0, Math.round(rawNet));
         const roundOff = (finalNet - rawNet).toFixed(2);
 
+        // Update UI Display safely
         document.getElementById('txtSubtotal').innerText = `₹${subtotal.toLocaleString()}`;
         document.getElementById('txtTax').innerText = `₹${totalTax.toLocaleString()}`;
         document.getElementById('txtItemDisc').innerText = `-₹${itemDiscounts.toLocaleString()}`;
         document.getElementById('txtExtraDisc').innerText = `-₹${extraDisc.toLocaleString()}`;
         document.getElementById('txtRound').innerText = `₹${roundOff}`;
         document.getElementById('txtGrandTotal').innerText = `₹${finalNet.toLocaleString()}`;
+
+        // Zero-value hide logic for the summary card UI
+        document.getElementById('rowGstDisplay').style.display = (applyGst && totalTax !== 0) ? 'flex' : 'none';
+        document.getElementById('rowItemDiscDisplay').style.display = itemDiscounts > 0 ? 'flex' : 'none';
+        document.getElementById('rowExtraDiscDisplay').style.display = extraDisc > 0 ? 'flex' : 'none';
+        document.getElementById('rowRoundDisplay').style.display = parseFloat(roundOff) !== 0 ? 'flex' : 'none';
 
         // Payment Status Logic
         const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
@@ -552,7 +614,7 @@
         badge.className = `badge ${badgeClass}`;
         badge.innerText = `STATUS: ${status} (Bal: ₹${balance.toLocaleString()})`;
 
-        currentCalculations = { subtotal, itemDiscounts, extraDisc, totalTax, finalNet, roundOff, paid, balance, status, adv };
+        currentCalculations = { subtotal, itemDiscounts, extraDisc, totalTax, finalNet, roundOff, paid, balance, status, adv, applyGst };
         saveDraft();
     }
 
@@ -569,55 +631,37 @@
         handleFileSelect();
     }
 
-    // --- Sequence Numbering ---
-    function generateInvoiceNumber() {
-        let today = new Date().toISOString().slice(0,10).replace(/-/g, "");
-        let seq = parseInt(localStorage.getItem(`algum_seq_${today}`) || "0") + 1;
-        localStorage.setItem(`algum_seq_${today}`, seq);
-        let num = `AC-${today}-${String(seq).padStart(3, '0')}`;
-        localStorage.setItem('algum_current_inv_no', num);
-        return num;
-    }
-    
-    function getInvoiceNumber() {
-        let num = localStorage.getItem('algum_current_inv_no');
-        if(!num) num = generateInvoiceNumber();
-        return num;
-    }
-
-    function newInvoice() {
-        if(confirm("Start a new invoice? Unsaved data will be cleared.")) {
-            localStorage.removeItem('algum_draft_v4');
-            localStorage.removeItem('algum_current_inv_no');
-            location.reload();
-        }
-    }
-
     // --- Document Generation ---
     function generateDocument() {
         updateCalculations();
         const c = currentCalculations;
-        
-        const invNo = getInvoiceNumber();
-        const recNo = invNo.replace("AC-", "REC-");
-        const dateStr = new Date().toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'});
+        const nums = initializeDocumentNumbers();
         
         const customer = document.getElementById('customer').value || "Client";
         const mobile = document.getElementById('mobile').value;
         const mode = document.getElementById('paymentMode').value;
         const notes = document.getElementById('customNotes').value.trim();
+        
+        // Strict source-of-truth dates
+        const billDateRaw = document.getElementById('billDate').value;
+        const billDateStr = billDateRaw ? new Date(billDateRaw).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '';
+        const payDateRaw = document.getElementById('payDate').value;
+        const payDateStr = payDateRaw ? new Date(payDateRaw).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '';
 
+        // Safely generated Item HTML
         let itemsHtml = "";
+        let hasItemDiscounts = false;
         document.querySelectorAll('.item-row').forEach(row => {
             const n = row.querySelector('.row-name').value;
             const q = parseFloat(row.querySelector('.row-qty').value) || 0;
             const r = parseFloat(row.querySelector('.row-rate').value) || 0;
             const d = parseFloat(row.querySelector('.row-disc').value) || 0;
             let lineTotal = Math.max(0, (q * r) - d);
+            if (d > 0) hasItemDiscounts = true;
             
             if(n) {
                 itemsHtml += `<tr>
-                    <td style="color:#09090B;">${n}</td>
+                    <td style="color:#09090B;">${escapeHTML(n)}</td>
                     <td style="text-align:center;">${q}</td>
                     <td style="text-align:right;">₹${r.toLocaleString()}</td>
                     <td style="text-align:right; color:#71717A;">${d > 0 ? '-₹'+d.toLocaleString() : '-'}</td>
@@ -631,60 +675,71 @@
                                  c.status === "ADVANCE REQUESTED" ? "background:#F0F9FF; color:#0284C7;" :
                                  "background:#FFF1F2; color:#E11D48;";
 
-        // Render Invoice
+        // Render A4 Premium Invoice
         const invNode = document.getElementById('invoiceNode');
-        invNode.style.display = 'block';
+        invNode.style.display = 'flex';
         invNode.innerHTML = `
             <div class="doc-card">
                 <div class="doc-header">
                     <div>
-                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" style="height:80px; margin-left:-10px;">
+                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" style="height:60px; object-fit:contain; margin-left:-6px;">
                     </div>
                     <div style="text-align:right;">
-                        <div style="font-size:10px; font-weight:800; color:#A1A1AA; letter-spacing:2px;">INVOICE</div>
-                        <div style="font-size:20px; font-weight:800; color:#09090B; margin: 4px 0 12px;">#${invNo}</div>
+                        <div style="font-size:10px; font-weight:800; color:#A1A1AA; letter-spacing:2px; text-transform:uppercase;">Invoice</div>
+                        <div style="font-size:20px; font-weight:800; color:#09090B; margin: 4px 0 12px; letter-spacing:-0.5px;">#${nums.invNo}</div>
                         <span style="padding:4px 10px; border-radius:4px; font-size:10px; font-weight:800; ${statusBadgeStyle}">${c.status}</span>
                     </div>
                 </div>
 
                 <div style="display:flex; justify-content:space-between; margin-bottom: 32px;">
                     <div>
-                        <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px;">Billed To</div>
-                        <div style="font-size:16px; font-weight:700; color:#09090B;">${customer}</div>
-                        <div style="font-size:13px; color:#52525B; font-weight:500;">+91 ${mobile}</div>
+                        <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px; letter-spacing:1px;">Billed To</div>
+                        <div style="font-size:16px; font-weight:700; color:#09090B;">${escapeHTML(customer)}</div>
+                        <div style="font-size:13px; color:#52525B; font-weight:500;">+91 ${escapeHTML(mobile)}</div>
                     </div>
                     <div style="text-align:right;">
-                        <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px;">Date</div>
-                        <div style="font-size:14px; font-weight:600; color:#09090B;">${dateStr}</div>
+                        <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px; letter-spacing:1px;">Billing Date</div>
+                        <div style="font-size:14px; font-weight:600; color:#09090B;">${billDateStr}</div>
                     </div>
                 </div>
 
                 <table class="doc-table">
                     <thead><tr>
-                        <th>Description</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Rate</th><th style="text-align:right;">Disc</th><th style="text-align:right;">Total</th>
+                        <th>Service Description</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Rate</th><th style="text-align:right;">Disc</th><th style="text-align:right;">Total</th>
                     </tr></thead>
                     <tbody>${itemsHtml}</tbody>
                 </table>
 
-                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:32px;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:16px;">
                     <div style="width: 40%;" id="invQrContainer"></div>
                     
                     <div style="width: 50%;">
                         <div class="doc-summary-box">
                             <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:#52525B;">
-                                <span>Subtotal</span><span style="font-weight:600; color:#09090B;">₹${(c.subtotal - c.itemDiscounts).toLocaleString()}</span>
+                                <span>Subtotal</span><span style="font-weight:600; color:#09090B;">₹${(c.subtotal).toLocaleString()}</span>
                             </div>
+                            ${hasItemDiscounts ? `
+                            <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:#52525B;">
+                                <span>Item Discounts</span><span style="font-weight:600; color:#09090B;">-₹${c.itemDiscounts.toLocaleString()}</span>
+                            </div>` : ''}
+                            ${c.applyGst && c.totalTax > 0 ? `
                             <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:#52525B;">
                                 <span>GST (18%)</span><span style="font-weight:600; color:#09090B;">₹${c.totalTax.toLocaleString()}</span>
-                            </div>
+                            </div>` : ''}
+                            ${c.extraDisc > 0 ? `
                             <div style="display:flex; justify-content:space-between; margin-bottom:16px; font-size:13px; color:#52525B;">
                                 <span>Extra Discount</span><span style="font-weight:600; color:#09090B;">-₹${c.extraDisc.toLocaleString()}</span>
-                            </div>
+                            </div>` : ''}
+                            ${parseFloat(c.roundOff) !== 0 ? `
+                            <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:12px; color:#A1A1AA;">
+                                <span>Round Off</span><span>₹${c.roundOff}</span>
+                            </div>` : ''}
+                            
                             <div style="border-top:1px solid #E4E4E7; padding-top:16px; display:flex; justify-content:space-between; align-items:center;">
-                                <span style="font-size:12px; font-weight:800; color:#09090B; text-transform:uppercase;">Grand Total</span>
+                                <span style="font-size:11px; font-weight:800; color:#71717A; text-transform:uppercase; letter-spacing:1px;">Grand Total</span>
                                 <span style="font-size:24px; font-weight:800; color:#09090B; letter-spacing:-0.5px;">₹${c.finalNet.toLocaleString()}</span>
                             </div>
-                            <div style="display:flex; justify-content:space-between; margin-top:12px; font-size:12px; font-weight:600; color:#059669;">
+                            <div style="display:flex; justify-content:space-between; margin-top:16px; font-size:12px; font-weight:600; color:#059669;">
                                 <span>Amount Paid</span><span>₹${c.paid.toLocaleString()}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; margin-top:4px; font-size:13px; font-weight:800; color:#E11D48;">
@@ -694,85 +749,96 @@
                     </div>
                 </div>
                 
-                ${notes ? `<div style="margin-top:32px; font-size:11px; color:#71717A;"><b>Note:</b> ${notes}</div>` : ''}
+                ${notes ? `<div style="margin-top:32px; font-size:11px; color:#71717A;"><b>Notes & Terms:</b> ${escapeHTML(notes)}</div>` : ''}
                 
-                <div style="margin-top:40px; border-top:1px solid #F4F4F5; padding-top:24px; display:flex; justify-content:space-between;">
+                <div class="footer-bottom">
                     <div>
                         <div style="font-size:12px; font-weight:700; color:#09090B;">Algum Creations</div>
-                        <div style="font-size:10px; color:#71717A;">Jamalpur, Bihar | +91 7352185767</div>
+                        <div style="font-size:10px; color:#71717A;">Jamalpur (Munger), Bihar | +91 7352185767</div>
                     </div>
-                    <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase;">Digitally Generated</div>
+                    <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; letter-spacing:0.5px;">Digitally Generated</div>
                 </div>
             </div>`;
 
-        // Render QR Codes for Invoice
+        // Render QR Codes safely
         const qrBox = document.getElementById('invQrContainer');
         if (c.balance > 0) {
             if (c.adv > 0 && c.paid === 0) {
                 qrBox.innerHTML = `
-                    <div style="font-size:10px; font-weight:800; color:#A1A1AA; margin-bottom:8px;">SCAN TO PAY ADVANCE</div>
+                    <div style="font-size:10px; font-weight:800; color:#A1A1AA; margin-bottom:8px; letter-spacing:1px;">SCAN TO PAY ADVANCE</div>
                     <div id="qrAdv" style="display:inline-block; padding:8px; border:1px solid #E4E4E7; border-radius:8px;"></div>
                     <div style="font-size:12px; font-weight:700; color:#09090B; margin-top:4px;">₹${c.adv.toLocaleString()}</div>
                 `;
                 new QRCode(document.getElementById('qrAdv'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${c.adv.toFixed(2)}&cu=INR`, width: 90, height: 90, colorDark: "#09090B", colorLight: "#ffffff" });
             } else {
                 qrBox.innerHTML = `
-                    <div style="font-size:10px; font-weight:800; color:#A1A1AA; margin-bottom:8px;">SCAN TO PAY BALANCE</div>
+                    <div style="font-size:10px; font-weight:800; color:#A1A1AA; margin-bottom:8px; letter-spacing:1px;">SCAN TO PAY BALANCE</div>
                     <div id="qrBal" style="display:inline-block; padding:8px; border:1px solid #E4E4E7; border-radius:8px;"></div>
                 `;
                 new QRCode(document.getElementById('qrBal'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${c.balance.toFixed(2)}&cu=INR`, width: 100, height: 100, colorDark: "#09090B", colorLight: "#ffffff" });
             }
         } else {
-            qrBox.innerHTML = `<div style="font-size:24px; color:#059669; font-weight:800;">✓ FULLY PAID</div>`;
+            qrBox.innerHTML = `<div style="font-size:20px; color:#059669; font-weight:800; border: 1px solid #ECFDF5; background: #ECFDF5; padding: 16px; border-radius: 8px; display:inline-block;">✓ FULLY PAID</div>`;
         }
 
-        // Render Receipt (Distinct Design)
+        // Render A4 Premium Receipt (Distinct Layout)
         const recNode = document.getElementById('receiptNode');
+        const btnReceipt = document.getElementById('btnSaveReceipt');
         if (c.paid > 0) {
-            recNode.style.display = 'block';
+            recNode.style.display = 'flex';
+            btnReceipt.disabled = false;
             recNode.innerHTML = `
                 <div class="doc-card receipt-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" style="height:60px; margin-left:-10px;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" style="height:50px; object-fit:contain; margin-left:-6px;">
                         <div style="text-align:right;">
-                            <div style="font-size:10px; font-weight:800; color:#A1A1AA; letter-spacing:2px;">PAYMENT RECEIPT</div>
-                            <div style="font-size:16px; font-weight:800; color:#09090B; margin-top:4px;">#${recNo}</div>
+                            <div style="font-size:11px; font-weight:800; color:#A1A1AA; letter-spacing:3px; text-transform:uppercase;">Payment Receipt</div>
+                            <div style="font-size:18px; font-weight:800; color:#09090B; margin-top:4px;">#${nums.recNo}</div>
                         </div>
                     </div>
 
                     <div class="receipt-hero">
-                        <div style="font-size:12px; font-weight:700; color:#A1A1AA; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Amount Received</div>
-                        <div style="font-size:40px; font-weight:800; letter-spacing:-1px;">₹${c.paid.toLocaleString()}</div>
-                        <div style="font-size:13px; font-weight:600; color:#A1A1AA; margin-top:8px;">via ${mode}</div>
+                        <div style="font-size:11px; font-weight:700; color:#A1A1AA; text-transform:uppercase; letter-spacing:2px; margin-bottom:12px;">Amount Received</div>
+                        <div style="font-size:48px; font-weight:800; letter-spacing:-1px; margin-bottom:8px;">₹${c.paid.toLocaleString()}</div>
+                        <div style="font-size:13px; font-weight:600; color:#A1A1AA; border-top: 1px solid #27272A; display:inline-block; padding-top:12px;">Paid via ${escapeHTML(mode)}</div>
                     </div>
 
-                    <div style="display:flex; justify-content:space-between; border:1px solid #E4E4E7; border-radius:8px; padding:24px;">
+                    <div style="display:flex; justify-content:space-between; border:1px solid #E4E4E7; border-radius:8px; padding:24px; margin-bottom:32px;">
                         <div>
-                            <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px;">Received From</div>
-                            <div style="font-size:14px; font-weight:700; color:#09090B;">${customer}</div>
-                            <div style="font-size:12px; color:#52525B;">+91 ${mobile}</div>
+                            <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px; letter-spacing:1px;">Received From</div>
+                            <div style="font-size:15px; font-weight:700; color:#09090B;">${escapeHTML(customer)}</div>
+                            <div style="font-size:13px; color:#52525B;">+91 ${escapeHTML(mobile)}</div>
                         </div>
                         <div style="text-align:right;">
-                            <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px;">Against Invoice</div>
-                            <div style="font-size:14px; font-weight:700; color:#09090B;">#${invNo}</div>
-                            <div style="font-size:12px; color:#52525B;">${dateStr}</div>
+                            <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px; letter-spacing:1px;">Reference Details</div>
+                            <div style="font-size:13px; font-weight:600; color:#09090B; margin-bottom:2px;">Against Inv: #${nums.invNo}</div>
+                            <div style="font-size:13px; color:#52525B;">Date: ${payDateStr || billDateStr}</div>
                         </div>
                     </div>
 
-                    <div style="margin-top:32px; display:flex; justify-content:space-between; font-size:13px; font-weight:600;">
-                        <div style="color:#52525B;">Invoice Total: <span style="color:#09090B;">₹${c.finalNet.toLocaleString()}</span></div>
-                        <div style="color:#E11D48;">Balance Due: <span style="color:#09090B;">₹${c.balance.toLocaleString()}</span></div>
+                    <div style="background:#FAFAFA; border:1px solid #E4E4E7; border-radius:8px; padding:24px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px; font-weight:600;">
+                            <span style="color:#52525B;">Invoice Total</span><span style="color:#09090B;">₹${c.finalNet.toLocaleString()}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px; font-weight:600;">
+                            <span style="color:#52525B;">Amount Received</span><span style="color:#059669;">₹${c.paid.toLocaleString()}</span>
+                        </div>
+                        <div style="border-top:1px solid #E4E4E7; padding-top:12px; display:flex; justify-content:space-between; font-size:14px; font-weight:700;">
+                            <span style="color:#09090B;">Balance Due</span><span style="color:#E11D48;">₹${c.balance.toLocaleString()}</span>
+                        </div>
                     </div>
                     
-                    <div style="margin-top:48px; text-align:center; font-size:11px; color:#A1A1AA; font-weight:500;">
-                        Thank you for your business. <br>Algum Creations | Jamalpur | +91 7352185767
+                    <div class="footer-bottom" style="border:none; justify-content:center; text-align:center; flex-direction:column; gap:8px;">
+                        <div style="font-size:12px; font-weight:600; color:#09090B;">Thank you for your business.</div>
+                        <div style="font-size:10px; color:#71717A;">Algum Creations | Jamalpur (Munger), Bihar | +91 7352185767</div>
                     </div>
                 </div>`;
         } else {
-            recNode.style.display = 'none'; // No receipt if unpaid
+            recNode.style.display = 'none';
+            btnReceipt.disabled = true;
         }
 
-        // Convert canvas QRs to Image for html2canvas compatibility
+        // Convert canvas QRs to Image for html2canvas compatibility safely
         setTimeout(() => {
             ['qrAdv', 'qrBal'].forEach(id => {
                 const el = document.getElementById(id);
@@ -789,25 +855,27 @@
             });
         }, 300);
 
-        document.getElementById('actionButtons').style.display = 'grid';
+        document.getElementById('actionButtons').style.display = 'flex';
         invNode.scrollIntoView({ behavior: 'smooth' });
     }
 
     // --- Actions ---
     function shareWhatsApp() {
         const c = currentCalculations;
+        const nums = initializeDocumentNumbers();
         const name = document.getElementById('customer').value || "Client";
         let mobile = document.getElementById('mobile').value.replace(/\D/g,"");
-        const invNo = getInvoiceNumber();
         const mode = document.getElementById('paymentMode').value;
         const notes = document.getElementById('customNotes').value.trim();
+        const billDateRaw = document.getElementById('billDate').value;
+        const billDateStr = billDateRaw ? new Date(billDateRaw).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '';
         
         if(mobile.length < 10) return showToast("Invalid mobile number");
 
         let msg = `*ALGUM CREATIONS*\n`;
-        msg += `Invoice: #${invNo}\n`;
+        msg += `Invoice: #${nums.invNo}\n`;
         msg += `Client: ${name}\n`;
-        msg += `Date: ${new Date().toLocaleDateString()}\n`;
+        msg += `Date: ${billDateStr}\n`;
         msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
         
         document.querySelectorAll('.item-row').forEach(row => {
@@ -839,10 +907,41 @@
         window.open(`https://wa.me/91${mobile}?text=${encodeURIComponent(msg)}`);
     }
 
+    function copySummary() {
+        const c = currentCalculations;
+        const nums = initializeDocumentNumbers();
+        const name = document.getElementById('customer').value || "Client";
+        const billDateRaw = document.getElementById('billDate').value;
+        const billDateStr = billDateRaw ? new Date(billDateRaw).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '';
+        
+        let txt = `ALGUM CREATIONS\nInvoice: #${nums.invNo}\nClient: ${name}\nDate: ${billDateStr}\n\n`;
+        
+        document.querySelectorAll('.item-row').forEach(row => {
+            const n = row.querySelector('.row-name').value;
+            const q = parseFloat(row.querySelector('.row-qty').value) || 0;
+            const r = parseFloat(row.querySelector('.row-rate').value) || 0;
+            const d = parseFloat(row.querySelector('.row-disc').value) || 0;
+            if(n) txt += `${n} × ${q} — ₹${Math.max(0, (q*r)-d).toLocaleString()}\n`;
+        });
+        
+        txt += `\nGrand Total: ₹${c.finalNet.toLocaleString()}\nPaid: ₹${c.paid.toLocaleString()}\nBalance Due: ₹${c.balance.toLocaleString()}`;
+        
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(txt).then(() => showToast("Summary copied to clipboard!"));
+        } else {
+            const ta = document.createElement("textarea");
+            ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
+            showToast("Summary copied to clipboard!");
+        }
+    }
+
     function downloadNode(nodeId, type) {
+        const nums = initializeDocumentNumbers();
+        const filenameNum = type === 'Invoice' ? nums.invNo : nums.recNo;
         const node = document.getElementById(nodeId);
-        if(!node || node.style.display === 'none') return showToast(`No ${type} to save.`);
-        showToast(`Rendering ${type}...`);
+        
+        if(!node || node.style.display === 'none') return showToast(`No ${type} available to save.`);
+        showToast(`Rendering high-res ${type}...`);
         
         html2canvas(node.querySelector('.doc-card'), { 
             scale: 3, 
@@ -851,7 +950,7 @@
             logging: false 
         }).then(canvas => {
             const a = document.createElement("a");
-            a.download = `Algum_${type}_${getInvoiceNumber()}.png`; 
+            a.download = `Algum_${type}_${filenameNum}.png`; 
             a.href = canvas.toDataURL("image/png", 1.0); 
             a.click();
         }).catch(() => showToast("Error generating image."));
@@ -870,9 +969,16 @@
             });
         });
 
+        // Ensure numbers are preserved in draft memory
+        const nums = initializeDocumentNumbers();
+
         localStorage.setItem('algum_draft_v4', JSON.stringify({
             name: document.getElementById('customer').value, 
             mob: document.getElementById('mobile').value, 
+            billDate: document.getElementById('billDate').value,
+            payDate: document.getElementById('payDate').value,
+            invNo: nums.invNo,
+            recNo: nums.recNo,
             items,
             notes: document.getElementById('customNotes').value,
             mode: document.getElementById('paymentMode').value,
@@ -895,6 +1001,12 @@
         const d = JSON.parse(saved);
         document.getElementById('customer').value = d.name || "";
         document.getElementById('mobile').value = d.mob || "";
+        
+        if (d.billDate) document.getElementById('billDate').value = d.billDate;
+        else document.getElementById('billDate').valueAsDate = new Date();
+        
+        if (d.payDate) document.getElementById('payDate').value = d.payDate;
+
         document.getElementById('customNotes').value = d.notes || "";
         document.getElementById('paymentMode').value = d.mode || "Online UPI";
         document.getElementById('advAmount').value = d.advAmt || "0";
