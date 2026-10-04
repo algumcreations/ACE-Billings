@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>ALGUM CREATIONS | PREMIUM BILLING V4</title>
+    <title>ALGUM CREATIONS | HYPER-PREMIUM BILLING</title>
 
     <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -14,187 +13,190 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
         :root {
-            /* V4 Premium Minimalist Palette */
-            --brand: #EAAA00;
+            /* 2026 Modern Vibe - Ultra Premium Palette */
+            --brand: #EAAA00; /* Sophisticated Gold */
             --brand-dark: #C68E00;
-            --brand-soft: rgba(234, 170, 0, 0.1);
+            --brand-gradient: linear-gradient(135deg, #F5D061 0%, #EAAA00 100%);
+            --brand-soft: #FDF9EE;
             
             --success: #059669;
             --success-soft: #ECFDF5;
             --danger: #E11D48;
             --danger-soft: #FFF1F2;
-            --warning: #D97706;
-            --warning-soft: #FFFBEB;
-            --info: #0284C7;
-            --info-soft: #F0F9FF;
             
-            --bg: #F4F4F5; 
+            --bg: #F4F4F5; /* Sleek light gray bg */
             --card: #FFFFFF;
-            --text: #09090B; 
-            --text-soft: #52525B;
-            --text-muted: #A1A1AA;
+            --text: #09090B; /* Near black for extreme crispness */
+            --text-soft: #71717A;
             --border: #E4E4E7;
             
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
-            --shadow-lg: 0 24px 48px rgba(0,0,0,0.08);
+            /* Refined layered shadows for depth without muddiness */
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+            --shadow-float: 0 30px 60px rgba(0,0,0,0.08);
             
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
+            --glass: rgba(255, 255, 255, 0.95);
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
         }
 
         [data-theme="dark"] {
-            --bg: #000000;
-            --card: #09090B;
+            --bg: #09090B;
+            --card: #18181B;
             --text: #FAFAFA;
             --text-soft: #A1A1AA;
-            --text-muted: #52525B;
             --border: #27272A;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
-            --shadow-lg: 0 24px 48px rgba(0,0,0,0.8);
+            --brand-soft: rgba(234, 170, 0, 0.1);
+            --glass: rgba(24, 24, 27, 0.85);
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.3);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.4);
+            --shadow-float: 0 30px 60px rgba(0,0,0,0.5);
         }
 
-        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            background-color: var(--bg); color: var(--text); margin: 0; padding: 24px 16px; 
-            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
-            transition: background-color 0.3s ease;
+            background-color: var(--bg); color: var(--text); margin: 0; padding: 40px 20px; 
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh; 
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(234, 170, 0, 0.03) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, rgba(0, 0, 0, 0.02) 0, transparent 50%); 
+            background-attachment: fixed;
         }
-
-        /* Utility */
-        .flex { display: flex; }
-        .flex-col { display: flex; flex-direction: column; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .gap-2 { gap: 8px; } .gap-3 { gap: 12px; } .gap-4 { gap: 16px; } .gap-6 { gap: 24px; }
-        .mt-2 { margin-top: 8px; } .mt-4 { margin-top: 16px; } .mt-6 { margin-top: 24px; } .mt-8 { margin-top: 32px; }
-        .text-right { text-align: right; }
-        
-        .badge { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-        .badge-success { background: var(--success-soft); color: var(--success); }
-        .badge-warning { background: var(--warning-soft); color: var(--warning); }
-        .badge-danger { background: var(--danger-soft); color: var(--danger); }
-        .badge-info { background: var(--info-soft); color: var(--info); }
-        .badge-dark { background: var(--text); color: var(--card); }
 
         .app-container {
-            width: 100%; max-width: 960px; background: var(--card); 
-            border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 40px; 
-            border: 1px solid var(--border); position: relative; margin-bottom: 40px;
+            width: 100%; max-width: 900px; background: var(--glass); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+            border-radius: var(--radius-lg); box-shadow: var(--shadow-float); padding: 48px; 
+            border: 1px solid rgba(255, 255, 255, 0.1); position: relative; overflow: hidden;
+            margin-bottom: 20px;
         }
 
-        .header { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 40px; }
-        .logo-img { height: 72px; object-fit: contain; }
-        .header-btns button { background: var(--bg); border: 1px solid var(--border); width: 40px; height: 40px; border-radius: var(--radius-sm); cursor: pointer; color: var(--text); font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-        .header-btns button:hover { background: var(--border); }
-        
-        .draft-status { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
-        .draft-status.active { color: var(--brand); }
-
-        .section-label { 
-            font-size: 20px; font-weight: 800; color: var(--text); margin: 48px 0 24px; 
-            display: flex; align-items: center; gap: 16px; letter-spacing: -0.5px; 
+        /* Auto Save Indicator */
+        .auto-save-badge {
+            position: absolute; top: 24px; left: 50%; transform: translateX(-50%);
+            background: var(--success-soft); color: var(--success);
+            padding: 6px 16px; border-radius: 20px; font-size: 11px; font-weight: 700;
+            display: flex; align-items: center; gap: 6px; border: 1px solid rgba(5, 150, 105, 0.2);
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 10;
         }
-        .section-num { 
-            background: var(--text); color: var(--card); width: 28px; height: 28px; 
-            display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 12px; 
-        }
+        .auto-save-badge::before { content: ""; width: 6px; height: 6px; background: var(--success); border-radius: 50%; }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
-        
-        .input-group { display: flex; flex-direction: column; gap: 6px; position: relative; }
+        .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 32px; position: relative; }
+        .header h1 { margin: 0; font-size: 32px; font-weight: 800; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1px; }
+        .header p { margin: 8px 0 0; color: var(--text-soft); font-size: 13px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; }
+
+        .header-btns { display: flex; gap: 12px; }
+        .theme-btn, .reset-btn { background: var(--card); border: 1px solid var(--border); width: 44px; height: 44px; border-radius: var(--radius-sm); cursor: pointer; color: var(--text); font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); }
+        .theme-btn:hover, .reset-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .reset-btn:hover { background: var(--danger-soft); color: var(--danger); border-color: rgba(225, 29, 72, 0.2); }
+
+        .section-label { font-size: 12px; font-weight: 800; color: var(--text-soft); text-transform: uppercase; margin: 40px 0 24px; display: flex; align-items: center; gap: 16px; letter-spacing: 1.5px; }
+        .section-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; position: relative; }
         label { font-size: 12px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.5px; }
         
-        input, select { 
-            padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border); 
-            font-size: 14px; font-weight: 600; outline: none; background: var(--bg); color: var(--text); width: 100%; transition: all 0.2s; 
-        }
-        input:focus, select:focus { border-color: var(--text); background: var(--card); }
+        input, select { padding: 14px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 15px; font-weight: 500; outline: none; background: var(--bg); color: var(--text); width: 100%; transition: all 0.2s ease; }
+        input:focus, select:focus { border-color: var(--brand); background: var(--card); box-shadow: 0 0 0 4px var(--brand-soft); }
 
-        .mobile-wrapper { display: flex; align-items: center; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); overflow: hidden; }
-        .mobile-wrapper:focus-within { border-color: var(--text); background: var(--card); }
-        .mobile-prefix { font-weight: 700; padding: 12px 0 12px 16px; font-size: 14px; color: var(--text-soft); }
-        .mobile-wrapper input { border: none; background: transparent; padding-left: 8px; }
+        .mobile-input-wrapper { display: flex; align-items: center; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); overflow: hidden; transition: all 0.2s ease; }
+        .mobile-input-wrapper:focus-within { border-color: var(--brand); background: var(--card); box-shadow: 0 0 0 4px var(--brand-soft); }
+        .mobile-input-wrapper.valid { border-color: var(--success); box-shadow: 0 0 0 4px var(--success-soft); }
+        .mobile-prefix { background: transparent; color: var(--text-soft); font-weight: 700; padding: 14px 0 14px 16px; font-size: 15px; }
+        .mobile-input-wrapper input { border: none; border-radius: 0; box-shadow: none; background: transparent; padding-left: 12px; }
+        .mobile-input-wrapper input:focus { box-shadow: none; }
 
+        /* Offline Suggestion Dropdown Styling */
         .suggestions-dropdown {
-            position: absolute; top: 100%; left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-top: 4px; box-shadow: var(--shadow-md); z-index: 10; max-height: 200px; overflow-y: auto; display: none;
+            position: absolute; top: 100%; left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-top: 4px; box-shadow: var(--shadow-lg); z-index: 100; max-height: 200px; overflow-y: auto; display: none; overflow-x: hidden;
         }
-        .suggestion-item { padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; }
-        .suggestion-item:hover { background: var(--bg); }
-        
-        .btn { padding: 12px 20px; border-radius: var(--radius-sm); font-weight: 700; font-size: 14px; cursor: pointer; border: none; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-black { background: var(--text); color: var(--card); }
-        .btn-black:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-gold { background: var(--brand); color: #000; }
-        .btn-gold:hover { background: var(--brand-dark); }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-        .btn-outline:hover { border-color: var(--text); }
-        .btn-danger { background: var(--danger-soft); color: var(--danger); }
-        .btn-danger:hover { background: var(--danger); color: white; }
-        .btn-wa { background: #25D366; color: white; box-shadow: 0 4px 12px rgba(37,211,102,0.2); }
-
-        .item-row { 
-            display: grid; grid-template-columns: 2.5fr 0.8fr 1.2fr 1.2fr 1.2fr 40px; gap: 16px; 
-            align-items: end; background: var(--bg); padding: 16px; border-radius: var(--radius-md); 
-            border: 1px solid var(--border); margin-bottom: 12px;
+        .suggestion-item {
+            padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; transition: background-color 0.2s ease;
         }
-        .line-total { font-size: 15px; font-weight: 800; color: var(--text); padding-bottom: 12px; }
+        .suggestion-item:last-child { border-bottom: none; }
+        .suggestion-item:hover { background: var(--brand-soft); }
+        .sugg-name { font-weight: 700; font-size: 14px; color: var(--text); }
+        .sugg-mob { font-size: 12px; color: var(--text-soft); margin-top: 2px; font-weight: 600; }
 
-        .switch-wrap { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .switch { position: relative; width: 44px; height: 24px; background: var(--border); border-radius: 24px; transition: 0.3s; }
-        .switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        input:checked + .switch { background: var(--text); }
-        input:checked + .switch::after { transform: translateX(20px); }
+        .btn-sync { background: var(--text); color: var(--card); border: none; padding: 14px 20px; border-radius: var(--radius-sm); font-weight: 700; font-size: 14px; cursor: pointer; height: 52px; width: 100%; box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-sync:hover { background: var(--brand); color: #000; transform: translateY(-1px); }
+        .btn-sync:active { transform: translateY(1px); }
 
-        .summary-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; }
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; color: var(--text-soft); font-weight: 600; }
-        .summary-total { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 16px; font-weight: 800; font-size: 24px; color: var(--text); }
+        .item-row { display: grid; grid-template-columns: 2.5fr 0.7fr 1fr 1fr 48px; gap: 16px; margin-bottom: 16px; align-items: flex-end; background: var(--card); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+        .btn-remove { background: var(--danger-soft); color: var(--danger); border: 1px solid transparent; height: 50px; border-radius: var(--radius-sm); cursor: pointer; font-weight: 400; font-size: 24px; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .btn-remove:hover { background: var(--danger); color: white; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3); }
 
-        .preset-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-        .tag { font-size: 11px; padding: 6px 12px; border-radius: 16px; border: 1px solid var(--border); background: var(--bg); color: var(--text-soft); cursor: pointer; font-weight: 600; transition: 0.2s; }
-        .tag:hover { border-color: var(--text); color: var(--text); }
+        .gst-toggle-card { display: flex; justify-content: space-between; align-items: center; padding: 24px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md); margin-top: 32px; box-shadow: var(--shadow-sm); }
+        
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border); transition: .3s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input:checked + .slider { background: var(--brand); }
+        input:checked + .slider:before { transform: translateX(22px); }
 
-        /* True A4 Document Styling */
-        .doc-wrapper { margin-top: 40px; display: none; width: 100%; overflow-x: auto; background: var(--bg); padding: 20px 0; }
-        .doc-card { 
-            background: #FFFFFF; color: #09090B; position: relative; 
-            border: 1px solid #E4E4E7; border-radius: 0px; box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            width: 210mm; min-height: 297mm; padding: 20mm; margin: 0 auto;
-            font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box;
-            display: flex; flex-direction: column;
+        .breakdown-card { background: var(--text); color: var(--card); border-radius: var(--radius-lg); padding: 40px; margin: 40px 0; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
+        .breakdown-card::after { content: "SUMMARY"; position: absolute; top: -15px; right: -15px; font-size: 100px; font-weight: 900; color: rgba(255,255,255,0.03); pointer-events: none; letter-spacing: -2px; }
+        .breakdown-row { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 15px; opacity: 0.8; font-weight: 500; }
+        .total-row { border-top: 1px solid rgba(255,255,255,0.15); margin-top: 24px; padding-top: 24px; font-weight: 800; font-size: 36px; color: var(--brand); letter-spacing: -1px; align-items: center; }
+
+        .quick-pay-section { background: var(--card); border: 1px solid var(--border); padding: 40px; border-radius: var(--radius-lg); margin: 40px 0; position: relative; box-shadow: var(--shadow-md); }
+        .quick-pay-label { position: absolute; top: -14px; left: 40px; background: var(--text); color: var(--card); padding: 6px 16px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; }
+        #quickPayAmount { font-size: 40px; font-weight: 800; text-align: center; color: var(--text); border: none; border-bottom: 2px solid var(--border); height: 80px; margin-bottom: 32px; border-radius: 0; background: transparent; padding: 0; }
+        #quickPayAmount:focus { border-bottom-color: var(--brand); box-shadow: none; }
+
+        /* --- PREMIUM INVOICE & RECEIPT CONTAINERS --- */
+        .invoice-outer { 
+            margin-top: 60px; 
+            display: none; 
+            /* Crucial: Allow horizontal scroll on mobile so the A4 design stays intact */
+            overflow-x: auto; 
+            padding-bottom: 20px;
         }
-        
-        .doc-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #E4E4E7; padding-bottom: 24px; margin-bottom: 32px; }
-        
-        .doc-table { width: 100%; border-collapse: collapse; margin: 32px 0; }
-        .doc-table th { text-align: left; padding: 12px 8px; font-size: 11px; color: #71717A; text-transform: uppercase; border-bottom: 1px solid #09090B; letter-spacing: 0.5px; }
-        .doc-table td { padding: 16px 8px; border-bottom: 1px solid #F4F4F5; font-size: 13px; font-weight: 600; }
-        
-        .doc-summary-box { background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 8px; padding: 24px; width: 100%; }
-        
-        /* Receipt Specific */
-        .receipt-card { border-top: 8px solid #09090B; }
-        .receipt-hero { background: #09090B; color: white; padding: 40px; border-radius: 12px; text-align: center; margin: 32px 0; }
-        
-        .footer-bottom { margin-top: auto; border-top: 1px solid #F4F4F5; padding-top: 24px; display: flex; justify-content: space-between; }
 
-        #toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--card); padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; display: none; z-index: 1000; box-shadow: var(--shadow-lg); }
+        .btn-action { padding: 16px 24px; border-radius: var(--radius-sm); border: none; font-weight: 700; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s ease; }
+        .btn-main { background: var(--text); color: var(--card); width: 100%; box-shadow: var(--shadow-md); }
+        .btn-main:hover { background: var(--brand); color: #000; transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        
+        /* Premium WhatsApp Button Styling */
+        .whatsapp-premium-btn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            border: none;
+        }
+        .whatsapp-premium-btn:hover {
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            transform: translateY(-2px);
+        }
 
-        /* Disable button style */
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        #toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--card); padding: 16px 32px; border-radius: 30px; font-size: 14px; font-weight: 600; display: none; z-index: 10000; box-shadow: var(--shadow-float); border: 1px solid rgba(255,255,255,0.1); }
+
+        #tutorialOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .tut-card { background: var(--card); width: 100%; max-width: 480px; border-radius: var(--radius-lg); padding: 48px; box-shadow: var(--shadow-float); border: 1px solid var(--border); }
+
+        /* Shortcuts Bar */
+        .shortcuts-bar {
+            display: flex; gap: 24px; justify-content: center; padding: 16px;
+            color: var(--text-soft); font-size: 12px; font-weight: 600;
+        }
+        .shortcut-item { display: flex; align-items: center; gap: 8px; }
+        .shortcut-key { background: var(--card); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; color: var(--text); box-shadow: var(--shadow-sm); }
 
         @media (max-width: 768px) {
-            .app-container { padding: 24px 16px; border-radius: var(--radius-sm); }
-            .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 16px; }
-            .item-row { grid-template-columns: 1fr; gap: 12px; }
-            .line-total { display: none; }
-            .header { flex-direction: column; gap: 16px; align-items: flex-start; }
-            .header-btns { width: 100%; justify-content: flex-end; }
-            #actionButtons { grid-template-columns: 1fr; }
+            body { padding: 16px; }
+            .app-container { padding: 24px; border-radius: var(--radius-md); }
+            .grid { grid-template-columns: 1fr; gap: 16px; }
+            .grid[style*="grid-template-columns: 1fr 1fr 1fr 1.5fr;"] { grid-template-columns: 1fr !important; }
+            .item-row { grid-template-columns: 1fr; gap: 12px; padding: 16px; }
+            .breakdown-card { padding: 24px; }
+            .quick-pay-section { padding: 32px 24px; }
+            .shortcuts-bar { display: none; }
+            /* Keep invoice scaling intact during horizontal scroll rather than breaking layout */
         }
     </style>
 </head>
@@ -202,42 +204,68 @@
 
 <div id="toast"></div>
 
-<div class="app-container">
-    <!-- Header -->
-    <div class="header flex justify-between items-center">
-        <div>
-            <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" alt="Algum Creations" class="logo-img">
+<div id="tutorialOverlay">
+    <div class="tut-card">
+        <div style="margin-bottom: 32px; text-align: center;">
+            <div style="width: 72px; height: 72px; background: var(--brand-soft); color: var(--brand); border-radius: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 24px;">💎</div>
+            <h2 style="margin:0; font-weight: 800; font-size: 26px; letter-spacing: -0.5px; color: var(--text);">Algum Premium v3</h2>
+            <p style="font-size: 12px; color: var(--text-soft); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px;">Next-Gen Billing Solution</p>
         </div>
-        <div class="flex items-center gap-4">
-            <span id="autoSaveBadge" class="draft-status">● Draft Saved</span>
-            <div class="header-btns flex gap-2">
-                <button onclick="newInvoice()" title="New Invoice">➕</button>
-                <button onclick="toggleTheme()" title="Toggle Theme">🌓</button>
+        <div style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 40px;">
+            <div style="display: flex; gap: 16px; align-items: flex-start;">
+                <span style="background: var(--text); color: var(--card); width: 24px; height: 24px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; margin-top: 2px;">1</span>
+                <p style="margin:0; font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.5;"><b>Smart Suggestions:</b> Type to auto-fill regular clients instantly.</p>
             </div>
+            <div style="display: flex; gap: 16px; align-items: flex-start;">
+                <span style="background: var(--text); color: var(--card); width: 24px; height: 24px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; margin-top: 2px;">2</span>
+                <p style="margin:0; font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.5;"><b>Dynamic Rates:</b> Services auto-fill from master list.</p>
+            </div>
+            <div style="display: flex; gap: 16px; align-items: flex-start;">
+                <span style="background: var(--text); color: var(--card); width: 24px; height: 24px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; margin-top: 2px;">3</span>
+                <p style="margin:0; font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.5;"><b>WhatsApp Pro:</b> Send premium branded invoices directly.</p>
+            </div>
+        </div>
+        <button class="btn-action btn-main" onclick="closeTutorial()">Experience Premium</button>
+    </div>
+</div>
+
+<div class="app-container">
+    <div id="autoSaveBadge" class="auto-save-badge">Draft Saved</div>
+
+    <div class="header">
+        <div>
+            <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" alt="Algum Creations" border="0" style="height: 120px; margin-bottom: 8px;">
+            <p>Design • Strategy • Growth</p>
+        </div>
+        <div class="header-btns">
+            <button class="reset-btn" onclick="clearForm()" title="Clear Form (Alt+C)">🗑️</button>
+            <button class="theme-btn" onclick="toggleTheme()" title="Toggle Theme">🌓</button>
         </div>
     </div>
 
-    <!-- 01 CLIENT -->
-    <div class="section-label"><span class="section-num">01</span> Client Details</div>
-    <div class="grid-2">
+    <!-- Step 1: Customer Profile -->
+    <span class="section-label">1. Customer Workspace</span>
+    <div class="grid">
         <div class="input-group">
-            <label>Mobile Number</label>
-            <div class="mobile-wrapper">
+            <label>Customer Mobile</label>
+            <div class="mobile-input-wrapper" id="mobileWrapper">
                 <span class="mobile-prefix">+91</span>
+                <!-- Added handleMobileInput for Smart Suggestions -->
                 <input type="tel" id="mobile" placeholder="XXXXXXXXXX" maxlength="10" oninput="handleMobileInput()">
             </div>
+            <!-- Auto Suggestion Dropdown -->
             <div id="clientSuggestions" class="suggestions-dropdown"></div>
         </div>
-        <div class="input-group" style="justify-content: flex-end;">
-            <button class="btn btn-black" style="height: 44px;" onclick="findSavedClient()">Find Saved Client</button>
+        <div style="display: flex; align-items: flex-end;">
+            <button class="btn-sync" onclick="fetchClient()" id="fetchBtn">⚡ Sync Client Data</button>
         </div>
     </div>
-    <div id="clientDetails" class="mt-4"></div>
+    <div id="clientDetails"></div>
 
-    <div class="grid-2 mt-4">
+    <div class="grid" style="grid-template-columns: 1.5fr 1fr;">
         <div class="input-group">
-            <label>Customer Name</label>
-            <input type="text" id="customer" placeholder="Enter full name" oninput="saveDraft()">
+            <label>Customer Full Name</label>
+            <input type="text" id="customer" placeholder="John Doe" oninput="saveDraft()">
         </div>
         <div class="input-group">
             <label>Billing Date</label>
@@ -245,124 +273,114 @@
         </div>
     </div>
 
-    <!-- 02 SERVICES -->
-    <div class="section-label"><span class="section-num">02</span> Services Provided</div>
-    <div id="itemsContainer"></div>
-    <button class="btn btn-outline" style="width: 100%; border-style: dashed; margin-top: 12px;" onclick="addItemRow()">+ Add Service</button>
+    <div style="margin-top: 32px; padding: 32px; background: var(--bg); border: 1px dashed var(--border); border-radius: var(--radius-md); text-align: center; transition: all 0.2s ease;">
+        <label style="color: var(--text); font-size: 11px; margin-bottom: 16px; display: block; font-weight: 800; letter-spacing: 1px;">ATTACH REFERENCE DESIGNS</label>
+        <input type="file" id="mediaPicker" multiple accept="image/*" style="display:none;" onchange="handleFileSelect()">
+        <button onclick="document.getElementById('mediaPicker').click()" style="background:var(--card); border:1px solid var(--border); padding:12px 24px; border-radius:var(--radius-sm); font-weight:700; cursor:pointer; color:var(--text); box-shadow: var(--shadow-sm); font-size: 13px;">Choose Files</button>
+        <div id="fileListPreview" style="font-size: 13px; margin-top: 16px; color: var(--text-soft); font-weight: 500;">No designs attached</div>
+    </div>
 
-    <div class="flex justify-between items-center mt-6 p-4" style="background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md);">
-        <div>
-            <span style="font-weight: 700; font-size: 14px;">Apply GST (18%)</span>
-            <div style="font-size: 11px; color: var(--text-soft); margin-top: 2px;">Includes 18% GST calculation</div>
+    <!-- Step 2: Service Selection -->
+    <span class="section-label">2. Service Selection</span>
+    <div class="item-list">
+        <div id="itemsContainer"></div>
+        <button class="btn-outline" style="width: 100%; border: 1px dashed var(--border); padding: 20px; margin-top: 16px; border-radius: var(--radius-md); cursor: pointer; font-weight: 700; color: var(--text-soft); background: var(--bg); font-size: 14px; transition: all 0.2s ease;" onmouseover="this.style.borderColor='var(--text)'; this.style.color='var(--text)';" onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--text-soft)';" onclick="addItemRow()">+ Add Service Row</button>
+    </div>
+
+    <div class="gst-toggle-card">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 48px; height: 48px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">⚖️</div>
+            <div>
+                <span style="font-size: 15px; font-weight: 800; display: block; color: var(--text);">OFFICIAL GST (18%)</span>
+                <span style="font-size: 12px; color: var(--text-soft); font-weight: 500; margin-top: 4px; display: block;">Generate compliant tax invoice</span>
+            </div>
         </div>
-        <label class="switch-wrap">
-            <input type="checkbox" id="gstEnabled" onchange="updateCalculations()" style="display: none;">
-            <div class="switch"></div>
+        <label class="switch">
+            <input type="checkbox" id="gstEnabled" onchange="updateCalculations()">
+            <span class="slider"></span>
         </label>
     </div>
 
-    <!-- 03 PAYMENT -->
-    <div class="section-label"><span class="section-num">03</span> Payment Setup</div>
-    
-    <div class="grid-2">
-        <!-- Totals Summary Card -->
-        <div class="summary-card">
-            <div class="summary-row"><span>Subtotal</span><span id="txtSubtotal">₹0.00</span></div>
-            <div class="summary-row" id="rowGstDisplay"><span>GST (18%)</span><span id="txtTax">₹0.00</span></div>
-            <div class="summary-row" id="rowItemDiscDisplay"><span>Item Discounts</span><span id="txtItemDisc">-₹0.00</span></div>
-            <div class="summary-row" id="rowExtraDiscDisplay" style="color: var(--brand); font-weight: 700;"><span>Extra Discount</span><span id="txtExtraDisc">-₹0.00</span></div>
-            <div class="summary-row" id="rowRoundDisplay" style="opacity: 0.6; font-size: 12px;"><span>Round Off</span><span id="txtRound">₹0.00</span></div>
-            <div class="summary-row summary-total justify-between items-center">
-                <span>GRAND TOTAL</span><span id="txtGrandTotal">₹0.00</span>
-            </div>
-        </div>
-
-        <!-- Payment Inputs -->
-        <div class="flex-col gap-4">
-            <div class="input-group">
-                <label>Extra Invoice Discount (₹)</label>
-                <input type="number" id="discount" value="0" placeholder="0" oninput="updateCalculations()">
-            </div>
-            <div class="grid-2 gap-4">
-                <div class="input-group">
-                    <label>Amount Received (₹)</label>
-                    <input type="number" id="paidAmount" value="0" oninput="handlePaidInput()">
-                </div>
-                <div class="input-group">
-                    <label>Payment Date</label>
-                    <input type="date" id="payDate" onchange="saveDraft()">
-                </div>
-            </div>
-            <div class="grid-2 gap-4">
-                <div class="input-group">
-                    <label>Advance Required (₹)</label>
-                    <input type="number" id="advAmount" value="0" placeholder="0" oninput="updateCalculations()">
-                </div>
-                <div class="input-group">
-                    <label>Payment Method</label>
-                    <select id="paymentMode" onchange="saveDraft()">
-                        <option value="Online UPI">Online UPI (PhonePe/GPay)</option>
-                        <option value="Cash">Physical Cash</option>
-                        <option value="Bank Transfer">Bank Transfer (NEFT/IMPS)</option>
-                    </select>
-                </div>
-            </div>
-            
-            <!-- Live Status Badge -->
-            <div id="liveStatusBadge" class="badge badge-danger" style="text-align: center; padding: 12px; font-size: 13px; margin-top: 8px;">STATUS: UNPAID</div>
+    <div class="breakdown-card">
+        <div class="breakdown-row"><span>Cart Subtotal:</span><span id="txtSubtotal">₹0.00</span></div>
+        <div class="breakdown-row"><span>Applied Tax (GST):</span><span id="txtTax">₹0.00</span></div>
+        <div class="breakdown-row"><span>Total Discounts:</span><span id="txtDiscount">-₹0.00</span></div>
+        <div class="breakdown-row" style="opacity: 0.5;"><span>Adjustment:</span><span id="txtRound">₹0.00</span></div>
+        <div class="total-row breakdown-row">
+            <span>NET PAYABLE</span>
+            <span id="txtGrandTotal">₹0.00</span>
         </div>
     </div>
 
-    <!-- 04 REVIEW -->
-    <div class="section-label"><span class="section-num">04</span> Final Details</div>
-    <div class="input-group">
-        <label>Terms & Notes</label>
-        <input type="text" id="customNotes" placeholder="Enter custom note or select below..." oninput="saveDraft()">
-        <div class="preset-tags">
-            <span class="tag" onclick="addNote('50% advance required to initiate work.')">50% Advance</span>
-            <span class="tag" onclick="addNote('Final source files delivered post full payment.')">Final Files</span>
-            <span class="tag" onclick="addNote('Revisions subject to agreed scope.')">Revisions</span>
-            <span class="tag" onclick="addNote('Delivery timeline based on approved scope.')">Timeline</span>
-            <span class="tag" onclick="clearNote()">Clear</span>
+    <div class="quick-pay-section">
+        <div class="quick-pay-label">Smart Payment Portal</div>
+        <input type="number" id="quickPayAmount" placeholder="0.00" oninput="updateCalculations()">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <button class="btn-action" style="background: var(--bg); color: var(--text); border: 1px solid var(--border);" onclick="generateQuickQR('part')">QR: Part Payment</button>
+            <button class="btn-action btn-main" style="margin:0;" onclick="generateQuickQR('full')">QR: Full Payment</button>
+        </div>
+        <div id="quickQRContainer" style="text-align: center; margin-top: 40px;"></div>
+    </div>
+
+    <!-- Step 3: Authorization -->
+    <span class="section-label">3. Payment Authorization</span>
+    <!-- Clarified terminology in Inputs -->
+    <div class="grid" style="grid-template-columns: 1fr 1fr 1fr 1.5fr;">
+        <div class="input-group">
+            <label>Total Discount (₹)</label>
+            <input type="number" id="discount" value="0" oninput="updateCalculations()">
+        </div>
+        <div class="input-group">
+            <label>Advance Reqd (₹)</label>
+            <input type="number" id="advAmount" value="0" oninput="saveDraft()">
+        </div>
+        <div class="input-group">
+            <label>Amount Received</label>
+            <input type="number" id="paidAmount" value="0" oninput="updateCalculations()">
+        </div>
+        <div class="input-group">
+            <label>Payment Channel</label>
+            <select id="paymentMode" onchange="saveDraft()">
+                <option value="Online UPI">Online UPI (PhonePe/GPay)</option>
+                <option value="Cash">Physical Cash</option>
+                <option value="Bank Transfer">Direct IMPS/NEFT</option>
+            </select>
         </div>
     </div>
     
-    <div class="input-group mt-6 p-4" style="border: 1px dashed var(--border); border-radius: var(--radius-md); text-align: center;">
-        <label style="margin-bottom: 8px;">Reference Designs (Optional)</label>
-        <input type="file" id="mediaPicker" multiple accept="image/*" style="display:none;" onchange="handleFileSelect()">
-        <div class="flex justify-center gap-4">
-            <button onclick="document.getElementById('mediaPicker').click()" class="btn btn-outline" style="padding: 8px 16px; font-size: 12px;">Attach Files</button>
-            <button onclick="clearFiles()" class="btn btn-outline" style="padding: 8px 16px; font-size: 12px; color: var(--danger); border-color: var(--danger-soft);">Clear</button>
-        </div>
-        <div id="fileListPreview" style="font-size: 12px; margin-top: 12px; color: var(--text-soft); font-weight: 500;">No designs attached</div>
+    <div class="input-group" style="margin-top: 16px;">
+        <label>Invoice Notes / Terms (Optional)</label>
+        <input type="text" id="customNotes" placeholder="e.g. Expected delivery in 3-5 business days..." oninput="saveDraft()">
     </div>
 
-    <button class="btn btn-black mt-8" style="width: 100%; height: 56px; font-size: 16px;" onclick="generateDocument()">Review & Generate</button>
+    <button class="btn-action btn-main" onclick="generateInvoice()" style="height: 64px; font-size: 16px; margin-top: 48px; letter-spacing: 0.5px;">Review & Generate Invoice</button>
 
-    <!-- Post-Generation Actions -->
-    <div id="actionButtons" style="display: none; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 32px; width: 100%;">
-        <button class="btn btn-wa" onclick="shareWhatsApp()">📱 WhatsApp</button>
-        <button class="btn btn-black" onclick="downloadNode('invoiceNode', 'Invoice')">📄 Save Invoice</button>
-        <button class="btn btn-outline" id="btnSaveReceipt" onclick="downloadNode('receiptNode', 'Receipt')">🧾 Save Receipt</button>
-        <button class="btn btn-outline" onclick="copySummary()">📋 Copy Summary</button>
-        <button class="btn btn-danger" style="background: var(--danger-soft); color: var(--danger); border:none;" onclick="newInvoice()">➕ New Invoice</button>
+    <!-- Action Buttons with Premium WhatsApp Button & Generic Share Removed -->
+    <div id="afterButtons" style="display: none; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 32px;">
+        <button class="btn-action whatsapp-premium-btn" onclick="shareWhatsApp()">🚀 Send to Customer</button>
+        <button class="btn-action" style="background: var(--text); color: var(--card);" onclick="downloadInvoice()">💾 Save Invoice</button>
+        <button class="btn-action" style="background: var(--bg); color: var(--text); border: 1px solid var(--border);" onclick="downloadReceipt()">🧾 Save Receipt</button>
     </div>
 
-    <!-- Generated Documents Area -->
-    <div id="invoiceArea" class="flex-col items-center" style="width: 100%;">
-        <!-- Invoice DOM -->
-        <div id="invoiceNode" class="doc-wrapper"></div>
-        <!-- Receipt DOM -->
-        <div id="receiptNode" class="doc-wrapper"></div>
-    </div>
-    
+    <div id="invoiceArea" class="invoice-outer"></div>
+    <div id="receiptArea" class="invoice-outer" style="margin-top: 40px;"></div>
     <datalist id="itemsData"></datalist>
 </div>
 
-<script>
-    // --- Core Data & Preserved Local Inventory ---
-    const UPI_ID = "tinu01jmp@oksbi";
+<!-- Shortcuts legend for power users -->
+<div class="shortcuts-bar">
+    <div class="shortcut-item"><span class="shortcut-key">Alt + N</span> New Service Row</div>
+    <div class="shortcut-item"><span class="shortcut-key">Alt + G</span> Generate Invoice</div>
+    <div class="shortcut-item"><span class="shortcut-key">Alt + C</span> Clear Form</div>
+</div>
 
+<script>
+    const UPI_ID = "tinu01jmp@oksbi";
+    const SHEET_API = "https://script.google.com/macros/s/AKfycbz7L7LsHuTui703d62Yt4PO4Wtw69a4ALM-eVJqJmalwYcygLgq6EPPS8kuwRQNh28dcQ/exec";
+
+    // ---------------------------------------------------------
+    // EDITABLE REGULAR CLIENTS LIST (Add or remove freely)
+    // ---------------------------------------------------------
     const regularClients = [
         { mobile: "9650853330", name: "Parul Ahuja" },
         { mobile: "8860876285", name: "Garg Creations" },
@@ -370,6 +388,7 @@
         { mobile: "9873732117", name: "Melt N Daugh" },
         { mobile: "9810787877", name: "Vicky Ahuja" }
     ];
+    // ---------------------------------------------------------
 
     const inventory = [
         {name:"Classic Poster Design", price:499, gst:18},
@@ -394,39 +413,81 @@
     ];
 
     let autoSaveTimeout;
-    let currentCalculations = {};
 
-    // --- HTML Escaping for Safe Rendering ---
-    function escapeHTML(str) {
-        if (!str) return '';
-        return String(str).replace(/[&<>'"]/g, tag => ({
-            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-        }[tag]));
+    // Pro Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+        if(e.altKey) {
+            const key = e.key.toLowerCase();
+            if(key === 'n') { e.preventDefault(); addItemRow(); }
+            if(key === 'g') { e.preventDefault(); generateInvoice(); }
+            if(key === 'c') { e.preventDefault(); clearForm(); }
+        }
+    });
+
+    function validateMobile() {
+        const val = document.getElementById('mobile').value;
+        const wrap = document.getElementById('mobileWrapper');
+        if(val.length === 10) wrap.classList.add('valid');
+        else wrap.classList.remove('valid');
+        saveDraft();
     }
 
-    // --- Initialization ---
-    window.onload = () => {
-        document.body.setAttribute('data-theme', localStorage.getItem('algum_theme_v4') || 'light');
+    // New Smart Suggestion Logic
+    function handleMobileInput() {
+        validateMobile(); 
+        const val = document.getElementById('mobile').value.trim();
+        const dropdown = document.getElementById('clientSuggestions');
         
-        const dl = document.getElementById('itemsData');
-        inventory.forEach(item => {
-            const opt = document.createElement('option');
-            opt.value = item.name;
-            dl.appendChild(opt);
-        });
-
-        if(!loadDraft()) {
-            document.getElementById('billDate').valueAsDate = new Date();
-            addItemRow();
-            initializeDocumentNumbers();
+        if (val.length >= 2) {
+            // Filter by digits inside mobile OR text inside name
+            const matches = regularClients.filter(c => 
+                c.mobile.includes(val) || 
+                c.name.toLowerCase().includes(val.toLowerCase())
+            );
+            
+            if (matches.length > 0) {
+                dropdown.innerHTML = matches.map(c => 
+                    `<div class="suggestion-item" onclick="selectClient('${c.mobile}', '${c.name.replace(/'/g, "\\'")}')">
+                        <span class="sugg-name">${c.name}</span>
+                        <span class="sugg-mob">+91 ${c.mobile}</span>
+                    </div>`
+                ).join('');
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        } else {
+            dropdown.style.display = 'none';
         }
-    };
+    }
 
-    function toggleTheme() {
-        const b = document.body;
-        const next = b.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-        b.setAttribute('data-theme', next);
-        localStorage.setItem('algum_theme_v4', next);
+    // Function to populate data when suggestion is clicked
+    function selectClient(mob, name) {
+        document.getElementById('mobile').value = mob;
+        document.getElementById('customer').value = name;
+        document.getElementById('clientSuggestions').style.display = 'none';
+        validateMobile();
+        saveDraft();
+        showToast("Client auto-filled!");
+    }
+
+    // Close dropdown on outside click
+    document.addEventListener('click', (e) => {
+        if(!e.target.closest('#mobileWrapper') && !e.target.closest('#clientSuggestions')) {
+            const drop = document.getElementById('clientSuggestions');
+            if(drop) drop.style.display = 'none';
+        }
+    });
+
+    function handleFileSelect() {
+        const input = document.getElementById('mediaPicker');
+        const preview = document.getElementById('fileListPreview');
+        preview.innerText = input.files.length > 0 ? `Selected: ${input.files.length} design(s) attached` : 'No designs attached';
+    }
+
+    function closeTutorial() {
+        document.getElementById('tutorialOverlay').style.display = 'none';
+        localStorage.setItem('algum_tut_seen_v3', 'true');
     }
 
     function showToast(m) {
@@ -435,96 +496,43 @@
         setTimeout(() => t.style.display = 'none', 3000);
     }
 
-    // --- Permanent Invoice & Receipt Numbering ---
-    function initializeDocumentNumbers() {
-        let invNo = localStorage.getItem('algum_current_inv_no');
-        let recNo = localStorage.getItem('algum_current_rec_no');
-        
-        if (!invNo || !recNo) {
-            let today = new Date().toISOString().slice(0,10).replace(/-/g, "");
-            let seq = parseInt(localStorage.getItem(`algum_seq_${today}`) || "0") + 1;
-            localStorage.setItem(`algum_seq_${today}`, seq);
-            
-            let seqStr = String(seq).padStart(3, '0');
-            invNo = `AC-${today}-${seqStr}`;
-            recNo = `REC-${today}-${seqStr}`;
-            
-            localStorage.setItem('algum_current_inv_no', invNo);
-            localStorage.setItem('algum_current_rec_no', recNo);
-        }
-        return { invNo, recNo };
+    function toggleTheme() {
+        const b = document.body;
+        const next = b.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        b.setAttribute('data-theme', next);
+        localStorage.setItem('algum_theme', next);
     }
 
-    function newInvoice() {
-        if(confirm("Start a completely fresh invoice? Unsaved data will be permanently cleared.")) {
-            localStorage.removeItem('algum_draft_v4');
-            localStorage.removeItem('algum_current_inv_no');
-            localStorage.removeItem('algum_current_rec_no');
-            location.reload();
+    function clearForm() {
+        if(confirm("This will clear all current data. Proceed?")) { 
+            localStorage.removeItem('algum_bill_draft_v3');
+            location.reload(); 
         }
     }
 
-    // --- Client Workflow ---
-    function handleMobileInput() {
-        const val = document.getElementById('mobile').value.trim();
-        const dropdown = document.getElementById('clientSuggestions');
-        
-        if (val.length >= 2) {
-            const matches = regularClients.filter(c => c.mobile.includes(val) || c.name.toLowerCase().includes(val.toLowerCase()));
-            if (matches.length > 0) {
-                dropdown.innerHTML = matches.map(c => 
-                    `<div class="suggestion-item" onclick="selectClient('${c.mobile}', '${c.name.replace(/'/g, "\\'")}')">
-                        <span style="font-weight: 700; font-size: 13px;">${c.name}</span>
-                        <span style="font-size: 11px; color: var(--text-soft);">+91 ${c.mobile}</span>
-                    </div>`
-                ).join('');
-                dropdown.style.display = 'block';
-            } else dropdown.style.display = 'none';
-        } else dropdown.style.display = 'none';
-        saveDraft();
+    function init() {
+        if(localStorage.getItem('algum_tut_seen_v3') === 'true') document.getElementById('tutorialOverlay').style.display = 'none';
+        document.body.setAttribute('data-theme', localStorage.getItem('algum_theme') || 'light');
+        document.getElementById('billDate').valueAsDate = new Date();
+        const dl = document.getElementById('itemsData');
+        inventory.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.name;
+            dl.appendChild(opt);
+        });
+        if(!loadDraft()) addItemRow();
     }
 
-    function selectClient(mob, name) {
-        document.getElementById('mobile').value = mob;
-        document.getElementById('customer').value = name;
-        document.getElementById('clientSuggestions').style.display = 'none';
-        saveDraft();
-    }
-
-    document.addEventListener('click', (e) => {
-        if(!e.target.closest('.mobile-wrapper') && !e.target.closest('#clientSuggestions')) {
-            const drop = document.getElementById('clientSuggestions');
-            if(drop) drop.style.display = 'none';
-        }
-    });
-
-    function findSavedClient() {
-        let mob = document.getElementById('mobile').value;
-        if(mob.length < 10) return showToast("Enter 10-digit mobile");
-        
-        const match = regularClients.find(c => c.mobile === mob);
-        if(match) {
-            document.getElementById('customer').value = match.name;
-            document.getElementById('clientDetails').innerHTML = `<div class="badge badge-success" style="padding: 12px; display: flex; justify-content: space-between;"><span>Verified: ${match.name}</span><span>Local Contact</span></div>`;
-            showToast("Client found locally");
-            saveDraft();
-        } else {
-            showToast("Client not found in local records");
-        }
-    }
-
-    // --- Services Workflow ---
-    function addItemRow(data = {name: "", qty: 1, rate: "", discount: 0}) {
+    function addItemRow(data = {name: "", qty: 1, rate: 0, discount: 0}) {
         const container = document.getElementById('itemsContainer');
         const row = document.createElement('div');
         row.className = 'item-row';
         row.innerHTML = `
-            <div class="input-group"><label>Service</label><input type="text" list="itemsData" class="row-name" value="${escapeHTML(data.name)}" placeholder="Service..." oninput="handleAuto(this)"></div>
-            <div class="input-group"><label>Qty</label><input type="number" class="row-qty" value="${data.qty}" min="1" oninput="updateCalculations()"></div>
-            <div class="input-group"><label>Rate (₹)</label><input type="number" class="row-rate" value="${data.rate}" placeholder="0" oninput="updateCalculations()"></div>
+            <div class="input-group"><label>Service</label><input type="text" list="itemsData" class="row-name" value="${data.name}" placeholder="Type service..." oninput="handleAuto(this)"></div>
+            <div class="input-group"><label>Qty</label><input type="number" class="row-qty" value="${data.qty}" oninput="updateCalculations()"></div>
+            <div class="input-group"><label>Rate</label><input type="number" class="row-rate" value="${data.rate}" placeholder="0" oninput="updateCalculations()"></div>
             <div class="input-group"><label>Disc (₹)</label><input type="number" class="row-disc" value="${data.discount || 0}" placeholder="0" oninput="updateCalculations()"></div>
-            <div class="line-total-wrapper flex-col justify-end"><div class="line-total">₹0</div></div>
-            <button class="btn btn-danger" style="height: 42px; width: 100%; padding:0;" onclick="this.parentElement.remove(); updateCalculations();" title="Remove">×</button>
+            <button class="btn-remove" onclick="this.parentElement.remove(); updateCalculations();" title="Remove Item">×</button>
         `;
         container.appendChild(row);
         updateCalculations();
@@ -536,21 +544,11 @@
             input.parentElement.parentElement.querySelector('.row-rate').value = match.price;
             updateCalculations();
         }
+        saveDraft();
     }
 
-    // --- Date/Payment Handling ---
-    function handlePaidInput() {
-        const paidInput = document.getElementById('paidAmount');
-        const payDateInput = document.getElementById('payDate');
-        if (parseFloat(paidInput.value) > 0 && !payDateInput.value) {
-            payDateInput.valueAsDate = new Date();
-        }
-        updateCalculations();
-    }
-
-    // --- Core Calculations ---
     function updateCalculations() {
-        let subtotal = 0, totalTax = 0, itemDiscounts = 0;
+        let subtotal = 0, totalTax = 0;
         const applyGst = document.getElementById('gstEnabled').checked;
 
         document.querySelectorAll('.item-row').forEach(row => {
@@ -562,403 +560,579 @@
             let lineAmt = (q * r) - d;
             if (lineAmt < 0) lineAmt = 0; 
             
-            subtotal += (q * r);
-            itemDiscounts += d;
-
-            row.querySelector('.line-total').innerText = `₹${lineAmt.toLocaleString()}`;
-
+            subtotal += lineAmt;
             if(applyGst) {
                 const item = inventory.find(i => i.name === n);
                 totalTax += (lineAmt * (item ? item.gst : 18)) / 100;
             }
         });
 
-        const extraDisc = parseFloat(document.getElementById('discount').value) || 0; 
-        const rawNet = (subtotal - itemDiscounts) + totalTax - extraDisc;
+        const disc = parseFloat(document.getElementById('discount').value) || 0; 
+        const rawNet = subtotal + totalTax - disc;
         const finalNet = Math.max(0, Math.round(rawNet));
         const roundOff = (finalNet - rawNet).toFixed(2);
 
-        // Update UI Display safely
         document.getElementById('txtSubtotal').innerText = `₹${subtotal.toLocaleString()}`;
         document.getElementById('txtTax').innerText = `₹${totalTax.toLocaleString()}`;
-        document.getElementById('txtItemDisc').innerText = `-₹${itemDiscounts.toLocaleString()}`;
-        document.getElementById('txtExtraDisc').innerText = `-₹${extraDisc.toLocaleString()}`;
+        document.getElementById('txtDiscount').innerText = `-₹${disc.toLocaleString()}`;
         document.getElementById('txtRound').innerText = `₹${roundOff}`;
         document.getElementById('txtGrandTotal').innerText = `₹${finalNet.toLocaleString()}`;
 
-        // Zero-value hide logic for the summary card UI
-        document.getElementById('rowGstDisplay').style.display = (applyGst && totalTax !== 0) ? 'flex' : 'none';
-        document.getElementById('rowItemDiscDisplay').style.display = itemDiscounts > 0 ? 'flex' : 'none';
-        document.getElementById('rowExtraDiscDisplay').style.display = extraDisc > 0 ? 'flex' : 'none';
-        document.getElementById('rowRoundDisplay').style.display = parseFloat(roundOff) !== 0 ? 'flex' : 'none';
-
-        // Payment Status Logic
-        const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
-        const adv = parseFloat(document.getElementById('advAmount').value) || 0;
-        const balance = Math.max(0, finalNet - paid);
-        
-        let status = "UNPAID";
-        let badgeClass = "badge-danger";
-        
-        if (finalNet === 0 && paid === 0) {
-            status = "DRAFT"; badgeClass = "badge-dark";
-        } else if (paid >= finalNet && finalNet > 0) {
-            status = "FULLY PAID"; badgeClass = "badge-success";
-        } else if (paid > 0) {
-            status = "PARTIALLY PAID"; badgeClass = "badge-warning";
-        } else if (adv > 0) {
-            status = "ADVANCE REQUESTED"; badgeClass = "badge-info";
-        }
-
-        const badge = document.getElementById('liveStatusBadge');
-        badge.className = `badge ${badgeClass}`;
-        badge.innerText = `STATUS: ${status} (Bal: ₹${balance.toLocaleString()})`;
-
-        currentCalculations = { subtotal, itemDiscounts, extraDisc, totalTax, finalNet, roundOff, paid, balance, status, adv, applyGst };
         saveDraft();
+        return { subtotal, totalTax, disc, finalNet, roundOff };
     }
 
-    // --- Notes & Files ---
-    function addNote(txt) { document.getElementById('customNotes').value = txt; saveDraft(); }
-    function clearNote() { document.getElementById('customNotes').value = ""; saveDraft(); }
-    
-    function handleFileSelect() {
-        const f = document.getElementById('mediaPicker').files.length;
-        document.getElementById('fileListPreview').innerText = f > 0 ? `${f} file(s) attached` : 'No designs attached';
-    }
-    function clearFiles() {
-        document.getElementById('mediaPicker').value = "";
-        handleFileSelect();
-    }
-
-    // --- Document Generation ---
-    function generateDocument() {
-        updateCalculations();
-        const c = currentCalculations;
-        const nums = initializeDocumentNumbers();
+    function generateQuickQR(type) {
+        const calc = updateCalculations();
+        let amt = type === 'full' ? calc.finalNet : (parseFloat(document.getElementById('quickPayAmount').value) || 0);
+        if(amt <= 0) return showToast("Please specify amount");
+        const upi = `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${amt.toFixed(2)}&cu=INR`;
+        const cont = document.getElementById('quickQRContainer');
+        cont.innerHTML = `<div style="font-weight:700; margin-bottom:20px; font-size:12px; color: var(--text-soft); letter-spacing: 1px; text-transform: uppercase;">SCAN TO PAY ₹${amt.toLocaleString()}</div><div id="qQR" style="display:inline-block; padding:16px; background:white; border-radius:16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);"></div>`;
         
-        const customer = document.getElementById('customer').value || "Client";
+        const qrc = new QRCode(document.getElementById('qQR'), { text: upi, width: 160, height: 160 });
+        
+        setTimeout(() => {
+            const canv = document.querySelector('#qQR canvas');
+            if(canv) {
+                const img = document.createElement('img');
+                img.src = canv.toDataURL('image/png');
+                img.style.width = '160px';
+                canv.style.display = 'none';
+                document.getElementById('qQR').appendChild(img);
+            }
+        }, 300);
+    }
+
+    async function fetchClient() {
+        let mob = document.getElementById('mobile').value;
+        if(mob.length < 10) return showToast("Enter 10-digit mobile");
+        const btn = document.getElementById('fetchBtn');
+        btn.innerText = "Syncing...";
+        try {
+            const res = await fetch(SHEET_API, { method: 'POST', body: JSON.stringify({ action: "getClient", phone: "91"+mob }) });
+            const data = await res.json();
+            if(data.found) {
+                document.getElementById('customer').value = data.name;
+                document.getElementById('clientDetails').innerHTML = `<div style="background:var(--success-soft); border:1px solid rgba(5, 150, 105, 0.2); color:var(--success); padding:16px 20px; border-radius:var(--radius-sm); margin-bottom:24px; font-weight:600; font-size:14px; display:flex; justify-content:space-between; align-items:center;"><span>Client: ${data.name}</span><span style="background:var(--success); color:white; padding:4px 12px; border-radius:6px; font-size:12px; font-weight:800;">Due: ₹${data.totalDue}</span></div>`;
+                showToast("Client profile synced!");
+                saveDraft();
+            } else {
+                showToast("New Customer");
+            }
+        } catch(e) {} finally { btn.innerText = "⚡ Sync Client Data"; }
+    }
+
+    async function generateInvoice() {
+        const calc = updateCalculations();
+        const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
+        const advReq = parseFloat(document.getElementById('advAmount').value) || 0;
+        const balance = Math.max(0, calc.finalNet - paid);
+        const status = balance <= 0 ? "PAID" : "DUE";
+        
+        let dateVal = document.getElementById('billDate').value;
+        const now = dateVal ? new Date(dateVal) : new Date();
+        const dateStr = now.getFullYear().toString() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
+        const displayDate = now.toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'});
+        
+        const randNum = Math.floor(Math.random() * 90 + 10); 
+        const invNo = "AC-" + dateStr + "-" + randNum;
+        const recNo = "REC-" + dateStr + "-" + randNum;
+
+        const customer = document.getElementById('customer').value || "Valued Client";
         const mobile = document.getElementById('mobile').value;
-        const mode = document.getElementById('paymentMode').value;
-        const notes = document.getElementById('customNotes').value.trim();
         
-        // Strict source-of-truth dates
-        const billDateRaw = document.getElementById('billDate').value;
-        const billDateStr = billDateRaw ? new Date(billDateRaw).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '';
-        const payDateRaw = document.getElementById('payDate').value;
-        const payDateStr = payDateRaw ? new Date(payDateRaw).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '';
+        const notesVal = document.getElementById('customNotes').value.trim();
+        const notesHTML = notesVal ? `
+            <div style="padding: 0 50px 30px; z-index: 1; position: relative;">
+                <div style="background: #FAFAFA; border-left: 4px solid #EAAA00; padding: 16px 20px; border-radius: 4px 12px 12px 4px; font-size: 13px; color: #71717A; line-height: 1.6;">
+                    <b style="color: #09090B; display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Invoice Note</b>
+                    ${notesVal}
+                </div>
+            </div>` : '';
 
-        // Safely generated Item HTML
+        const receiptNotesHTML = notesVal ? `
+            <div style="padding: 0 50px 30px; z-index: 1; position: relative;">
+                <div style="background: #FAFAFA; border-left: 4px solid #059669; padding: 16px 20px; border-radius: 4px 12px 12px 4px; font-size: 13px; color: #71717A; line-height: 1.6;">
+                    <b style="color: #09090B; display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Note</b>
+                    ${notesVal}
+                </div>
+            </div>` : '';
+
         let itemsHtml = "";
-        let hasItemDiscounts = false;
+        let isFirst = true;
         document.querySelectorAll('.item-row').forEach(row => {
             const n = row.querySelector('.row-name').value;
             const q = parseFloat(row.querySelector('.row-qty').value) || 0;
             const r = parseFloat(row.querySelector('.row-rate').value) || 0;
             const d = parseFloat(row.querySelector('.row-disc').value) || 0;
-            let lineTotal = Math.max(0, (q * r) - d);
-            if (d > 0) hasItemDiscounts = true;
+            let lineTotal = (q * r) - d;
+            if (lineTotal < 0) lineTotal = 0;
             
             if(n) {
-                itemsHtml += `<tr>
-                    <td style="color:#09090B;">${escapeHTML(n)}</td>
-                    <td style="text-align:center;">${q}</td>
-                    <td style="text-align:right;">₹${r.toLocaleString()}</td>
-                    <td style="text-align:right; color:#71717A;">${d > 0 ? '-₹'+d.toLocaleString() : '-'}</td>
-                    <td style="text-align:right; font-weight:700; color:#09090B;">₹${lineTotal.toLocaleString()}</td>
+                itemsHtml += `<tr style="border-bottom: 1px solid ${isFirst ? 'transparent' : '#F4F4F5'};">
+                    <td style="padding: 16px 24px; color: #09090B; font-weight: 700; font-size: 13px;">${n}</td>
+                    <td style="text-align: center; padding: 16px; color: #71717A; font-weight: 600; font-size: 13px;">${q}</td>
+                    <td style="text-align: center; padding: 16px; color: #09090B; font-weight: 600; font-size: 13px;">₹${parseFloat(r).toLocaleString()}</td>
+                    <td style="text-align: center; padding: 16px; color: #E11D48; font-weight: 600; font-size: 13px;">${d > 0 ? '-₹' + d.toLocaleString() : '-'}</td>
+                    <td style="text-align: right; padding: 16px 24px; font-weight: 800; color: #09090B; font-size: 14px;">₹${lineTotal.toLocaleString()}</td>
                 </tr>`;
+                isFirst = false;
             }
         });
 
-        const statusBadgeStyle = c.status === "FULLY PAID" ? "background:#ECFDF5; color:#059669;" : 
-                                 c.status === "PARTIALLY PAID" ? "background:#FFFBEB; color:#D97706;" : 
-                                 c.status === "ADVANCE REQUESTED" ? "background:#F0F9FF; color:#0284C7;" :
-                                 "background:#FFF1F2; color:#E11D48;";
-
-        // Render A4 Premium Invoice
-        const invNode = document.getElementById('invoiceNode');
-        invNode.style.display = 'flex';
-        invNode.innerHTML = `
-            <div class="doc-card">
-                <div class="doc-header">
-                    <div>
-                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" style="height:60px; object-fit:contain; margin-left:-6px;">
+        // Advanced Premium QR Code Display Logic for Invoice
+        let qrSectionHtml = '';
+        if (balance <= 0) {
+            qrSectionHtml = `
+                <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #ECFDF5; border: 1px solid #34D399; border-radius: 20px; padding: 24px; text-align: center;">
+                    <div style="width: 56px; height: 56px; background: #059669; color: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 16px; font-weight: bold; box-shadow: 0 10px 20px rgba(5,150,105,0.2);">✓</div>
+                    <div style="font-size: 16px; font-weight: 900; color: #059669; letter-spacing: 1.5px; text-transform: uppercase;">Payment Complete</div>
+                    <div style="font-size: 13px; font-weight: 600; color: #047857; margin-top: 8px;">Thank you for your continued trust.</div>
+                </div>`;
+        } else if (advReq > 0 && paid === 0) {
+            let remBalance = calc.finalNet - advReq;
+            qrSectionHtml = `
+                <div style="display: flex; gap: 20px; height: 100%;">
+                    <div style="flex: 1; background: #FFF9E8; border: 1px solid #F5D061; border-radius: 20px; padding: 24px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                        <div style="font-size: 10px; font-weight: 800; color: #C68E00; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px;">Advance Payment</div>
+                        <div style="font-size: 22px; font-weight: 900; color: #09090B; margin-bottom: 16px; letter-spacing: -0.5px;">₹${advReq.toLocaleString()}</div>
+                        <div id="advQR" style="background: #FFF; padding: 10px; border-radius: 12px; display: inline-block; box-shadow: 0 8px 16px rgba(0,0,0,0.06);"></div>
                     </div>
-                    <div style="text-align:right;">
-                        <div style="font-size:10px; font-weight:800; color:#A1A1AA; letter-spacing:2px; text-transform:uppercase;">Invoice</div>
-                        <div style="font-size:20px; font-weight:800; color:#09090B; margin: 4px 0 12px; letter-spacing:-0.5px;">#${nums.invNo}</div>
-                        <span style="padding:4px 10px; border-radius:4px; font-size:10px; font-weight:800; ${statusBadgeStyle}">${c.status}</span>
-                    </div>
-                </div>
-
-                <div style="display:flex; justify-content:space-between; margin-bottom: 32px;">
-                    <div>
-                        <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px; letter-spacing:1px;">Billed To</div>
-                        <div style="font-size:16px; font-weight:700; color:#09090B;">${escapeHTML(customer)}</div>
-                        <div style="font-size:13px; color:#52525B; font-weight:500;">+91 ${escapeHTML(mobile)}</div>
-                    </div>
-                    <div style="text-align:right;">
-                        <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px; letter-spacing:1px;">Billing Date</div>
-                        <div style="font-size:14px; font-weight:600; color:#09090B;">${billDateStr}</div>
-                    </div>
-                </div>
-
-                <table class="doc-table">
-                    <thead><tr>
-                        <th>Service Description</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Rate</th><th style="text-align:right;">Disc</th><th style="text-align:right;">Total</th>
-                    </tr></thead>
-                    <tbody>${itemsHtml}</tbody>
-                </table>
-
-                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:16px;">
-                    <div style="width: 40%;" id="invQrContainer"></div>
-                    
-                    <div style="width: 50%;">
-                        <div class="doc-summary-box">
-                            <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:#52525B;">
-                                <span>Subtotal</span><span style="font-weight:600; color:#09090B;">₹${(c.subtotal).toLocaleString()}</span>
-                            </div>
-                            ${hasItemDiscounts ? `
-                            <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:#52525B;">
-                                <span>Item Discounts</span><span style="font-weight:600; color:#09090B;">-₹${c.itemDiscounts.toLocaleString()}</span>
-                            </div>` : ''}
-                            ${c.applyGst && c.totalTax > 0 ? `
-                            <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:#52525B;">
-                                <span>GST (18%)</span><span style="font-weight:600; color:#09090B;">₹${c.totalTax.toLocaleString()}</span>
-                            </div>` : ''}
-                            ${c.extraDisc > 0 ? `
-                            <div style="display:flex; justify-content:space-between; margin-bottom:16px; font-size:13px; color:#52525B;">
-                                <span>Extra Discount</span><span style="font-weight:600; color:#09090B;">-₹${c.extraDisc.toLocaleString()}</span>
-                            </div>` : ''}
-                            ${parseFloat(c.roundOff) !== 0 ? `
-                            <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:12px; color:#A1A1AA;">
-                                <span>Round Off</span><span>₹${c.roundOff}</span>
-                            </div>` : ''}
-                            
-                            <div style="border-top:1px solid #E4E4E7; padding-top:16px; display:flex; justify-content:space-between; align-items:center;">
-                                <span style="font-size:11px; font-weight:800; color:#71717A; text-transform:uppercase; letter-spacing:1px;">Grand Total</span>
-                                <span style="font-size:24px; font-weight:800; color:#09090B; letter-spacing:-0.5px;">₹${c.finalNet.toLocaleString()}</span>
-                            </div>
-                            <div style="display:flex; justify-content:space-between; margin-top:16px; font-size:12px; font-weight:600; color:#059669;">
-                                <span>Amount Paid</span><span>₹${c.paid.toLocaleString()}</span>
-                            </div>
-                            <div style="display:flex; justify-content:space-between; margin-top:4px; font-size:13px; font-weight:800; color:#E11D48;">
-                                <span>Balance Due</span><span>₹${c.balance.toLocaleString()}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                ${notes ? `<div style="margin-top:32px; font-size:11px; color:#71717A;"><b>Notes & Terms:</b> ${escapeHTML(notes)}</div>` : ''}
-                
-                <div class="footer-bottom">
-                    <div>
-                        <div style="font-size:12px; font-weight:700; color:#09090B;">Algum Creations</div>
-                        <div style="font-size:10px; color:#71717A;">Jamalpur (Munger), Bihar | +91 7352185767</div>
-                    </div>
-                    <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; letter-spacing:0.5px;">Digitally Generated</div>
-                </div>
-            </div>`;
-
-        // Render QR Codes safely
-        const qrBox = document.getElementById('invQrContainer');
-        if (c.balance > 0) {
-            if (c.adv > 0 && c.paid === 0) {
-                qrBox.innerHTML = `
-                    <div style="font-size:10px; font-weight:800; color:#A1A1AA; margin-bottom:8px; letter-spacing:1px;">SCAN TO PAY ADVANCE</div>
-                    <div id="qrAdv" style="display:inline-block; padding:8px; border:1px solid #E4E4E7; border-radius:8px;"></div>
-                    <div style="font-size:12px; font-weight:700; color:#09090B; margin-top:4px;">₹${c.adv.toLocaleString()}</div>
-                `;
-                new QRCode(document.getElementById('qrAdv'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${c.adv.toFixed(2)}&cu=INR`, width: 90, height: 90, colorDark: "#09090B", colorLight: "#ffffff" });
-            } else {
-                qrBox.innerHTML = `
-                    <div style="font-size:10px; font-weight:800; color:#A1A1AA; margin-bottom:8px; letter-spacing:1px;">SCAN TO PAY BALANCE</div>
-                    <div id="qrBal" style="display:inline-block; padding:8px; border:1px solid #E4E4E7; border-radius:8px;"></div>
-                `;
-                new QRCode(document.getElementById('qrBal'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${c.balance.toFixed(2)}&cu=INR`, width: 100, height: 100, colorDark: "#09090B", colorLight: "#ffffff" });
-            }
-        } else {
-            qrBox.innerHTML = `<div style="font-size:20px; color:#059669; font-weight:800; border: 1px solid #ECFDF5; background: #ECFDF5; padding: 16px; border-radius: 8px; display:inline-block;">✓ FULLY PAID</div>`;
-        }
-
-        // Render A4 Premium Receipt (Distinct Layout)
-        const recNode = document.getElementById('receiptNode');
-        const btnReceipt = document.getElementById('btnSaveReceipt');
-        if (c.paid > 0) {
-            recNode.style.display = 'flex';
-            btnReceipt.disabled = false;
-            recNode.innerHTML = `
-                <div class="doc-card receipt-card">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" style="height:50px; object-fit:contain; margin-left:-6px;">
-                        <div style="text-align:right;">
-                            <div style="font-size:11px; font-weight:800; color:#A1A1AA; letter-spacing:3px; text-transform:uppercase;">Payment Receipt</div>
-                            <div style="font-size:18px; font-weight:800; color:#09090B; margin-top:4px;">#${nums.recNo}</div>
-                        </div>
-                    </div>
-
-                    <div class="receipt-hero">
-                        <div style="font-size:11px; font-weight:700; color:#A1A1AA; text-transform:uppercase; letter-spacing:2px; margin-bottom:12px;">Amount Received</div>
-                        <div style="font-size:48px; font-weight:800; letter-spacing:-1px; margin-bottom:8px;">₹${c.paid.toLocaleString()}</div>
-                        <div style="font-size:13px; font-weight:600; color:#A1A1AA; border-top: 1px solid #27272A; display:inline-block; padding-top:12px;">Paid via ${escapeHTML(mode)}</div>
-                    </div>
-
-                    <div style="display:flex; justify-content:space-between; border:1px solid #E4E4E7; border-radius:8px; padding:24px; margin-bottom:32px;">
-                        <div>
-                            <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px; letter-spacing:1px;">Received From</div>
-                            <div style="font-size:15px; font-weight:700; color:#09090B;">${escapeHTML(customer)}</div>
-                            <div style="font-size:13px; color:#52525B;">+91 ${escapeHTML(mobile)}</div>
-                        </div>
-                        <div style="text-align:right;">
-                            <div style="font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; margin-bottom:4px; letter-spacing:1px;">Reference Details</div>
-                            <div style="font-size:13px; font-weight:600; color:#09090B; margin-bottom:2px;">Against Inv: #${nums.invNo}</div>
-                            <div style="font-size:13px; color:#52525B;">Date: ${payDateStr || billDateStr}</div>
-                        </div>
-                    </div>
-
-                    <div style="background:#FAFAFA; border:1px solid #E4E4E7; border-radius:8px; padding:24px;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px; font-weight:600;">
-                            <span style="color:#52525B;">Invoice Total</span><span style="color:#09090B;">₹${c.finalNet.toLocaleString()}</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px; font-weight:600;">
-                            <span style="color:#52525B;">Amount Received</span><span style="color:#059669;">₹${c.paid.toLocaleString()}</span>
-                        </div>
-                        <div style="border-top:1px solid #E4E4E7; padding-top:12px; display:flex; justify-content:space-between; font-size:14px; font-weight:700;">
-                            <span style="color:#09090B;">Balance Due</span><span style="color:#E11D48;">₹${c.balance.toLocaleString()}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="footer-bottom" style="border:none; justify-content:center; text-align:center; flex-direction:column; gap:8px;">
-                        <div style="font-size:12px; font-weight:600; color:#09090B;">Thank you for your business.</div>
-                        <div style="font-size:10px; color:#71717A;">Algum Creations | Jamalpur (Munger), Bihar | +91 7352185767</div>
+                    <div style="flex: 1; background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 20px; padding: 24px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                        <div style="font-size: 10px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px;">Balance Payment</div>
+                        <div style="font-size: 22px; font-weight: 900; color: #09090B; margin-bottom: 16px; letter-spacing: -0.5px;">₹${remBalance.toLocaleString()}</div>
+                        <div id="balQR" style="background: #FFF; padding: 10px; border-radius: 12px; display: inline-block; box-shadow: 0 8px 16px rgba(0,0,0,0.06);"></div>
                     </div>
                 </div>`;
         } else {
-            recNode.style.display = 'none';
-            btnReceipt.disabled = true;
+            qrSectionHtml = `
+                <div style="background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 20px; padding: 28px; display: flex; align-items: center; gap: 28px; height: 100%;">
+                    <div id="finalQR" style="background: #FFF; padding: 12px; border-radius: 16px; box-shadow: 0 10px 24px rgba(0,0,0,0.08);"></div>
+                    <div>
+                        <div style="font-size: 11px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Scan to Pay</div>
+                        <div style="font-size: 26px; font-weight: 900; color: #09090B; letter-spacing: -0.5px;">UPI QR</div>
+                        <div style="font-size: 12px; font-weight: 600; color: #71717A; margin-top: 8px;">GPay, PhonePe, Paytm</div>
+                    </div>
+                </div>`;
         }
 
-        // Convert canvas QRs to Image for html2canvas compatibility safely
-        setTimeout(() => {
-            ['qrAdv', 'qrBal'].forEach(id => {
-                const el = document.getElementById(id);
-                if(el) {
-                    const canvas = el.querySelector('canvas');
-                    if(canvas) {
-                        const img = document.createElement('img');
-                        img.src = canvas.toDataURL("image/png");
-                        img.style.width = canvas.style.width;
-                        canvas.style.display = 'none';
-                        el.appendChild(img);
-                    }
-                }
-            });
-        }, 300);
+        const area = document.getElementById('invoiceArea');
+        area.style.display = 'block';
+        
+        // --- HYPER PREMIUM INVOICE RENDER ---
+        area.innerHTML = `
+            <div id="captureNode" class="invoice-card" style="width: 800px; min-height: 1131px; display: flex; flex-direction: column; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-top: 8px solid #EAAA00;">
+                
+                <!-- Subtle Top Decorative Glow -->
+                <div style="position: absolute; top: -150px; right: -150px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(234, 170, 0, 0.08) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; pointer-events: none; z-index: 0;"></div>
 
-        document.getElementById('actionButtons').style.display = 'flex';
-        invNode.scrollIntoView({ behavior: 'smooth' });
+                <!-- Header -->
+                <div style="padding: 50px 50px 40px; display: flex; justify-content: space-between; align-items: flex-start; position: relative; z-index: 1;">
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" alt="Algum Creations Logo" border="0" style="height: 100px; object-fit: contain; margin-left: -5px;">
+                        <div style="font-size: 10px; font-weight: 800; color: #C68E00; letter-spacing: 2px; text-transform: uppercase;">Creative Design • Strategy • Growth</div>
+                    </div>
+                    <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                        <div style="font-size: 46px; font-weight: 900; color: #09090B; letter-spacing: -1.5px; line-height: 1;">INVOICE</div>
+                        <div style="font-size: 15px; font-weight: 700; color: #71717A; letter-spacing: 1px;">#${invNo}</div>
+                        <div style="margin-top: 12px;">
+                            <span style="font-size: 11px; padding: 6px 16px; border-radius: 20px; font-weight: 800; letter-spacing: 1.5px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid currentColor; background: ${balance<=0?'#ECFDF5':'#FFF1F2'}; color: ${balance<=0?'#059669':'#E11D48'};">${status} INVOICE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Client Info Grid -->
+                <div style="padding: 0 50px 40px; display: flex; gap: 24px; z-index: 1; position: relative;">
+                    <div style="flex: 1; background: #FFF9E8; border: 1px solid rgba(234, 170, 0, 0.3); border-radius: 20px; padding: 24px;">
+                        <div style="font-size: 10px; font-weight: 800; color: #C68E00; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Billed To</div>
+                        <div style="font-size: 20px; font-weight: 900; color: #09090B; margin-bottom: 6px; letter-spacing: -0.5px;">${customer}</div>
+                        <div style="font-size: 14px; font-weight: 600; color: #71717A;">+91 ${mobile}</div>
+                    </div>
+                    <div style="flex: 1; background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 20px; padding: 24px;">
+                        <div style="font-size: 10px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;">Invoice Details</div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-size: 13px; font-weight: 600; color: #71717A;">Date Issued</span>
+                            <span style="font-size: 13px; font-weight: 800; color: #09090B;">${displayDate}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="font-size: 13px; font-weight: 600; color: #71717A;">Payment Status</span>
+                            <span style="font-size: 13px; font-weight: 800; color: ${balance<=0?'#059669':'#E11D48'};">${balance<=0?'Paid in Full':'Action Required'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Service Table -->
+                <div style="padding: 0 50px 40px; z-index: 1; position: relative;">
+                    <div style="border: 1px solid #E4E4E7; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead style="background: #09090B; color: #FFFFFF;">
+                                <tr>
+                                    <th style="width: 40%; text-align: left; padding: 18px 24px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Service Description</th>
+                                    <th style="width: 10%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Qty</th>
+                                    <th style="width: 15%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Rate</th>
+                                    <th style="width: 15%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Disc</th>
+                                    <th style="width: 20%; text-align: right; padding: 18px 24px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>${itemsHtml}</tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div style="flex: 1;"></div> <!-- Spacer to push footer down -->
+
+                ${notesHTML}
+
+                <!-- QR & Financial Summary Container -->
+                <div style="padding: 0 50px 40px; display: flex; gap: 32px; z-index: 1; position: relative;">
+                    <!-- QR Box -->
+                    <div style="flex: 1;">
+                        ${qrSectionHtml}
+                    </div>
+
+                    <!-- Summary Box -->
+                    <div style="flex: 1.2;">
+                        <div style="background: #09090B; color: #FFFFFF; border-radius: 24px; padding: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); position: relative; overflow: hidden; height: 100%;">
+                            <!-- Ambient Glows -->
+                            <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: #6D5DFC; filter: blur(50px); opacity: 0.3; pointer-events: none;"></div>
+                            <div style="position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; background: #EAAA00; filter: blur(50px); opacity: 0.2; pointer-events: none;"></div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 14px; color: #A1A1AA; font-weight: 500;">
+                                <span>Subtotal</span><span style="color: #FAFAFA; font-weight: 700;">₹${calc.subtotal.toLocaleString()}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 14px; color: #A1A1AA; font-weight: 500;">
+                                <span>Tax (GST 18%)</span><span style="color: #FAFAFA; font-weight: 700;">₹${calc.totalTax.toLocaleString()}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 24px; font-size: 14px; color: #A1A1AA; font-weight: 500;">
+                                <span>Total Discount</span><span style="color: #FAFAFA; font-weight: 700;">-₹${calc.disc.toLocaleString()}</span>
+                            </div>
+                            
+                            <div style="height: 1px; background: rgba(255,255,255,0.15); margin: 0 0 24px 0;"></div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                                <span style="font-size: 13px; font-weight: 800; color: #EAAA00; text-transform: uppercase; letter-spacing: 2px;">Total Amount</span>
+                                <span style="font-size: 34px; font-weight: 900; color: #FFFFFF; letter-spacing: -1px;">₹${calc.finalNet.toLocaleString()}</span>
+                            </div>
+                            
+                            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 16px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px;">
+                                    <span style="color: #A1A1AA; font-weight: 600;">Amount Received</span>
+                                    <span style="color: #34D399; font-weight: 800;">₹${paid.toLocaleString()}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 14px;">
+                                    <span style="color: #FAFAFA; font-weight: 700;">Balance Due</span>
+                                    <span style="color: ${balance>0?'#F87171':'#34D399'}; font-weight: 800;">₹${balance.toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agency Footer -->
+                <div style="padding: 0 50px 40px; z-index: 1; position: relative;">
+                    <div style="border-top: 1px solid #E4E4E7; padding-top: 32px; display: flex; justify-content: space-between; align-items: flex-end;">
+                        <div>
+                            <div style="font-size: 15px; font-weight: 900; color: #09090B; margin-bottom: 6px; letter-spacing: -0.5px;">ALGUM CREATIONS</div>
+                            <div style="font-size: 12px; font-weight: 600; color: #71717A;">Jamalpur (Munger), Bihar | +91 7352185767</div>
+                            <div style="font-size: 11px; font-weight: 800; color: #C68E00; margin-top: 12px; text-transform: uppercase; letter-spacing: 1.5px;">Designed with precision. Built for brands.</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="display: inline-block; padding: 10px 16px; background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 12px; font-size: 10px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 1.5px;">
+                                Digitally Verified Document
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+        // --- HYPER PREMIUM RECEIPT RENDER (Distinctive Emerald Theme) ---
+        const receiptArea = document.getElementById('receiptArea');
+        receiptArea.style.display = 'block';
+        receiptArea.innerHTML = `
+            <div id="captureReceiptNode" class="invoice-card" style="width: 800px; min-height: 1131px; display: flex; flex-direction: column; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-top: 8px solid #059669;">
+                
+                <!-- Subtle Emerald Glow Background -->
+                <div style="position: absolute; top: -150px; left: -150px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(5, 150, 105, 0.06) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; pointer-events: none; z-index: 0;"></div>
+                
+                <div style="padding: 50px 50px 40px; display: flex; justify-content: space-between; align-items: flex-start; position: relative; z-index: 1;">
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" alt="Algum Creations Logo" border="0" style="height: 100px; object-fit: contain; margin-left: -5px;">
+                        <div style="font-size: 10px; font-weight: 800; color: #059669; letter-spacing: 2px; text-transform: uppercase;">Official Payment Record</div>
+                    </div>
+                    <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                        <div style="font-size: 46px; font-weight: 900; color: #059669; letter-spacing: -1.5px; line-height: 1;">RECEIPT</div>
+                        <div style="font-size: 15px; font-weight: 700; color: #71717A; letter-spacing: 1px;">#${recNo}</div>
+                        <div style="margin-top: 12px;">
+                            <span style="font-size: 11px; padding: 6px 16px; border-radius: 20px; font-weight: 800; letter-spacing: 1.5px; border: 1px solid #059669; background: #ECFDF5; color: #059669;">✓ PAYMENT RECEIVED</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="padding: 0 50px 40px; display: flex; gap: 24px; z-index: 1; position: relative;">
+                    <div style="flex: 1; background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 20px; padding: 24px;">
+                        <div style="font-size: 10px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Received From</div>
+                        <div style="font-size: 20px; font-weight: 900; color: #09090B; margin-bottom: 6px; letter-spacing: -0.5px;">${customer}</div>
+                        <div style="font-size: 14px; font-weight: 600; color: #71717A;">+91 ${mobile}</div>
+                    </div>
+                    <div style="flex: 1; background: #ECFDF5; border: 1px solid rgba(5, 150, 105, 0.2); border-radius: 20px; padding: 24px;">
+                        <div style="font-size: 10px; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;">Payment Details</div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-size: 13px; font-weight: 600; color: #047857;">Payment Date</span>
+                            <span style="font-size: 13px; font-weight: 800; color: #09090B;">${displayDate}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="font-size: 13px; font-weight: 600; color: #047857;">Ref Invoice</span>
+                            <span style="font-size: 13px; font-weight: 800; color: #09090B;">#${invNo}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="padding: 0 50px 40px; z-index: 1; position: relative;">
+                    <div style="border: 1px solid #E4E4E7; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead style="background: #FAFAFA; color: #71717A;">
+                                <tr>
+                                    <th style="width: 40%; text-align: left; padding: 18px 24px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid #E4E4E7;">Service Description</th>
+                                    <th style="width: 10%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid #E4E4E7;">Qty</th>
+                                    <th style="width: 15%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid #E4E4E7;">Rate</th>
+                                    <th style="width: 15%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid #E4E4E7;">Disc</th>
+                                    <th style="width: 20%; text-align: right; padding: 18px 24px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid #E4E4E7;">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>${itemsHtml}</tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="flex: 1;"></div> <!-- Spacer to push footer down -->
+
+                ${receiptNotesHTML}
+
+                <div style="padding: 0 50px 40px; display: flex; gap: 32px; z-index: 1; position: relative;">
+                    <!-- Payment Channel Info -->
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <div style="background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 24px; padding: 32px; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 10px 20px rgba(0,0,0,0.02);">
+                            <div style="font-size: 11px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;">Payment Channel Used</div>
+                            <div style="font-size: 24px; font-weight: 900; color: #09090B; display: flex; align-items: center; justify-content: center; gap: 12px; letter-spacing: -0.5px;">
+                                <span style="font-size: 28px;">💳</span> ${document.getElementById('paymentMode').value}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Emerald Success Card -->
+                    <div style="flex: 1.2;">
+                        <div style="background: #059669; color: #FFFFFF; border-radius: 24px; padding: 32px; box-shadow: 0 20px 40px rgba(5,150,105,0.25); position: relative; overflow: hidden; height: 100%;">
+                            <!-- Ambient Glows -->
+                            <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: #34D399; filter: blur(50px); opacity: 0.3; pointer-events: none;"></div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 24px; font-size: 14px; color: rgba(255,255,255,0.8); font-weight: 500;">
+                                <span>Invoice Total</span><span style="color: #FFFFFF; font-weight: 700;">₹${calc.finalNet.toLocaleString()}</span>
+                            </div>
+                            
+                            <div style="height: 1px; background: rgba(255,255,255,0.2); margin: 0 0 24px 0;"></div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                                <span style="font-size: 13px; font-weight: 800; color: #A7F3D0; text-transform: uppercase; letter-spacing: 2px;">Amount Received</span>
+                                <span style="font-size: 34px; font-weight: 900; color: #FFFFFF; letter-spacing: -1px;">₹${paid > 0 ? paid.toLocaleString() : calc.finalNet.toLocaleString()}</span>
+                            </div>
+                            
+                            <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 16px; text-align: center;">
+                                <div style="font-size: 14px; font-weight: 700; color: #FFFFFF;">
+                                    Transaction Successful
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="padding: 0 50px 40px; z-index: 1; position: relative;">
+                    <div style="border-top: 1px solid #E4E4E7; padding-top: 32px; display: flex; justify-content: space-between; align-items: flex-end;">
+                        <div>
+                            <div style="font-size: 15px; font-weight: 900; color: #09090B; margin-bottom: 6px; letter-spacing: -0.5px;">ALGUM CREATIONS</div>
+                            <div style="font-size: 12px; font-weight: 600; color: #71717A;">Jamalpur (Munger), Bihar | +91 7352185767</div>
+                            <div style="font-size: 11px; font-weight: 800; color: #059669; margin-top: 12px; text-transform: uppercase; letter-spacing: 1.5px;">Designed with precision. Built for brands.</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="display: inline-block; padding: 10px 16px; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 12px; font-size: 10px; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 1.5px;">
+                                Official Payment Record
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+        // Execution of QR codes initialization
+        if (balance > 0) {
+            if (advReq > 0 && paid === 0) {
+                let remBalance = calc.finalNet - advReq;
+                new QRCode(document.getElementById('advQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${advReq.toFixed(2)}&cu=INR`, width: 100, height: 100, colorDark : "#09090B", colorLight : "#ffffff" });
+                new QRCode(document.getElementById('balQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${remBalance.toFixed(2)}&cu=INR`, width: 100, height: 100, colorDark : "#09090B", colorLight : "#ffffff" });
+                
+                setTimeout(() => {
+                    ['advQR', 'balQR'].forEach(id => {
+                        const qrCanvas = document.querySelector(`#${id} canvas`);
+                        if(qrCanvas) {
+                            const dataUrl = qrCanvas.toDataURL("image/png");
+                            const img = document.createElement("img");
+                            img.src = dataUrl;
+                            img.style.width = "100px";
+                            qrCanvas.style.display = "none";
+                            document.getElementById(id).appendChild(img);
+                        }
+                    });
+                }, 500);
+            } else {
+                new QRCode(document.getElementById('finalQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${balance.toFixed(2)}&cu=INR`, width: 110, height: 110, colorDark : "#09090B", colorLight : "#ffffff" });
+                setTimeout(() => {
+                    const qrCanvas = document.querySelector('#finalQR canvas');
+                    if(qrCanvas) {
+                        const dataUrl = qrCanvas.toDataURL("image/png");
+                        const img = document.createElement("img");
+                        img.src = dataUrl;
+                        img.style.width = "110px";
+                        qrCanvas.style.display = "none";
+                        document.getElementById('finalQR').appendChild(img);
+                    }
+                }, 500);
+            }
+        }
+        
+        document.getElementById('afterButtons').style.display = 'grid';
+        area.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // --- Actions ---
-    function shareWhatsApp() {
-        const c = currentCalculations;
-        const nums = initializeDocumentNumbers();
+    // DIRECT CUSTOMER WA SENDING PRESERVED 100%
+    async function shareWhatsApp() {
         const name = document.getElementById('customer').value || "Client";
         let mobile = document.getElementById('mobile').value.replace(/\D/g,"");
+        const total = document.getElementById('txtGrandTotal').innerText;
+        const disc = document.getElementById('txtDiscount').innerText;
+        const advReq = parseFloat(document.getElementById('advAmount').value) || 0;
+        const paid = document.getElementById('paidAmount').value;
         const mode = document.getElementById('paymentMode').value;
+        const balance = Math.max(0, parseFloat(total.replace(/₹|,/g,'')) - parseFloat(paid)).toFixed(2);
         const notes = document.getElementById('customNotes').value.trim();
-        const billDateRaw = document.getElementById('billDate').value;
-        const billDateStr = billDateRaw ? new Date(billDateRaw).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '';
         
-        if(mobile.length < 10) return showToast("Invalid mobile number");
+        if(mobile.length < 10) return showToast("Invalid phone number");
 
-        let msg = `*ALGUM CREATIONS*\n`;
-        msg += `Invoice: #${nums.invNo}\n`;
-        msg += `Client: ${name}\n`;
-        msg += `Date: ${billDateStr}\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-        
-        document.querySelectorAll('.item-row').forEach(row => {
+        let itemsList = "";
+        document.querySelectorAll('.item-row').forEach((row) => {
             const n = row.querySelector('.row-name').value;
             const q = parseFloat(row.querySelector('.row-qty').value) || 0;
             const r = parseFloat(row.querySelector('.row-rate').value) || 0;
             const d = parseFloat(row.querySelector('.row-disc').value) || 0;
-            let lineTotal = Math.max(0, (q * r) - d);
-            if(n) msg += `🔹 ${n} (x${q}) = ₹${lineTotal.toLocaleString()}\n`;
+            let lineTotal = (q * r) - d;
+            if (lineTotal < 0) lineTotal = 0;
+
+            if(n) {
+                itemsList += `🔹 *${n}* (x${q}) - ₹${r.toLocaleString()}`;
+                if (d > 0) itemsList += ` [Disc: -₹${d.toLocaleString()}]`;
+                itemsList += ` = ₹${lineTotal.toLocaleString()}\n`;
+            }
         });
+
+        let msg = ` *ALGUM CREATIONS - CUSTOMER INVOICE*\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+        msg += `👤 *Client:* ${name}\n`;
+        msg += `📱 *Mobile:* +91 ${mobile}\n`;
+        msg += `📅 *Date:* ${new Date().toLocaleDateString()}\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+        msg += `📦 *Services:*\n${itemsList}`;
+        msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+        msg += `💰 *PAYMENT SUMMARY:*\n`;
+        msg += `🔸 Final Amount: ${total}\n`;
+        
+        if(parseFloat(disc.replace(/[^\d.]/g,'')) > 0) {
+             msg += `🔴 Total Disc Applied: ${disc}\n`; // Clarified here too
+        }
         
         msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-        msg += `*Grand Total: ₹${c.finalNet.toLocaleString()}*\n`;
-        msg += `Paid Amount: ₹${c.paid.toLocaleString()} (${mode})\n`;
+        msg += `✅ *Amt Paid:* ₹${paid}\n`;
+        msg += `💳 *Channel:* ${mode}\n`;
         
-        if (c.balance > 0) {
-            msg += `\n⚠️ *BALANCE DUE: ₹${c.balance.toLocaleString()}*\n`;
-            if(c.adv > 0 && c.paid === 0) {
-                msg += `\n🔗 *Pay Advance (₹${c.adv.toLocaleString()}):*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${c.adv}&cu=INR\n`;
-            }
-            msg += `\n🔗 *Pay Balance:*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${c.balance}&cu=INR\n`;
-        } else {
-            msg += `\n✅ *STATUS: FULLY PAID*\n`;
+        if(notes) {
+            msg += `\n📝 *Note:* ${notes}\n`;
         }
 
-        if(notes) msg += `\n📝 Note: ${notes}\n`;
-        msg += `\n_Thank you for choosing Algum Creations!_`;
+        if(balance > 0) {
+            if(advReq > 0 && parseFloat(paid) === 0) {
+                let remBalance = Math.max(0, parseFloat(total.replace(/₹|,/g,'')) - advReq).toFixed(2);
+                msg += `\n⚠️ *PAYMENT DUE: ₹${parseFloat(balance).toLocaleString()}*\n\n`;
+                msg += `🔗 *Tap to Pay Advance (₹${advReq}):*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${advReq}&cu=INR\n\n`;
+                msg += `🔗 *Tap to Pay Balance (₹${remBalance}):*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${remBalance}&cu=INR\n`;
+            } else {
+                msg += `\n⚠️ *BALANCE DUE: ₹${parseFloat(balance).toLocaleString()}*\n\n`;
+                msg += `🔗 *Tap to Pay Balance:*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${balance}&cu=INR\n`;
+            }
+        } else {
+            msg += `🟢 *Status:* SETTLED (FULLY PAID)\n`;
+        }
+        msg += `\n_Thank you for choosing Algum Creations for your branding needs._`;
         
         window.open(`https://wa.me/91${mobile}?text=${encodeURIComponent(msg)}`);
     }
 
-    function copySummary() {
-        const c = currentCalculations;
-        const nums = initializeDocumentNumbers();
-        const name = document.getElementById('customer').value || "Client";
-        const billDateRaw = document.getElementById('billDate').value;
-        const billDateStr = billDateRaw ? new Date(billDateRaw).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '';
+    function downloadInvoice() {
+        const node = document.getElementById("captureNode");
+        showToast("Rendering High-Res Image...");
         
-        let txt = `ALGUM CREATIONS\nInvoice: #${nums.invNo}\nClient: ${name}\nDate: ${billDateStr}\n\n`;
-        
-        document.querySelectorAll('.item-row').forEach(row => {
-            const n = row.querySelector('.row-name').value;
-            const q = parseFloat(row.querySelector('.row-qty').value) || 0;
-            const r = parseFloat(row.querySelector('.row-rate').value) || 0;
-            const d = parseFloat(row.querySelector('.row-disc').value) || 0;
-            if(n) txt += `${n} × ${q} — ₹${Math.max(0, (q*r)-d).toLocaleString()}\n`;
-        });
-        
-        txt += `\nGrand Total: ₹${c.finalNet.toLocaleString()}\nPaid: ₹${c.paid.toLocaleString()}\nBalance Due: ₹${c.balance.toLocaleString()}`;
-        
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(txt).then(() => showToast("Summary copied to clipboard!"));
-        } else {
-            const ta = document.createElement("textarea");
-            ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
-            showToast("Summary copied to clipboard!");
-        }
-    }
-
-    function downloadNode(nodeId, type) {
-        const nums = initializeDocumentNumbers();
-        const filenameNum = type === 'Invoice' ? nums.invNo : nums.recNo;
-        const node = document.getElementById(nodeId);
-        
-        if(!node || node.style.display === 'none') return showToast(`No ${type} available to save.`);
-        showToast(`Rendering high-res ${type}...`);
-        
-        html2canvas(node.querySelector('.doc-card'), { 
+        html2canvas(node, { 
             scale: 3, 
             backgroundColor: '#ffffff', 
-            useCORS: true, 
-            logging: false 
+            useCORS: true,
+            allowTaint: true,
+            logging: false,
+            onclone: (clonedDoc) => {
+                const clonedFinal = clonedDoc.getElementById('finalQR');
+                if(clonedFinal) clonedFinal.style.opacity = "1";
+                const clonedAdv = clonedDoc.getElementById('advQR');
+                if(clonedAdv) clonedAdv.style.opacity = "1";
+                const clonedBal = clonedDoc.getElementById('balQR');
+                if(clonedBal) clonedBal.style.opacity = "1";
+            }
         }).then(canvas => {
-            const a = document.createElement("a");
-            a.download = `Algum_${type}_${filenameNum}.png`; 
-            a.href = canvas.toDataURL("image/png", 1.0); 
-            a.click();
-        }).catch(() => showToast("Error generating image."));
+            try {
+                const a = document.createElement("a");
+                a.download = `Algum_Invoice_${Date.now()}.png`; 
+                a.href = canvas.toDataURL("image/png", 1.0); 
+                a.click();
+                showToast("Invoice saved successfully!");
+            } catch (err) {
+                console.error("Save Error:", err);
+                showToast("Error saving image. Try again.");
+            }
+        });
     }
 
-    // --- Draft System ---
+    function downloadReceipt() {
+        const node = document.getElementById("captureReceiptNode");
+        if(!node) return showToast("Please generate invoice first!");
+        showToast("Rendering Payment Receipt...");
+        
+        html2canvas(node, { 
+            scale: 3, 
+            backgroundColor: '#ffffff', 
+            useCORS: true,
+            allowTaint: true,
+            logging: false
+        }).then(canvas => {
+            try {
+                const a = document.createElement("a");
+                a.download = `Algum_Receipt_${Date.now()}.png`; 
+                a.href = canvas.toDataURL("image/png", 1.0); 
+                a.click();
+                showToast("Payment Receipt saved successfully!");
+            } catch (err) {
+                console.error("Save Error:", err);
+                showToast("Error saving receipt. Try again.");
+            }
+        });
+    }
+
     function saveDraft() {
         clearTimeout(autoSaveTimeout);
+
         const items = [];
         document.querySelectorAll('.item-row').forEach(row => {
             items.push({
@@ -969,57 +1143,45 @@
             });
         });
 
-        // Ensure numbers are preserved in draft memory
-        const nums = initializeDocumentNumbers();
+        const notes = document.getElementById('customNotes') ? document.getElementById('customNotes').value : "";
+        const mode = document.getElementById('paymentMode') ? document.getElementById('paymentMode').value : "Online UPI";
+        const advAmt = document.getElementById('advAmount') ? document.getElementById('advAmount').value : "0";
 
-        localStorage.setItem('algum_draft_v4', JSON.stringify({
+        localStorage.setItem('algum_bill_draft_v3', JSON.stringify({
             name: document.getElementById('customer').value, 
             mob: document.getElementById('mobile').value, 
-            billDate: document.getElementById('billDate').value,
-            payDate: document.getElementById('payDate').value,
-            invNo: nums.invNo,
-            recNo: nums.recNo,
             items,
-            notes: document.getElementById('customNotes').value,
-            mode: document.getElementById('paymentMode').value,
-            advAmt: document.getElementById('advAmount').value,
-            paid: document.getElementById('paidAmount').value,
-            disc: document.getElementById('discount').value,
-            gst: document.getElementById('gstEnabled').checked
+            notes,
+            mode,
+            advAmt
         }));
 
         const badge = document.getElementById('autoSaveBadge');
-        badge.classList.add('active');
-        badge.innerText = "● Saved just now";
-        autoSaveTimeout = setTimeout(() => { badge.classList.remove('active'); badge.innerText = "● Draft Saved"; }, 2000);
+        if(badge && items.length > 0) {
+            badge.style.opacity = '1';
+            autoSaveTimeout = setTimeout(() => {
+                badge.style.opacity = '0';
+            }, 2000);
+        }
     }
 
     function loadDraft() {
-        const saved = localStorage.getItem('algum_draft_v4');
+        const saved = localStorage.getItem('algum_bill_draft_v3');
         if(!saved) return false;
-        
         const d = JSON.parse(saved);
+        
         document.getElementById('customer').value = d.name || "";
         document.getElementById('mobile').value = d.mob || "";
-        
-        if (d.billDate) document.getElementById('billDate').value = d.billDate;
-        else document.getElementById('billDate').valueAsDate = new Date();
-        
-        if (d.payDate) document.getElementById('payDate').value = d.payDate;
-
-        document.getElementById('customNotes').value = d.notes || "";
-        document.getElementById('paymentMode').value = d.mode || "Online UPI";
-        document.getElementById('advAmount').value = d.advAmt || "0";
-        document.getElementById('paidAmount').value = d.paid || "0";
-        document.getElementById('discount').value = d.disc || "0";
-        document.getElementById('gstEnabled').checked = !!d.gst;
+        if(d.notes) document.getElementById('customNotes').value = d.notes;
+        if(d.mode) document.getElementById('paymentMode').value = d.mode;
+        if(d.advAmt) document.getElementById('advAmount').value = d.advAmt;
         
         if(d.items?.length) d.items.forEach(i => addItemRow(i));
-        else updateCalculations();
-        
-        return true;
+        validateMobile(); 
+        return !!d.items?.length;
     }
+
+    window.onload = init;
 </script>
 </body>
 </html>
-```
