@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +14,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
         :root {
-            /* 2026 Modern Vibe - Ultra Premium Palette */
-            --brand: #EAAA00; /* Sophisticated Gold */
+            /* Keep original app UI variables intact to not break dashboard */
+            --brand: #EAAA00; 
             --brand-dark: #C68E00;
             --brand-gradient: linear-gradient(135deg, #F5D061 0%, #EAAA00 100%);
             --brand-soft: #FDF9EE;
@@ -24,13 +25,12 @@
             --danger: #E11D48;
             --danger-soft: #FFF1F2;
             
-            --bg: #F4F4F5; /* Sleek light gray bg */
+            --bg: #F4F4F5; 
             --card: #FFFFFF;
-            --text: #09090B; /* Near black for extreme crispness */
+            --text: #09090B; 
             --text-soft: #71717A;
             --border: #E4E4E7;
             
-            /* Refined layered shadows for depth without muddiness */
             --shadow-sm: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
             --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
@@ -110,7 +110,6 @@
         .mobile-input-wrapper input { border: none; border-radius: 0; box-shadow: none; background: transparent; padding-left: 12px; }
         .mobile-input-wrapper input:focus { box-shadow: none; }
 
-        /* Offline Suggestion Dropdown Styling */
         .suggestions-dropdown {
             position: absolute; top: 100%; left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-top: 4px; box-shadow: var(--shadow-lg); z-index: 100; max-height: 200px; overflow-y: auto; display: none; overflow-x: hidden;
         }
@@ -149,11 +148,10 @@
         #quickPayAmount { font-size: 40px; font-weight: 800; text-align: center; color: var(--text); border: none; border-bottom: 2px solid var(--border); height: 80px; margin-bottom: 32px; border-radius: 0; background: transparent; padding: 0; }
         #quickPayAmount:focus { border-bottom-color: var(--brand); box-shadow: none; }
 
-        /* --- PREMIUM INVOICE & RECEIPT CONTAINERS --- */
+        /* Document Render Containers */
         .invoice-outer { 
             margin-top: 60px; 
             display: none; 
-            /* Crucial: Allow horizontal scroll on mobile so the A4 design stays intact */
             overflow-x: auto; 
             padding-bottom: 20px;
         }
@@ -162,7 +160,6 @@
         .btn-main { background: var(--text); color: var(--card); width: 100%; box-shadow: var(--shadow-md); }
         .btn-main:hover { background: var(--brand); color: #000; transform: translateY(-2px); box-shadow: var(--shadow-lg); }
         
-        /* Premium WhatsApp Button Styling */
         .whatsapp-premium-btn {
             background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
             color: white;
@@ -179,7 +176,6 @@
         #tutorialOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .tut-card { background: var(--card); width: 100%; max-width: 480px; border-radius: var(--radius-lg); padding: 48px; box-shadow: var(--shadow-float); border: 1px solid var(--border); }
 
-        /* Shortcuts Bar */
         .shortcuts-bar {
             display: flex; gap: 24px; justify-content: center; padding: 16px;
             color: var(--text-soft); font-size: 12px; font-weight: 600;
@@ -196,7 +192,6 @@
             .breakdown-card { padding: 24px; }
             .quick-pay-section { padding: 32px 24px; }
             .shortcuts-bar { display: none; }
-            /* Keep invoice scaling intact during horizontal scroll rather than breaking layout */
         }
     </style>
 </head>
@@ -355,13 +350,14 @@
 
     <button class="btn-action btn-main" onclick="generateInvoice()" style="height: 64px; font-size: 16px; margin-top: 48px; letter-spacing: 0.5px;">Review & Generate Invoice</button>
 
-    <!-- Action Buttons with Premium WhatsApp Button & Generic Share Removed -->
+    <!-- Action Buttons -->
     <div id="afterButtons" style="display: none; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 32px;">
         <button class="btn-action whatsapp-premium-btn" onclick="shareWhatsApp()">🚀 Send to Customer</button>
         <button class="btn-action" style="background: var(--text); color: var(--card);" onclick="downloadInvoice()">💾 Save Invoice</button>
         <button class="btn-action" style="background: var(--bg); color: var(--text); border: 1px solid var(--border);" onclick="downloadReceipt()">🧾 Save Receipt</button>
     </div>
 
+    <!-- Render Targets for the generated A4 documents -->
     <div id="invoiceArea" class="invoice-outer"></div>
     <div id="receiptArea" class="invoice-outer" style="margin-top: 40px;"></div>
     <datalist id="itemsData"></datalist>
@@ -379,7 +375,7 @@
     const SHEET_API = "https://script.google.com/macros/s/AKfycbz7L7LsHuTui703d62Yt4PO4Wtw69a4ALM-eVJqJmalwYcygLgq6EPPS8kuwRQNh28dcQ/exec";
 
     // ---------------------------------------------------------
-    // EDITABLE REGULAR CLIENTS LIST (Add or remove freely)
+    // EDITABLE REGULAR CLIENTS LIST
     // ---------------------------------------------------------
     const regularClients = [
         { mobile: "9650853330", name: "Parul Ahuja" },
@@ -388,7 +384,6 @@
         { mobile: "9873732117", name: "Melt N Daugh" },
         { mobile: "9810787877", name: "Vicky Ahuja" }
     ];
-    // ---------------------------------------------------------
 
     const inventory = [
         {name:"Classic Poster Design", price:499, gst:18},
@@ -414,7 +409,6 @@
 
     let autoSaveTimeout;
 
-    // Pro Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
         if(e.altKey) {
             const key = e.key.toLowerCase();
@@ -432,14 +426,12 @@
         saveDraft();
     }
 
-    // New Smart Suggestion Logic
     function handleMobileInput() {
         validateMobile(); 
         const val = document.getElementById('mobile').value.trim();
         const dropdown = document.getElementById('clientSuggestions');
         
         if (val.length >= 2) {
-            // Filter by digits inside mobile OR text inside name
             const matches = regularClients.filter(c => 
                 c.mobile.includes(val) || 
                 c.name.toLowerCase().includes(val.toLowerCase())
@@ -461,7 +453,6 @@
         }
     }
 
-    // Function to populate data when suggestion is clicked
     function selectClient(mob, name) {
         document.getElementById('mobile').value = mob;
         document.getElementById('customer').value = name;
@@ -471,7 +462,6 @@
         showToast("Client auto-filled!");
     }
 
-    // Close dropdown on outside click
     document.addEventListener('click', (e) => {
         if(!e.target.closest('#mobileWrapper') && !e.target.closest('#clientSuggestions')) {
             const drop = document.getElementById('clientSuggestions');
@@ -628,7 +618,13 @@
         const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
         const advReq = parseFloat(document.getElementById('advAmount').value) || 0;
         const balance = Math.max(0, calc.finalNet - paid);
-        const status = balance <= 0 ? "PAID" : "DUE";
+        
+        // Exact logic mapping for receipt and invoice strings
+        const invoiceStatusText = balance <= 0 ? "PAID IN FULL" : "ACTION REQUIRED";
+        const invoiceStatusColor = balance <= 0 ? "#059669" : "#111111";
+
+        const receiptStatusText = paid === 0 ? "PAYMENT PENDING" : (paid >= calc.finalNet ? "PAYMENT RECEIVED" : "PARTIAL PAYMENT");
+        const receiptStatusColor = paid === 0 ? "#E11D48" : (paid >= calc.finalNet ? "#059669" : "#F5A623");
         
         let dateVal = document.getElementById('billDate').value;
         const now = dateVal ? new Date(dateVal) : new Date();
@@ -643,24 +639,8 @@
         const mobile = document.getElementById('mobile').value;
         
         const notesVal = document.getElementById('customNotes').value.trim();
-        const notesHTML = notesVal ? `
-            <div style="padding: 0 50px 30px; z-index: 1; position: relative;">
-                <div style="background: #FAFAFA; border-left: 4px solid #EAAA00; padding: 16px 20px; border-radius: 4px 12px 12px 4px; font-size: 13px; color: #71717A; line-height: 1.6;">
-                    <b style="color: #09090B; display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Invoice Note</b>
-                    ${notesVal}
-                </div>
-            </div>` : '';
-
-        const receiptNotesHTML = notesVal ? `
-            <div style="padding: 0 50px 30px; z-index: 1; position: relative;">
-                <div style="background: #FAFAFA; border-left: 4px solid #059669; padding: 16px 20px; border-radius: 4px 12px 12px 4px; font-size: 13px; color: #71717A; line-height: 1.6;">
-                    <b style="color: #09090B; display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Note</b>
-                    ${notesVal}
-                </div>
-            </div>` : '';
 
         let itemsHtml = "";
-        let isFirst = true;
         document.querySelectorAll('.item-row').forEach(row => {
             const n = row.querySelector('.row-name').value;
             const q = parseFloat(row.querySelector('.row-qty').value) || 0;
@@ -670,304 +650,255 @@
             if (lineTotal < 0) lineTotal = 0;
             
             if(n) {
-                itemsHtml += `<tr style="border-bottom: 1px solid ${isFirst ? 'transparent' : '#F4F4F5'};">
-                    <td style="padding: 16px 24px; color: #09090B; font-weight: 700; font-size: 13px;">${n}</td>
-                    <td style="text-align: center; padding: 16px; color: #71717A; font-weight: 600; font-size: 13px;">${q}</td>
-                    <td style="text-align: center; padding: 16px; color: #09090B; font-weight: 600; font-size: 13px;">₹${parseFloat(r).toLocaleString()}</td>
-                    <td style="text-align: center; padding: 16px; color: #E11D48; font-weight: 600; font-size: 13px;">${d > 0 ? '-₹' + d.toLocaleString() : '-'}</td>
-                    <td style="text-align: right; padding: 16px 24px; font-weight: 800; color: #09090B; font-size: 14px;">₹${lineTotal.toLocaleString()}</td>
+                itemsHtml += `
+                <tr style="border-bottom: 1px solid #EAEAEA;">
+                    <td style="padding: 16px 0; color: #111111; font-weight: 600; font-size: 13px;">${n}</td>
+                    <td style="text-align: center; padding: 16px 0; color: #666666; font-size: 13px;">${q}</td>
+                    <td style="text-align: right; padding: 16px 0; color: #111111; font-size: 13px;">₹${parseFloat(r).toLocaleString()}</td>
+                    <td style="text-align: right; padding: 16px 0; color: #666666; font-size: 13px;">${d > 0 ? '-₹' + d.toLocaleString() : '-'}</td>
+                    <td style="text-align: right; padding: 16px 0; font-weight: 700; color: #111111; font-size: 14px;">₹${lineTotal.toLocaleString()}</td>
                 </tr>`;
-                isFirst = false;
             }
         });
 
-        // Advanced Premium QR Code Display Logic for Invoice
+        // Dynamic rows based on user selections
+        const gstRowHtml = calc.totalTax > 0 ? `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; color: #666666;">
+                <span>Tax (GST 18%)</span>
+                <span style="color: #111111;">₹${calc.totalTax.toLocaleString()}</span>
+            </div>` : '';
+
+        const discRowHtml = calc.disc > 0 ? `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 14px; color: #666666;">
+                <span>Total Discount</span>
+                <span style="color: #111111;">-₹${calc.disc.toLocaleString()}</span>
+            </div>` : '';
+
         let qrSectionHtml = '';
         if (balance <= 0) {
             qrSectionHtml = `
-                <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #ECFDF5; border: 1px solid #34D399; border-radius: 20px; padding: 24px; text-align: center;">
-                    <div style="width: 56px; height: 56px; background: #059669; color: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 16px; font-weight: bold; box-shadow: 0 10px 20px rgba(5,150,105,0.2);">✓</div>
-                    <div style="font-size: 16px; font-weight: 900; color: #059669; letter-spacing: 1.5px; text-transform: uppercase;">Payment Complete</div>
-                    <div style="font-size: 13px; font-weight: 600; color: #047857; margin-top: 8px;">Thank you for your continued trust.</div>
+                <div style="padding: 24px; border: 1px solid #EAEAEA; border-radius: 8px; text-align: center; max-width: 250px;">
+                    <div style="font-size: 12px; font-weight: 700; color: #111111; letter-spacing: 1px; text-transform: uppercase;">Payment Complete</div>
+                    <div style="font-size: 12px; color: #666666; margin-top: 4px;">Thank you for your business.</div>
                 </div>`;
         } else if (advReq > 0 && paid === 0) {
             let remBalance = calc.finalNet - advReq;
             qrSectionHtml = `
-                <div style="display: flex; gap: 20px; height: 100%;">
-                    <div style="flex: 1; background: #FFF9E8; border: 1px solid #F5D061; border-radius: 20px; padding: 24px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
-                        <div style="font-size: 10px; font-weight: 800; color: #C68E00; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px;">Advance Payment</div>
-                        <div style="font-size: 22px; font-weight: 900; color: #09090B; margin-bottom: 16px; letter-spacing: -0.5px;">₹${advReq.toLocaleString()}</div>
-                        <div id="advQR" style="background: #FFF; padding: 10px; border-radius: 12px; display: inline-block; box-shadow: 0 8px 16px rgba(0,0,0,0.06);"></div>
+                <div style="display: flex; gap: 24px;">
+                    <div>
+                        <div style="font-size: 10px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Advance (₹${advReq.toLocaleString()})</div>
+                        <div id="advQR" style="background: #FFFFFF; padding: 8px; border: 1px solid #EAEAEA; border-radius: 8px; display: inline-block;"></div>
                     </div>
-                    <div style="flex: 1; background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 20px; padding: 24px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
-                        <div style="font-size: 10px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px;">Balance Payment</div>
-                        <div style="font-size: 22px; font-weight: 900; color: #09090B; margin-bottom: 16px; letter-spacing: -0.5px;">₹${remBalance.toLocaleString()}</div>
-                        <div id="balQR" style="background: #FFF; padding: 10px; border-radius: 12px; display: inline-block; box-shadow: 0 8px 16px rgba(0,0,0,0.06);"></div>
+                    <div>
+                        <div style="font-size: 10px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Balance (₹${remBalance.toLocaleString()})</div>
+                        <div id="balQR" style="background: #FFFFFF; padding: 8px; border: 1px solid #EAEAEA; border-radius: 8px; display: inline-block;"></div>
                     </div>
                 </div>`;
         } else {
             qrSectionHtml = `
-                <div style="background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 20px; padding: 28px; display: flex; align-items: center; gap: 28px; height: 100%;">
-                    <div id="finalQR" style="background: #FFF; padding: 12px; border-radius: 16px; box-shadow: 0 10px 24px rgba(0,0,0,0.08);"></div>
-                    <div>
-                        <div style="font-size: 11px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Scan to Pay</div>
-                        <div style="font-size: 26px; font-weight: 900; color: #09090B; letter-spacing: -0.5px;">UPI QR</div>
-                        <div style="font-size: 12px; font-weight: 600; color: #71717A; margin-top: 8px;">GPay, PhonePe, Paytm</div>
-                    </div>
+                <div>
+                    <div style="font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Scan to Pay Balance</div>
+                    <div id="finalQR" style="background: #FFFFFF; padding: 8px; border: 1px solid #EAEAEA; border-radius: 8px; display: inline-block;"></div>
+                    <div style="font-size: 11px; font-weight: 500; color: #111111; margin-top: 8px;">UPI • GPay • PhonePe</div>
                 </div>`;
         }
 
         const area = document.getElementById('invoiceArea');
         area.style.display = 'block';
         
-        // --- HYPER PREMIUM INVOICE RENDER ---
         area.innerHTML = `
-            <div id="captureNode" class="invoice-card" style="width: 800px; min-height: 1131px; display: flex; flex-direction: column; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-top: 8px solid #EAAA00;">
+        <div id="captureNode" style="width: 800px; min-height: 1131px; background: #FCFBF7; color: #111111; font-family: 'Plus Jakarta Sans', sans-serif; position: relative; overflow: hidden; padding: 60px; display: flex; flex-direction: column; box-sizing: border-box; border-top: 6px solid #F5A623;">
+
+            <!-- Header -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 60px;">
+                <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" alt="Algum Creations Logo" style="height: 60px; object-fit: contain;">
+                <div style="text-align: right;">
+                    <div style="font-size: 32px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; margin-bottom: 8px;">INVOICE</div>
+                    <div style="font-size: 13px; color: #666666; font-weight: 500; margin-bottom: 4px;">#${invNo}</div>
+                    <div style="font-size: 13px; color: #666666; font-weight: 500;">${displayDate}</div>
+                </div>
+            </div>
+
+            <!-- Client Info -->
+            <div style="display: flex; justify-content: space-between; margin-bottom: 50px;">
+                <div>
+                    <div style="font-size: 10px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Billed To</div>
+                    <div style="font-size: 16px; font-weight: 700; color: #111111; margin-bottom: 4px;">${customer}</div>
+                    <div style="font-size: 13px; color: #666666;">+91 ${mobile}</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 10px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Payment Status</div>
+                    <div style="font-size: 14px; font-weight: 700; color: ${invoiceStatusColor};">${invoiceStatusText}</div>
+                </div>
+            </div>
+
+            <!-- Services Table -->
+            <div style="margin-bottom: 40px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #111111;">
+                            <th style="width: 45%; text-align: left; padding: 12px 0; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px;">Service Description</th>
+                            <th style="width: 10%; text-align: center; padding: 12px 0; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px;">Qty</th>
+                            <th style="width: 15%; text-align: right; padding: 12px 0; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px;">Rate</th>
+                            <th style="width: 15%; text-align: right; padding: 12px 0; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px;">Disc</th>
+                            <th style="width: 15%; text-align: right; padding: 12px 0; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>${itemsHtml}</tbody>
+                </table>
+            </div>
+
+            <!-- Notes -->
+            ${notesVal ? `
+            <div style="margin-bottom: 40px;">
+                <div style="font-size: 10px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Note</div>
+                <div style="font-size: 12px; color: #111111; line-height: 1.5; max-width: 60%;">${notesVal}</div>
+            </div>` : ''}
+
+            <!-- Bottom Financials / QR Area -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-bottom: 60px;">
                 
-                <!-- Subtle Top Decorative Glow -->
-                <div style="position: absolute; top: -150px; right: -150px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(234, 170, 0, 0.08) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; pointer-events: none; z-index: 0;"></div>
-
-                <!-- Header -->
-                <div style="padding: 50px 50px 40px; display: flex; justify-content: space-between; align-items: flex-start; position: relative; z-index: 1;">
-                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" alt="Algum Creations Logo" border="0" style="height: 100px; object-fit: contain; margin-left: -5px;">
-                        <div style="font-size: 10px; font-weight: 800; color: #C68E00; letter-spacing: 2px; text-transform: uppercase;">Creative Design • Strategy • Growth</div>
-                    </div>
-                    <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
-                        <div style="font-size: 46px; font-weight: 900; color: #09090B; letter-spacing: -1.5px; line-height: 1;">INVOICE</div>
-                        <div style="font-size: 15px; font-weight: 700; color: #71717A; letter-spacing: 1px;">#${invNo}</div>
-                        <div style="margin-top: 12px;">
-                            <span style="font-size: 11px; padding: 6px 16px; border-radius: 20px; font-weight: 800; letter-spacing: 1.5px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid currentColor; background: ${balance<=0?'#ECFDF5':'#FFF1F2'}; color: ${balance<=0?'#059669':'#E11D48'};">${status} INVOICE</span>
-                        </div>
-                    </div>
+                <!-- Payment Area -->
+                <div style="width: 45%;">
+                    ${qrSectionHtml}
                 </div>
 
-                <!-- Client Info Grid -->
-                <div style="padding: 0 50px 40px; display: flex; gap: 24px; z-index: 1; position: relative;">
-                    <div style="flex: 1; background: #FFF9E8; border: 1px solid rgba(234, 170, 0, 0.3); border-radius: 20px; padding: 24px;">
-                        <div style="font-size: 10px; font-weight: 800; color: #C68E00; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Billed To</div>
-                        <div style="font-size: 20px; font-weight: 900; color: #09090B; margin-bottom: 6px; letter-spacing: -0.5px;">${customer}</div>
-                        <div style="font-size: 14px; font-weight: 600; color: #71717A;">+91 ${mobile}</div>
+                <!-- Financial Summary -->
+                <div style="width: 45%;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; color: #666666;">
+                        <span>Subtotal</span>
+                        <span style="color: #111111;">₹${calc.subtotal.toLocaleString()}</span>
                     </div>
-                    <div style="flex: 1; background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 20px; padding: 24px;">
-                        <div style="font-size: 10px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;">Invoice Details</div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #71717A;">Date Issued</span>
-                            <span style="font-size: 13px; font-weight: 800; color: #09090B;">${displayDate}</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span style="font-size: 13px; font-weight: 600; color: #71717A;">Payment Status</span>
-                            <span style="font-size: 13px; font-weight: 800; color: ${balance<=0?'#059669':'#E11D48'};">${balance<=0?'Paid in Full':'Action Required'}</span>
-                        </div>
-                    </div>
-                </div>
+                    ${gstRowHtml}
+                    ${discRowHtml}
 
-                <!-- Main Service Table -->
-                <div style="padding: 0 50px 40px; z-index: 1; position: relative;">
-                    <div style="border: 1px solid #E4E4E7; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <thead style="background: #09090B; color: #FFFFFF;">
-                                <tr>
-                                    <th style="width: 40%; text-align: left; padding: 18px 24px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Service Description</th>
-                                    <th style="width: 10%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Qty</th>
-                                    <th style="width: 15%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Rate</th>
-                                    <th style="width: 15%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Disc</th>
-                                    <th style="width: 20%; text-align: right; padding: 18px 24px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>${itemsHtml}</tbody>
-                        </table>
+                    <div style="height: 1px; background: #EAEAEA; margin: 16px 0;"></div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <span style="font-size: 14px; font-weight: 800; color: #111111;">TOTAL AMOUNT</span>
+                        <span style="font-size: 24px; font-weight: 800; color: #F5A623;">₹${calc.finalNet.toLocaleString()}</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px;">
+                        <span style="color: #666666;">Amount Received</span>
+                        <span style="color: #111111; font-weight: 600;">₹${paid.toLocaleString()}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span style="color: #666666;">Balance Due</span>
+                        <span style="color: #111111; font-weight: 700;">₹${balance.toLocaleString()}</span>
                     </div>
                 </div>
-                
-                <div style="flex: 1;"></div> <!-- Spacer to push footer down -->
+            </div>
 
-                ${notesHTML}
-
-                <!-- QR & Financial Summary Container -->
-                <div style="padding: 0 50px 40px; display: flex; gap: 32px; z-index: 1; position: relative;">
-                    <!-- QR Box -->
-                    <div style="flex: 1;">
-                        ${qrSectionHtml}
-                    </div>
-
-                    <!-- Summary Box -->
-                    <div style="flex: 1.2;">
-                        <div style="background: #09090B; color: #FFFFFF; border-radius: 24px; padding: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); position: relative; overflow: hidden; height: 100%;">
-                            <!-- Ambient Glows -->
-                            <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: #6D5DFC; filter: blur(50px); opacity: 0.3; pointer-events: none;"></div>
-                            <div style="position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; background: #EAAA00; filter: blur(50px); opacity: 0.2; pointer-events: none;"></div>
-                            
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 14px; color: #A1A1AA; font-weight: 500;">
-                                <span>Subtotal</span><span style="color: #FAFAFA; font-weight: 700;">₹${calc.subtotal.toLocaleString()}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 14px; color: #A1A1AA; font-weight: 500;">
-                                <span>Tax (GST 18%)</span><span style="color: #FAFAFA; font-weight: 700;">₹${calc.totalTax.toLocaleString()}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 24px; font-size: 14px; color: #A1A1AA; font-weight: 500;">
-                                <span>Total Discount</span><span style="color: #FAFAFA; font-weight: 700;">-₹${calc.disc.toLocaleString()}</span>
-                            </div>
-                            
-                            <div style="height: 1px; background: rgba(255,255,255,0.15); margin: 0 0 24px 0;"></div>
-                            
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                                <span style="font-size: 13px; font-weight: 800; color: #EAAA00; text-transform: uppercase; letter-spacing: 2px;">Total Amount</span>
-                                <span style="font-size: 34px; font-weight: 900; color: #FFFFFF; letter-spacing: -1px;">₹${calc.finalNet.toLocaleString()}</span>
-                            </div>
-                            
-                            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 16px;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px;">
-                                    <span style="color: #A1A1AA; font-weight: 600;">Amount Received</span>
-                                    <span style="color: #34D399; font-weight: 800;">₹${paid.toLocaleString()}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; font-size: 14px;">
-                                    <span style="color: #FAFAFA; font-weight: 700;">Balance Due</span>
-                                    <span style="color: ${balance>0?'#F87171':'#34D399'}; font-weight: 800;">₹${balance.toLocaleString()}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Footer -->
+            <div style="border-top: 1px solid #EAEAEA; padding-top: 24px; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div>
+                    <div style="font-size: 12px; font-weight: 800; color: #111111; letter-spacing: 0.5px; margin-bottom: 4px;">ALGUM CREATIONS</div>
+                    <div style="font-size: 11px; color: #666666;">Creative Design • Strategy • Growth</div>
+                    <div style="font-size: 11px; color: #666666; margin-top: 4px;">Jamalpur (Munger), Bihar | +91 7352185767</div>
                 </div>
-
-                <!-- Agency Footer -->
-                <div style="padding: 0 50px 40px; z-index: 1; position: relative;">
-                    <div style="border-top: 1px solid #E4E4E7; padding-top: 32px; display: flex; justify-content: space-between; align-items: flex-end;">
-                        <div>
-                            <div style="font-size: 15px; font-weight: 900; color: #09090B; margin-bottom: 6px; letter-spacing: -0.5px;">ALGUM CREATIONS</div>
-                            <div style="font-size: 12px; font-weight: 600; color: #71717A;">Jamalpur (Munger), Bihar | +91 7352185767</div>
-                            <div style="font-size: 11px; font-weight: 800; color: #C68E00; margin-top: 12px; text-transform: uppercase; letter-spacing: 1.5px;">Designed with precision. Built for brands.</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="display: inline-block; padding: 10px 16px; background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 12px; font-size: 10px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 1.5px;">
-                                Digitally Verified Document
-                            </div>
-                        </div>
-                    </div>
+                <div style="text-align: right; font-size: 10px; font-weight: 700; color: #999999; text-transform: uppercase; letter-spacing: 1px;">
+                    Digitally Verified Document
                 </div>
-            </div>`;
+            </div>
+        </div>
+        `;
 
-        // --- HYPER PREMIUM RECEIPT RENDER (Distinctive Emerald Theme) ---
         const receiptArea = document.getElementById('receiptArea');
         receiptArea.style.display = 'block';
         receiptArea.innerHTML = `
-            <div id="captureReceiptNode" class="invoice-card" style="width: 800px; min-height: 1131px; display: flex; flex-direction: column; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-top: 8px solid #059669;">
+        <div id="captureReceiptNode" style="width: 800px; min-height: 1131px; background: #FCFBF7; color: #111111; font-family: 'Plus Jakarta Sans', sans-serif; position: relative; overflow: hidden; padding: 60px; display: flex; flex-direction: column; box-sizing: border-box; border-top: 6px solid #111111;">
+
+            <!-- Header -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 60px;">
+                <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" alt="Algum Creations Logo" style="height: 60px; object-fit: contain;">
+                <div style="text-align: right;">
+                    <div style="font-size: 32px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; margin-bottom: 8px;">RECEIPT</div>
+                    <div style="font-size: 13px; color: #666666; font-weight: 500; margin-bottom: 4px;">#${recNo}</div>
+                    <div style="font-size: 13px; color: #666666; font-weight: 500;">${displayDate}</div>
+                </div>
+            </div>
+
+            <!-- Client Info Grid -->
+            <div style="display: flex; justify-content: space-between; margin-bottom: 50px;">
+                <div>
+                    <div style="font-size: 10px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Received From</div>
+                    <div style="font-size: 16px; font-weight: 700; color: #111111; margin-bottom: 4px;">${customer}</div>
+                    <div style="font-size: 13px; color: #666666;">+91 ${mobile}</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 10px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Payment Status</div>
+                    <div style="font-size: 14px; font-weight: 700; color: ${receiptStatusColor};">${receiptStatusText}</div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div style="margin-bottom: 40px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #111111;">
+                            <th style="width: 45%; text-align: left; padding: 12px 0; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px;">Service Description</th>
+                            <th style="width: 10%; text-align: center; padding: 12px 0; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px;">Qty</th>
+                            <th style="width: 15%; text-align: right; padding: 12px 0; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px;">Rate</th>
+                            <th style="width: 15%; text-align: right; padding: 12px 0; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px;">Disc</th>
+                            <th style="width: 15%; text-align: right; padding: 12px 0; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>${itemsHtml}</tbody>
+                </table>
+            </div>
+
+            <!-- Notes -->
+            ${notesVal ? `
+            <div style="margin-bottom: 40px;">
+                <div style="font-size: 10px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Note</div>
+                <div style="font-size: 12px; color: #111111; line-height: 1.5; max-width: 60%;">${notesVal}</div>
+            </div>` : ''}
+
+            <!-- Bottom Section (Method + Totals) -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-bottom: 60px;">
                 
-                <!-- Subtle Emerald Glow Background -->
-                <div style="position: absolute; top: -150px; left: -150px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(5, 150, 105, 0.06) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; pointer-events: none; z-index: 0;"></div>
-                
-                <div style="padding: 50px 50px 40px; display: flex; justify-content: space-between; align-items: flex-start; position: relative; z-index: 1;">
-                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" alt="Algum Creations Logo" border="0" style="height: 100px; object-fit: contain; margin-left: -5px;">
-                        <div style="font-size: 10px; font-weight: 800; color: #059669; letter-spacing: 2px; text-transform: uppercase;">Official Payment Record</div>
-                    </div>
-                    <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
-                        <div style="font-size: 46px; font-weight: 900; color: #059669; letter-spacing: -1.5px; line-height: 1;">RECEIPT</div>
-                        <div style="font-size: 15px; font-weight: 700; color: #71717A; letter-spacing: 1px;">#${recNo}</div>
-                        <div style="margin-top: 12px;">
-                            <span style="font-size: 11px; padding: 6px 16px; border-radius: 20px; font-weight: 800; letter-spacing: 1.5px; border: 1px solid #059669; background: #ECFDF5; color: #059669;">✓ PAYMENT RECEIVED</span>
-                        </div>
-                    </div>
+                <!-- Payment Method -->
+                <div style="width: 45%;">
+                    <div style="font-size: 10px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Payment Channel</div>
+                    <div style="font-size: 14px; font-weight: 600; color: #111111;">${document.getElementById('paymentMode').value}</div>
                 </div>
 
-                <div style="padding: 0 50px 40px; display: flex; gap: 24px; z-index: 1; position: relative;">
-                    <div style="flex: 1; background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 20px; padding: 24px;">
-                        <div style="font-size: 10px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Received From</div>
-                        <div style="font-size: 20px; font-weight: 900; color: #09090B; margin-bottom: 6px; letter-spacing: -0.5px;">${customer}</div>
-                        <div style="font-size: 14px; font-weight: 600; color: #71717A;">+91 ${mobile}</div>
+                <!-- Financial Summary -->
+                <div style="width: 45%;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; color: #666666;">
+                        <span>Invoice Total</span>
+                        <span style="color: #111111;">₹${calc.finalNet.toLocaleString()}</span>
                     </div>
-                    <div style="flex: 1; background: #ECFDF5; border: 1px solid rgba(5, 150, 105, 0.2); border-radius: 20px; padding: 24px;">
-                        <div style="font-size: 10px; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;">Payment Details</div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 13px; font-weight: 600; color: #047857;">Payment Date</span>
-                            <span style="font-size: 13px; font-weight: 800; color: #09090B;">${displayDate}</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span style="font-size: 13px; font-weight: 600; color: #047857;">Ref Invoice</span>
-                            <span style="font-size: 13px; font-weight: 800; color: #09090B;">#${invNo}</span>
-                        </div>
+
+                    <div style="height: 1px; background: #EAEAEA; margin: 16px 0;"></div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-size: 14px; font-weight: 800; color: #111111;">AMOUNT RECEIVED</span>
+                        <span style="font-size: 24px; font-weight: 800; color: ${receiptStatusColor};">₹${paid.toLocaleString()}</span>
                     </div>
                 </div>
+            </div>
 
-                <div style="padding: 0 50px 40px; z-index: 1; position: relative;">
-                    <div style="border: 1px solid #E4E4E7; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <thead style="background: #FAFAFA; color: #71717A;">
-                                <tr>
-                                    <th style="width: 40%; text-align: left; padding: 18px 24px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid #E4E4E7;">Service Description</th>
-                                    <th style="width: 10%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid #E4E4E7;">Qty</th>
-                                    <th style="width: 15%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid #E4E4E7;">Rate</th>
-                                    <th style="width: 15%; text-align: center; padding: 18px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid #E4E4E7;">Disc</th>
-                                    <th style="width: 20%; text-align: right; padding: 18px 24px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid #E4E4E7;">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>${itemsHtml}</tbody>
-                        </table>
-                    </div>
+            <!-- Footer -->
+            <div style="border-top: 1px solid #EAEAEA; padding-top: 24px; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div>
+                    <div style="font-size: 12px; font-weight: 800; color: #111111; letter-spacing: 0.5px; margin-bottom: 4px;">ALGUM CREATIONS</div>
+                    <div style="font-size: 11px; color: #666666;">Creative Design • Strategy • Growth</div>
+                    <div style="font-size: 11px; color: #666666; margin-top: 4px;">Jamalpur (Munger), Bihar | +91 7352185767</div>
                 </div>
-
-                <div style="flex: 1;"></div> <!-- Spacer to push footer down -->
-
-                ${receiptNotesHTML}
-
-                <div style="padding: 0 50px 40px; display: flex; gap: 32px; z-index: 1; position: relative;">
-                    <!-- Payment Channel Info -->
-                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                        <div style="background: #FAFAFA; border: 1px solid #E4E4E7; border-radius: 24px; padding: 32px; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 10px 20px rgba(0,0,0,0.02);">
-                            <div style="font-size: 11px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;">Payment Channel Used</div>
-                            <div style="font-size: 24px; font-weight: 900; color: #09090B; display: flex; align-items: center; justify-content: center; gap: 12px; letter-spacing: -0.5px;">
-                                <span style="font-size: 28px;">💳</span> ${document.getElementById('paymentMode').value}
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Emerald Success Card -->
-                    <div style="flex: 1.2;">
-                        <div style="background: #059669; color: #FFFFFF; border-radius: 24px; padding: 32px; box-shadow: 0 20px 40px rgba(5,150,105,0.25); position: relative; overflow: hidden; height: 100%;">
-                            <!-- Ambient Glows -->
-                            <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: #34D399; filter: blur(50px); opacity: 0.3; pointer-events: none;"></div>
-                            
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 24px; font-size: 14px; color: rgba(255,255,255,0.8); font-weight: 500;">
-                                <span>Invoice Total</span><span style="color: #FFFFFF; font-weight: 700;">₹${calc.finalNet.toLocaleString()}</span>
-                            </div>
-                            
-                            <div style="height: 1px; background: rgba(255,255,255,0.2); margin: 0 0 24px 0;"></div>
-                            
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                                <span style="font-size: 13px; font-weight: 800; color: #A7F3D0; text-transform: uppercase; letter-spacing: 2px;">Amount Received</span>
-                                <span style="font-size: 34px; font-weight: 900; color: #FFFFFF; letter-spacing: -1px;">₹${paid > 0 ? paid.toLocaleString() : calc.finalNet.toLocaleString()}</span>
-                            </div>
-                            
-                            <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 16px; text-align: center;">
-                                <div style="font-size: 14px; font-weight: 700; color: #FFFFFF;">
-                                    Transaction Successful
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div style="text-align: right; font-size: 10px; font-weight: 700; color: #999999; text-transform: uppercase; letter-spacing: 1px;">
+                    Official Payment Record
                 </div>
+            </div>
+        </div>
+        `;
 
-                <div style="padding: 0 50px 40px; z-index: 1; position: relative;">
-                    <div style="border-top: 1px solid #E4E4E7; padding-top: 32px; display: flex; justify-content: space-between; align-items: flex-end;">
-                        <div>
-                            <div style="font-size: 15px; font-weight: 900; color: #09090B; margin-bottom: 6px; letter-spacing: -0.5px;">ALGUM CREATIONS</div>
-                            <div style="font-size: 12px; font-weight: 600; color: #71717A;">Jamalpur (Munger), Bihar | +91 7352185767</div>
-                            <div style="font-size: 11px; font-weight: 800; color: #059669; margin-top: 12px; text-transform: uppercase; letter-spacing: 1.5px;">Designed with precision. Built for brands.</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="display: inline-block; padding: 10px 16px; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 12px; font-size: 10px; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 1.5px;">
-                                Official Payment Record
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-
-        // Execution of QR codes initialization
         if (balance > 0) {
             if (advReq > 0 && paid === 0) {
                 let remBalance = calc.finalNet - advReq;
-                new QRCode(document.getElementById('advQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${advReq.toFixed(2)}&cu=INR`, width: 100, height: 100, colorDark : "#09090B", colorLight : "#ffffff" });
-                new QRCode(document.getElementById('balQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${remBalance.toFixed(2)}&cu=INR`, width: 100, height: 100, colorDark : "#09090B", colorLight : "#ffffff" });
+                new QRCode(document.getElementById('advQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${advReq.toFixed(2)}&cu=INR`, width: 85, height: 85, colorDark : "#111111", colorLight : "#ffffff" });
+                new QRCode(document.getElementById('balQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${remBalance.toFixed(2)}&cu=INR`, width: 85, height: 85, colorDark : "#111111", colorLight : "#ffffff" });
                 
                 setTimeout(() => {
                     ['advQR', 'balQR'].forEach(id => {
@@ -976,21 +907,21 @@
                             const dataUrl = qrCanvas.toDataURL("image/png");
                             const img = document.createElement("img");
                             img.src = dataUrl;
-                            img.style.width = "100px";
+                            img.style.width = "85px";
                             qrCanvas.style.display = "none";
                             document.getElementById(id).appendChild(img);
                         }
                     });
                 }, 500);
             } else {
-                new QRCode(document.getElementById('finalQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${balance.toFixed(2)}&cu=INR`, width: 110, height: 110, colorDark : "#09090B", colorLight : "#ffffff" });
+                new QRCode(document.getElementById('finalQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${balance.toFixed(2)}&cu=INR`, width: 90, height: 90, colorDark : "#111111", colorLight : "#ffffff" });
                 setTimeout(() => {
                     const qrCanvas = document.querySelector('#finalQR canvas');
                     if(qrCanvas) {
                         const dataUrl = qrCanvas.toDataURL("image/png");
                         const img = document.createElement("img");
                         img.src = dataUrl;
-                        img.style.width = "110px";
+                        img.style.width = "90px";
                         qrCanvas.style.display = "none";
                         document.getElementById('finalQR').appendChild(img);
                     }
@@ -1002,7 +933,6 @@
         area.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // DIRECT CUSTOMER WA SENDING PRESERVED 100%
     async function shareWhatsApp() {
         const name = document.getElementById('customer').value || "Client";
         let mobile = document.getElementById('mobile').value.replace(/\D/g,"");
@@ -1044,7 +974,7 @@
         msg += `🔸 Final Amount: ${total}\n`;
         
         if(parseFloat(disc.replace(/[^\d.]/g,'')) > 0) {
-             msg += `🔴 Total Disc Applied: ${disc}\n`; // Clarified here too
+             msg += `🔴 Total Disc Applied: ${disc}\n`;
         }
         
         msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
@@ -1185,3 +1115,4 @@
 </script>
 </body>
 </html>
+```
