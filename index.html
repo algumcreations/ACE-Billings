@@ -381,7 +381,7 @@
     </div>
 
     <div id="invoiceArea" class="invoice-outer"></div>
-    <div id="receiptArea" class="invoice-outer" style="margin-top: 40px;"></div>
+    <div id="receiptArea" class="invoice-outer" style="margin-top: 40px; display: flex; justify-content: center;"></div>
     <datalist id="itemsData"></datalist>
 </div>
 
@@ -659,8 +659,12 @@
         
         const notesVal = document.getElementById('customNotes').value.trim();
         const notesHTML = notesVal ? `<div style="padding: 0 60px 10px; font-size:12px; color:#71717A; line-height: 1.5;"><b>Note:</b> ${notesVal}</div>` : '';
+        // Special notes markup for the new sleek receipt
+        const receiptNotesHTML = notesVal ? `<div style="background: #F4F4F5; color: #71717A; padding: 12px 16px; border-radius: 8px; font-size:11px; margin-bottom: 24px; line-height: 1.5; font-weight: 500;"><b>Note:</b> ${notesVal}</div>` : '';
 
         let itemsHtml = "";
+        let receiptItemsHtml = ""; // Separate string builder for the sleek digital receipt
+
         document.querySelectorAll('.item-row').forEach(row => {
             const n = row.querySelector('.row-name').value;
             const q = parseFloat(row.querySelector('.row-qty').value) || 0;
@@ -670,6 +674,7 @@
             if (lineTotal < 0) lineTotal = 0;
             
             if(n) {
+                // Classic Table HTML for Invoice
                 itemsHtml += `<tr>
                     <td style="padding-left:0; color:#09090B; font-weight:600;">${n}</td>
                     <td style="text-align:center;">${q}</td>
@@ -677,6 +682,18 @@
                     <td style="text-align:center; color:#A1A1AA; font-weight:500;">${d > 0 ? '-₹' + d.toLocaleString() : '-'}</td>
                     <td style="text-align:right; font-weight:700; color:#09090B;">₹${lineTotal.toLocaleString()}</td>
                 </tr>`;
+
+                // Sleek Flex-Row HTML for Modern Receipt
+                receiptItemsHtml += `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed #F4F4F5;">
+                    <div style="width: 70%; padding-right: 16px;">
+                        <div style="color: #27272A; font-weight: 700; font-size: 13px; line-height: 1.4;">${n}</div>
+                        <div style="color: #A1A1AA; font-size: 11px; font-weight: 500; margin-top: 4px;">Qty: ${q} ${d > 0 ? `&bull; Disc: -₹${d.toLocaleString()}` : ''}</div>
+                    </div>
+                    <div style="width: 30%; text-align: right; color: #09090B; font-weight: 800; font-size: 13px;">
+                        ₹${lineTotal.toLocaleString()}
+                    </div>
+                </div>`;
             }
         });
 
@@ -785,79 +802,68 @@
                 </div>
             </div>`;
 
-        // 100% untouched full paid receipt logic
+        // COMPLETELY REDESIGNED PREMIUM FINTECH STYLE PAYMENT RECEIPT
         const receiptArea = document.getElementById('receiptArea');
-        receiptArea.style.display = 'block';
+        receiptArea.style.display = 'flex';
         receiptArea.innerHTML = `
-            <div id="captureReceiptNode" class="invoice-card" style="font-family: 'Plus Jakarta Sans', sans-serif; border-top: 4px solid #09090B;">
+            <div id="captureReceiptNode" style="width: 480px; margin: 0 auto; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; position: relative; border: 1px solid #E4E4E7; box-shadow: 0 30px 60px rgba(0,0,0,0.08); padding: 0; border-radius: 24px; overflow: hidden;">
+                <!-- Top accent line -->
+                <div style="height: 6px; width: 100%; background: linear-gradient(135deg, #059669 0%, #10B981 100%);"></div>
                 
-                <div class="inv-header">
-                    <div class="inv-brand-box">
-                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" alt="Algum Creations Logo" border="0" style="height: 100px; object-fit: contain; margin-left: -10px;">
+                <div style="padding: 40px;">
+                    <!-- Header -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                        <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" alt="Algum Logo" style="height: 48px; object-fit: contain; margin-left: -4px;">
+                        <div style="background: #ECFDF5; border: 1px solid #D1FAE5; color: #059669; padding: 6px 12px; border-radius: 100px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px;">
+                            <span style="font-size: 14px;">✓</span> SUCCESS
+                        </div>
                     </div>
-                    <div style="text-align:right; display:flex; flex-direction:column; justify-content:center;">
-                        <p style="margin:0 0 4px; font-size:10px; font-weight:700; color:#A1A1AA; text-transform:uppercase; letter-spacing:2px;">Payment Receipt</p>
-                        <p style="margin:0 0 12px; font-size:22px; font-weight:800; color:#09090B; letter-spacing:-0.5px;">#${recNo}</p>
-                        <div><span class="inv-badge" style="background: #09090B; color: #FFFFFF;">✓ RECEIVED</span></div>
-                    </div>
-                </div>
 
-                <div style="padding: 40px 60px; display:flex; justify-content:space-between; border-bottom: 1px solid #F4F4F5;">
-                    <div>
-                        <p style="margin:0 0 6px; color:#A1A1AA; font-weight:700; text-transform:uppercase; font-size:10px; letter-spacing:1.5px;">Received From</p>
-                        <p style="margin:0 0 4px; font-weight:700; font-size:18px; color:#09090B;">${customer}</p>
-                        <p style="margin:0; color:#71717A; font-weight:500; font-size:14px;">+91 ${mobile}</p>
+                    <!-- Amount Section -->
+                    <div style="text-align: center; margin-bottom: 32px;">
+                        <p style="color: #A1A1AA; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 12px;">Payment Received</p>
+                        <h1 style="font-size: 56px; color: #09090B; margin: 0; font-weight: 900; letter-spacing: -2px; line-height: 1;">₹${calc.finalNet.toLocaleString()}</h1>
+                        <p style="color: #059669; font-size: 13px; font-weight: 700; margin: 16px 0 0; display: inline-flex; align-items: center; gap: 6px; background: #F8FAFC; padding: 8px 16px; border-radius: 12px; border: 1px solid #F1F5F9;">
+                            <span>💳</span> Paid via ${document.getElementById('paymentMode').value}
+                        </p>
                     </div>
-                    <div style="text-align:right;">
-                        <p style="margin:0 0 6px; color:#A1A1AA; font-weight:700; text-transform:uppercase; font-size:10px; letter-spacing:1.5px;">Payment Date</p>
-                        <p style="margin:0; font-weight:600; font-size:16px; color:#09090B;">${new Date().toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'})}</p>
-                    </div>
-                </div>
 
-                <table class="inv-table">
-                    <thead>
-                        <tr>
-                            <th style="padding-left:0;">Service Description</th>
-                            <th style="text-align:center;">Qty</th>
-                            <th style="text-align:center;">Rate</th>
-                            <th style="text-align:center;">Disc</th>
-                            <th style="text-align:right;">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>${itemsHtml}</tbody>
-                </table>
-                
-                <div style="padding: 20px 60px 40px; display:flex; justify-content:space-between; align-items:flex-end;">
-                    <div style="width:40%;">
-                        <div style="background:#FAFAFA; color:#09090B; padding:24px; border-radius:12px; border:1px solid #E4E4E7; text-align:left;">
-                            <div style="font-weight:700; font-size:10px; color:#A1A1AA; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Payment Channel</div>
-                            <div style="font-weight:700; font-size:16px; color:#09090B; display:flex; align-items:center; gap:8px;">
-                                <span style="font-size:20px;">💳</span> ${document.getElementById('paymentMode').value}
+                    <!-- Details Card -->
+                    <div style="background: #FAFAFA; border: 1px solid #F4F4F5; border-radius: 16px; padding: 20px; margin-bottom: 32px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <span style="color: #71717A; font-size: 12px; font-weight: 600;">Date & Time</span>
+                            <span style="color: #27272A; font-size: 13px; font-weight: 700;">${new Date().toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'})}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <span style="color: #71717A; font-size: 12px; font-weight: 600;">Receipt No.</span>
+                            <span style="color: #27272A; font-size: 13px; font-weight: 700;">#${recNo}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <span style="color: #71717A; font-size: 12px; font-weight: 600;">Invoice Ref.</span>
+                            <span style="color: #27272A; font-size: 13px; font-weight: 700;">#${invNo}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <span style="color: #71717A; font-size: 12px; font-weight: 600;">Billed To</span>
+                            <div style="text-align: right;">
+                                <span style="color: #27272A; font-size: 13px; font-weight: 700; display: block;">${customer}</span>
+                                <span style="color: #A1A1AA; font-size: 11px; font-weight: 600; margin-top: 2px; display: block;">+91 ${mobile}</span>
                             </div>
                         </div>
                     </div>
-                    <div style="width:50%;">
-                        <div style="background:#09090B; padding:32px; border-radius:16px; color:white; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                            <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-size:13px; color:#A1A1AA; font-weight:500;">
-                                <span>Invoice Total</span><span style="color:#FFFFFF;">₹${calc.finalNet.toLocaleString()}</span>
-                            </div>
-                            <div style="border-top:1px solid rgba(255,255,255,0.15); padding-top:20px; display:flex; justify-content:space-between; align-items:center;">
-                                <span style="font-weight:700; font-size:11px; text-transform:uppercase; color:#A1A1AA; letter-spacing:1px;">Amount Received</span>
-                                <span style="font-weight:800; font-size:28px; color:#FFFFFF; letter-spacing:-1px;">₹${calc.finalNet.toLocaleString()}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                ${notesHTML}
-
-                <div class="inv-footer-area">
-                    <div style="text-align:left;">
-                        <p style="margin:0 0 4px; font-weight:700; font-size:13px; color:#09090B;">Algum Creations</p>
-                        <p style="margin:0; font-size:11px; color:#A1A1AA; font-weight:500;">Jamalpur (Munger), Bihar | +91 7352185767</p>
+                    <!-- Items summary (Minimal) -->
+                    <div style="margin-bottom: 32px;">
+                        <div style="color: #09090B; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #F4F4F5; padding-bottom: 12px; margin-bottom: 12px;">Payment For</div>
+                        ${receiptItemsHtml}
                     </div>
-                    <div style="text-align:right;">
-                        <p style="margin:0 0 4px; font-size:11px; color:#A1A1AA; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Official Payment Record</p>
+
+                    ${receiptNotesHTML}
+
+                    <!-- Footer -->
+                    <div style="text-align: center; border-top: 1px solid #F4F4F5; padding-top: 24px;">
+                        <p style="color: #27272A; font-size: 13px; font-weight: 700; margin: 0 0 4px;">Algum Creations</p>
+                        <p style="color: #A1A1AA; font-size: 11px; font-weight: 500; margin: 0;">Jamalpur (Munger), Bihar</p>
+                        <div style="margin-top: 16px; color: #D4D4D8; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;">Auto-Generated Digital Receipt</div>
                     </div>
                 </div>
             </div>`;
