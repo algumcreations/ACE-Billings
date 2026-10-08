@@ -650,7 +650,7 @@
             <div style="width: 48px; height: 48px; background: var(--brand-soft); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--brand-deep);">⚖️</div>
             <div>
                 <span style="font-size: 15px; font-weight: 800; display: block; color: var(--text);">APPLY GST (18%)</span>
-                <span style="font-size: 12px; color: var(--text-soft); font-weight: 500; margin-top: 4px; display: block;">Add 18% GST calculation to billing if required</span>
+                <span style="font-size: 12px; color: var(--text-soft); font-weight: 500; margin-top: 4px; display: block;">Enable 18% GST calculation on billing if required</span>
             </div>
         </div>
         <label class="switch">
@@ -661,7 +661,7 @@
 
     <div class="breakdown-card">
         <div class="breakdown-row"><span>Cart Subtotal:</span><span id="txtSubtotal">₹0.00</span></div>
-        <div class="breakdown-row"><span>Applied Tax (GST):</span><span id="txtTax">₹0.00</span></div>
+        <div class="breakdown-row" id="rowLiveTax" style="display: none;"><span>Applied Tax (GST 18%):</span><span id="txtTax">₹0.00</span></div>
         <div class="breakdown-row"><span>Total Discounts:</span><span id="txtDiscount">-₹0.00</span></div>
         <div class="breakdown-row" style="opacity: 0.5;"><span>Adjustment:</span><span id="txtRound">₹0.00</span></div>
         <div class="total-row breakdown-row">
@@ -773,6 +773,7 @@
     ];
 
     let autoSaveTimeout;
+    window.currentInvoiceNumber = "";
 
     // Pro Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
@@ -930,13 +931,20 @@
         const roundOff = (finalNet - rawNet).toFixed(2);
 
         document.getElementById('txtSubtotal').innerText = `₹${subtotal.toLocaleString('en-IN')}`;
+        
+        // Dynamic visibility of GST row in live form
+        const liveTaxRow = document.getElementById('rowLiveTax');
+        if(liveTaxRow) {
+            liveTaxRow.style.display = applyGst ? 'flex' : 'none';
+        }
         document.getElementById('txtTax').innerText = `₹${totalTax.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        
         document.getElementById('txtDiscount').innerText = `-₹${disc.toLocaleString('en-IN')}`;
         document.getElementById('txtRound').innerText = `₹${roundOff}`;
         document.getElementById('txtGrandTotal').innerText = `₹${finalNet.toLocaleString('en-IN')}`;
 
         saveDraft();
-        return { subtotal, totalTax, disc, finalNet, roundOff };
+        return { subtotal, totalTax, disc, finalNet, roundOff, applyGst };
     }
 
     function generateQuickQR(type) {
@@ -1007,6 +1015,7 @@
         const randNum = Math.floor(Math.random() * 90 + 10); 
         const invNo = "AC-" + dateStr + "-" + randNum;
         const recNo = "REC-" + dateStr + "-" + randNum;
+        window.currentInvoiceNumber = invNo;
 
         const customer = document.getElementById('customer').value || "Valued Client";
         const mobile = document.getElementById('mobile').value || "Not Provided";
@@ -1149,7 +1158,7 @@
                     <div>
                         <div style="font-size: 9.5px; font-weight: 800; color: #A1A1AA; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px;">STUDIO LOCATION</div>
                         <div style="font-size: 14px; font-weight: 700; color: #09090B;">Jamalpur, Bihar</div>
-                        <div style="font-size: 12px; font-weight: 500; color: #71717A; margin-top: 3px;">Billing Type: <b>${applyGst ? 'GST (18%)' : 'Non-GST'}</b></div>
+                        ${applyGst ? `<div style="font-size: 12px; font-weight: 600; color: #D97706; margin-top: 3px;">Billing: <b>GST Applied (18%)</b></div>` : ''}
                     </div>
                 </div>
 
@@ -1191,10 +1200,11 @@
                             <span>Cart Subtotal</span>
                             <span style="font-weight: 700; color: #09090B;">₹${calc.subtotal.toLocaleString('en-IN')}</span>
                         </div>
+                        ${applyGst ? `
                         <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; color: #71717A; font-weight: 600;">
                             <span>GST (18%)</span>
                             <span style="font-weight: 700; color: #09090B;">₹${calc.totalTax.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
-                        </div>
+                        </div>` : ''}
                         <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; color: #D97706; font-weight: 600;">
                             <span>Special Promo / Discount</span>
                             <span style="font-weight: 800;">-₹${calc.disc.toLocaleString('en-IN')}</span>
@@ -1362,19 +1372,21 @@
     async function shareWhatsApp() {
         const name = document.getElementById('customer').value || "Client";
         let mobile = document.getElementById('mobile').value.replace(/\D/g,"");
-        const total = document.getElementById('txtGrandTotal').innerText;
-        const disc = document.getElementById('txtDiscount').innerText;
+        const calc = updateCalculations();
+        const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
         const advReq = parseFloat(document.getElementById('advAmount').value) || 0;
-        const paid = document.getElementById('paidAmount').value;
         const mode = document.getElementById('paymentMode').value;
-        const balance = Math.max(0, parseFloat(total.replace(/₹|,/g,'')) - parseFloat(paid)).toFixed(2);
+        const balance = Math.max(0, calc.finalNet - paid);
         const notes = document.getElementById('customNotes').value.trim();
+        const applyGst = document.getElementById('gstEnabled').checked;
+        const invRef = window.currentInvoiceNumber || ("AC-" + new Date().toISOString().slice(0,10).replace(/-/g,"") + "-" + Math.floor(Math.random()*90+10));
         
         if(mobile.length < 10) return showToast("Invalid phone number");
 
         let itemsList = "";
+        let itemIndex = 1;
         document.querySelectorAll('.item-row').forEach((row) => {
-            const n = row.querySelector('.row-name').value;
+            const n = row.querySelector('.row-name').value.trim();
             const q = parseFloat(row.querySelector('.row-qty').value) || 0;
             const r = parseFloat(row.querySelector('.row-rate').value) || 0;
             const d = parseFloat(row.querySelector('.row-disc').value) || 0;
@@ -1382,49 +1394,63 @@
             if (lineTotal < 0) lineTotal = 0;
 
             if(n) {
-                itemsList += `🔹 *${n}* (x${q}) - ₹${r.toLocaleString('en-IN')}`;
-                if (d > 0) itemsList += ` [Disc: -₹${d.toLocaleString('en-IN')}]`;
-                itemsList += ` = ₹${lineTotal.toLocaleString('en-IN')}\n`;
+                itemsList += `${itemIndex}. *${n}*\n   └ Qty: ${q} × ₹${r.toLocaleString('en-IN')}${d > 0 ? ` (Disc: -₹${d.toLocaleString('en-IN')})` : ''} = *₹${lineTotal.toLocaleString('en-IN')}*\n`;
+                itemIndex++;
             }
         });
 
-        let msg = `✨ *ALGUM CREATIONS - DIGITAL INVOICE*\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-        msg += `👤 *Client:* ${name}\n`;
-        msg += `📱 *Mobile:* +91 ${mobile}\n`;
-        msg += `📅 *Date:* ${new Date().toLocaleDateString('en-GB')}\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-        msg += `📦 *Services & Deliverables:*\n${itemsList}`;
-        msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-        msg += `💰 *FINANCIAL SUMMARY:*\n`;
-        msg += `🔸 *Net Payable:* ${total}\n`;
+        // 2026 Sleek Ultra-Premium Branded WhatsApp Notification
+        let msg = `✨ *ALGUM CREATIONS*\n`;
+        msg += `_Complete Solution for Digital Business_\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+        msg += `📄 *DIGITAL SERVICE INVOICE*\n`;
+        msg += `• *Invoice Ref:* #${invRef}\n`;
+        msg += `• *Client:* ${name}\n`;
+        msg += `• *Date:* ${new Date().toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'})}\n\n`;
+        msg += `📦 *Services & Deliverables:*\n${itemsList}\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        msg += `💰 *BILLING SUMMARY:*\n`;
+        msg += `• *Subtotal:* ₹${calc.subtotal.toLocaleString('en-IN')}\n`;
         
-        if(parseFloat(disc.replace(/[^\d.]/g,'')) > 0) {
-             msg += `🔴 *Total Discount Applied:* ${disc}\n`;
+        if(applyGst) {
+            msg += `• *GST (18%):* ₹${calc.totalTax.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+        }
+        if(calc.disc > 0) {
+            msg += `• *Discount:* -₹${calc.disc.toLocaleString('en-IN')}\n`;
         }
         
-        msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-        msg += `✅ *Amount Received:* ₹${paid}\n`;
-        msg += `💳 *Payment Mode:* ${mode}\n`;
-        
+        msg += `• *Net Payable:* *₹${calc.finalNet.toLocaleString('en-IN')}*\n`;
+        msg += `• *Amount Received:* ₹${paid.toLocaleString('en-IN')}\n`;
+        msg += `• *Payment Channel:* ${mode}\n\n`;
+
         if(notes) {
-            msg += `\n📝 *Terms & Note:* ${notes}\n`;
+            msg += `📝 *Notes & Terms:*\n${notes}\n\n`;
         }
 
         if(balance > 0) {
-            if(advReq > 0 && parseFloat(paid) === 0) {
-                let remBalance = Math.max(0, parseFloat(total.replace(/₹|,/g,'')) - advReq).toFixed(2);
-                msg += `\n⚠️ *PAYMENT DUE: ₹${parseFloat(balance).toLocaleString('en-IN')}*\n\n`;
-                msg += `🔗 *Tap to Pay Advance (₹${advReq}):*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${advReq}&cu=INR\n\n`;
-                msg += `🔗 *Tap to Pay Balance (₹${remBalance}):*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${remBalance}&cu=INR\n`;
+            if(advReq > 0 && paid === 0) {
+                let remBalance = Math.max(0, calc.finalNet - advReq);
+                msg += `⏳ *PAYMENT STATUS: ADVANCE REQUIRED*\n`;
+                msg += `• *Advance Due:* *₹${advReq.toLocaleString('en-IN')}*\n`;
+                msg += `• *Balance Remaining:* ₹${remBalance.toLocaleString('en-IN')}\n\n`;
+                msg += `📲 *Instant 1-Tap UPI Settlement:*\n`;
+                msg += `🔗 *Tap to Pay Advance (₹${advReq}):*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${advReq.toFixed(2)}&cu=INR\n\n`;
+                msg += `🔗 *Tap to Pay Full Amount (₹${balance}):*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${balance.toFixed(2)}&cu=INR\n`;
             } else {
-                msg += `\n⚠️ *BALANCE DUE: ₹${parseFloat(balance).toLocaleString('en-IN')}*\n\n`;
-                msg += `🔗 *Tap to Pay Balance:*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${balance}&cu=INR\n`;
+                msg += `⏳ *PAYMENT STATUS: PENDING DUE*\n`;
+                msg += `• *Balance Due:* *₹${balance.toLocaleString('en-IN')}*\n\n`;
+                msg += `📲 *Instant 1-Tap UPI Settlement:*\n`;
+                msg += `🔗 *Tap to Pay Balance:*\nupi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${balance.toFixed(2)}&cu=INR\n`;
             }
         } else {
-            msg += `🟢 *Status:* SETTLED (PAID IN FULL)\n`;
+            msg += `✅ *PAYMENT STATUS: SETTLED (PAID IN FULL)*\n`;
+            msg += `Thank you for your business! Your account is completely clear.\n`;
         }
-        msg += `\n_Thank you for choosing Algum Creations — Complete Solution for Digital Business._`;
+
+        msg += `\n━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        msg += `_Algum Creations • Jamalpur (Munger), Bihar_\n`;
+        msg += `_Design • Strategy • Marketing • Digital Growth_\n`;
+        msg += `📞 *Helpline / WhatsApp:* +91 7352185767`;
         
         window.open(`https://wa.me/91${mobile}?text=${encodeURIComponent(msg)}`);
     }
