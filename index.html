@@ -947,16 +947,30 @@
         const cont = document.getElementById('quickQRContainer');
         cont.innerHTML = `<div style="font-weight:700; margin-bottom:20px; font-size:12px; color: var(--text-soft); letter-spacing: 1px; text-transform: uppercase;">SCAN TO PAY ₹${amt.toLocaleString('en-IN')}</div><div id="qQR" style="display:inline-block; padding:16px; background:white; border-radius:16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);"></div>`;
         
-        const qrc = new QRCode(document.getElementById('qQR'), { text: upi, width: 160, height: 160 });
+        const qEl = document.getElementById('qQR');
+        new QRCode(qEl, { text: upi, width: 160, height: 160 });
         
         setTimeout(() => {
-            const canv = document.querySelector('#qQR canvas');
-            if(canv) {
-                const img = document.createElement('img');
-                img.src = canv.toDataURL('image/png');
-                img.style.width = '160px';
-                canv.style.display = 'none';
-                document.getElementById('qQR').appendChild(img);
+            if (!qEl) return;
+            const canvas = qEl.querySelector('canvas');
+            const imgs = qEl.querySelectorAll('img');
+            if (imgs.length > 0 && imgs[0].src && imgs[0].src.startsWith('data:image')) {
+                imgs[0].style.width = '160px';
+                imgs[0].style.height = '160px';
+                imgs[0].style.display = 'block';
+                if (canvas) canvas.style.display = 'none';
+                for (let i = 1; i < imgs.length; i++) imgs[i].remove();
+            } else if (canvas) {
+                try {
+                    const dataUrl = canvas.toDataURL('image/png');
+                    qEl.innerHTML = '';
+                    const singleImg = document.createElement('img');
+                    singleImg.src = dataUrl;
+                    singleImg.style.width = '160px';
+                    singleImg.style.height = '160px';
+                    singleImg.style.display = 'block';
+                    qEl.appendChild(singleImg);
+                } catch (e) {}
             }
         }, 300);
     }
@@ -1061,7 +1075,7 @@
             }
         });
 
-        // Advanced QR Code Display Logic for Invoice
+        // Advanced QR Code Display Logic for Invoice - Clean Single Unified QR
         let qrSectionHtml = '';
         if (balance <= 0) {
             qrSectionHtml = `
@@ -1070,30 +1084,26 @@
                 <div style="font-weight: 900; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;">ACCOUNT SETTLED</div>
                 <p style="margin: 6px 0 0; font-size: 11px; color: #047857; font-weight: 600;">Payment fully realized via ${paymentModeSelected}</p>
             </div>`;
-        } else if (advReq > 0 && paid === 0) {
-            let remBalance = calc.finalNet - advReq;
-            qrSectionHtml = `
-            <div style="display: flex; gap: 16px; align-items: flex-end; justify-content: flex-start;">
-                <div style="background: #FFFFFF; border: 1px solid #F59E0B; border-radius: 14px; padding: 12px; text-align: center; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12);">
-                    <div id="advQR" style="display: inline-block;"></div>
-                    <div style="font-size: 9px; font-weight: 800; color: #D97706; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.8px;">ADVANCE PAY</div>
-                    <div style="font-size: 13px; font-weight: 900; color: #09090B; margin-top: 2px;">₹${advReq.toLocaleString('en-IN')}</div>
-                </div>
-                <div style="background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 14px; padding: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-                    <div id="balQR" style="display: inline-block;"></div>
-                    <div style="font-size: 9px; font-weight: 800; color: #71717A; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.8px;">BALANCE PAY</div>
-                    <div style="font-size: 13px; font-weight: 900; color: #09090B; margin-top: 2px;">₹${remBalance.toLocaleString('en-IN')}</div>
-                </div>
-            </div>
-            <div style="font-size: 10px; color: #71717A; font-weight: 600; margin-top: 10px; letter-spacing: 0.3px;">UPI: ${UPI_ID}</div>`;
         } else {
+            let qrPayAmount = balance;
+            let qrBadgeText = "SCAN & PAY DUE";
+            let qrSubtext = "Instant Bank Settlement via UPI";
+
+            if (advReq > 0 && paid === 0) {
+                qrPayAmount = advReq;
+                qrBadgeText = "SCAN TO PAY ADVANCE";
+                let remBalance = calc.finalNet - advReq;
+                qrSubtext = `Remaining Balance: ₹${remBalance.toLocaleString('en-IN')}`;
+            }
+
             qrSectionHtml = `
-            <div style="display: flex; align-items: center; gap: 16px; background: #FFFBEB; border: 1px solid #FDE68A; padding: 14px; border-radius: 16px;">
-                <div id="finalQR" style="background: #FFFFFF; padding: 8px; border-radius: 10px; border: 1px solid #F59E0B; display: inline-block;"></div>
+            <div style="display: flex; align-items: center; gap: 18px; background: #FFFBEB; border: 1px solid #FDE68A; padding: 16px 18px; border-radius: 16px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.06);">
+                <div id="finalQR" style="background: #FFFFFF; padding: 8px; border-radius: 12px; border: 1px solid #F59E0B; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; min-width: 104px; min-height: 104px;"></div>
                 <div>
-                    <span style="background: #D97706; color: white; padding: 3px 8px; border-radius: 6px; font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">SCAN & PAY DUE</span>
-                    <div style="font-size: 18px; font-weight: 900; color: #09090B; margin-top: 6px; letter-spacing: -0.5px;">₹${balance.toLocaleString('en-IN')}</div>
-                    <div style="font-size: 10px; color: #78350F; font-weight: 600; margin-top: 2px;">UPI: ${UPI_ID}</div>
+                    <span style="background: #D97706; color: white; padding: 3px 9px; border-radius: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; display: inline-block;">${qrBadgeText}</span>
+                    <div style="font-size: 22px; font-weight: 900; color: #09090B; margin-top: 5px; letter-spacing: -0.5px;">₹${qrPayAmount.toLocaleString('en-IN')}</div>
+                    <div style="font-size: 11px; color: #78350F; font-weight: 700; margin-top: 3px;">UPI: ${UPI_ID}</div>
+                    <div style="font-size: 10px; color: #92400E; font-weight: 600; margin-top: 2px;">${qrSubtext}</div>
                 </div>
             </div>`;
         }
@@ -1305,38 +1315,43 @@
                 </div>
             </div>`;
 
+        // Execution of Single Crisp QR Code Initialization
         if (balance > 0) {
-            if (advReq > 0 && paid === 0) {
-                let remBalance = calc.finalNet - advReq;
-                new QRCode(document.getElementById('advQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${advReq.toFixed(2)}&cu=INR`, width: 90, height: 90, colorDark : "#09090B", colorLight : "#ffffff" });
-                new QRCode(document.getElementById('balQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${remBalance.toFixed(2)}&cu=INR`, width: 90, height: 90, colorDark : "#09090B", colorLight : "#ffffff" });
-                
+            let qrPayAmount = (advReq > 0 && paid === 0) ? advReq : balance;
+            const finalQrEl = document.getElementById('finalQR');
+            if (finalQrEl) {
+                finalQrEl.innerHTML = '';
+                new QRCode(finalQrEl, { 
+                    text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${qrPayAmount.toFixed(2)}&cu=INR`, 
+                    width: 100, 
+                    height: 100, 
+                    colorDark : "#09090B", 
+                    colorLight : "#ffffff" 
+                });
+
                 setTimeout(() => {
-                    ['advQR', 'balQR'].forEach(id => {
-                        const qrCanvas = document.querySelector(`#${id} canvas`);
-                        if(qrCanvas) {
-                            const dataUrl = qrCanvas.toDataURL("image/png");
-                            const img = document.createElement("img");
-                            img.src = dataUrl;
-                            img.style.width = "90px";
-                            qrCanvas.style.display = "none";
-                            document.getElementById(id).appendChild(img);
-                        }
-                    });
-                }, 400);
-            } else {
-                new QRCode(document.getElementById('finalQR'), { text: `upi://pay?pa=${UPI_ID}&pn=AlgumCreations&am=${balance.toFixed(2)}&cu=INR`, width: 96, height: 96, colorDark : "#09090B", colorLight : "#ffffff" });
-                setTimeout(() => {
-                    const qrCanvas = document.querySelector('#finalQR canvas');
-                    if(qrCanvas) {
-                        const dataUrl = qrCanvas.toDataURL("image/png");
-                        const img = document.createElement("img");
-                        img.src = dataUrl;
-                        img.style.width = "96px";
-                        qrCanvas.style.display = "none";
-                        document.getElementById('finalQR').appendChild(img);
+                    const canvas = finalQrEl.querySelector('canvas');
+                    const imgs = finalQrEl.querySelectorAll('img');
+                    
+                    if (imgs.length > 0 && imgs[0].src && imgs[0].src.startsWith('data:image')) {
+                        imgs[0].style.width = "100px";
+                        imgs[0].style.height = "100px";
+                        imgs[0].style.display = "block";
+                        if (canvas) canvas.style.display = "none";
+                        for (let i = 1; i < imgs.length; i++) imgs[i].remove();
+                    } else if (canvas) {
+                        try {
+                            const dataUrl = canvas.toDataURL("image/png");
+                            finalQrEl.innerHTML = '';
+                            const singleImg = document.createElement("img");
+                            singleImg.src = dataUrl;
+                            singleImg.style.width = "100px";
+                            singleImg.style.height = "100px";
+                            singleImg.style.display = "block";
+                            finalQrEl.appendChild(singleImg);
+                        } catch (e) {}
                     }
-                }, 400);
+                }, 300);
             }
         }
         
@@ -1427,10 +1442,6 @@
             onclone: (clonedDoc) => {
                 const clonedFinal = clonedDoc.getElementById('finalQR');
                 if(clonedFinal) clonedFinal.style.opacity = "1";
-                const clonedAdv = clonedDoc.getElementById('advQR');
-                if(clonedAdv) clonedAdv.style.opacity = "1";
-                const clonedBal = clonedDoc.getElementById('balQR');
-                if(clonedBal) clonedBal.style.opacity = "1";
             }
         }).then(canvas => {
             try {
