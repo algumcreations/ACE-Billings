@@ -95,6 +95,39 @@
             margin-bottom: 24px;
         }
 
+        /* 1st Anniversary Workspace Top Ribbon */
+        .anniversary-live-ribbon {
+            background: linear-gradient(90deg, #09090B 0%, #18181B 20%, #B45309 50%, #18181B 80%, #09090B 100%);
+            color: #FEF3C7;
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.12);
+        }
+        .anniversary-live-ribbon .left-tag {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #FBBF24;
+        }
+        .anniversary-live-ribbon .right-tag {
+            font-size: 11px;
+            font-weight: 700;
+            color: #FAFAFA;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
         /* Auto Save Indicator */
         .auto-save-badge {
             position: absolute; 
@@ -550,6 +583,7 @@
         @media (max-width: 768px) {
             body { padding: 16px; }
             .app-container { padding: 24px; border-radius: var(--radius-md); }
+            .anniversary-live-ribbon { flex-direction: column; gap: 8px; text-align: center; }
             .grid { grid-template-columns: 1fr; gap: 16px; }
             .grid[style*="grid-template-columns: 1fr 1fr 1fr 1.5fr;"] { grid-template-columns: 1fr !important; }
             .item-row { grid-template-columns: 1fr; gap: 12px; padding: 16px; }
@@ -590,6 +624,15 @@
 
 <div class="app-container">
     <div id="autoSaveBadge" class="auto-save-badge">Draft Saved</div>
+
+    <!-- 1st Anniversary Celebration Live Banner -->
+    <div class="anniversary-live-ribbon">
+        <div class="left-tag">
+            <span>🎉</span>
+            <span>CELEBRATING 1ST ANNIVERSARY OF ALGUM CREATIONS • 1 YEAR OF CREATIVE EXCELLENCE</span>
+        </div>
+        <div class="right-tag">25 OCTOBER 2026 ✨</div>
+    </div>
 
     <div class="header">
         <div>
@@ -1125,8 +1168,19 @@
                 <!-- Top Brand Banner Accent (Dark Gold-Orange & Black) -->
                 <div style="height: 8px; width: 100%; background: linear-gradient(90deg, #09090B 0%, #18181B 35%, #D97706 70%, #F59E0B 100%);"></div>
 
+                <!-- 1ST ANNIVERSARY ROYAL CELEBRATION TOP RIBBON -->
+                <div style="background: linear-gradient(90deg, #09090B 0%, #18181B 22%, #78350F 50%, #18181B 78%, #09090B 100%); padding: 11px 56px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #F59E0B;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 14px;">🎉</span>
+                        <span style="font-size: 11px; font-weight: 800; color: #FBBF24; letter-spacing: 1.5px; text-transform: uppercase;">CELEBRATING 1ST ANNIVERSARY OF ALGUM CREATIONS</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(251, 191, 36, 0.5); color: #FEF3C7; padding: 3px 10px; border-radius: 100px; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">25 OCT 2025 — 25 OCT 2026 ✨ 1 YEAR OF TRUST</span>
+                    </div>
+                </div>
+
                 <!-- Header Section -->
-                <div style="padding: 44px 56px 28px; display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #F4F4F5;">
+                <div style="padding: 38px 56px 28px; display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #F4F4F5;">
                     <div>
                         <img src="https://i.ibb.co/933TXyCF/20260618-221353.png" alt="Algum Creations" border="0" style="height: 96px; object-fit: contain; margin-left: -6px;">
                         <div style="margin-top: 10px; display: flex; align-items: center; gap: 8px;">
@@ -1233,6 +1287,18 @@
                     </div>
                 </div>
 
+                <!-- 1ST ANNIVERSARY GRATITUDE CARD ON INVOICE -->
+                <div style="margin: 12px 56px 0; background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%); border: 1px solid #F59E0B; border-radius: 14px; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08);">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <div style="width: 40px; height: 40px; background: #09090B; color: #FBBF24; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; border: 1px solid #D97706;">🥂</div>
+                        <div>
+                            <div style="font-size: 12px; font-weight: 900; color: #78350F; letter-spacing: 0.4px; text-transform: uppercase;">Happy 1st Anniversary • Thank You For Being Part of Our Journey!</div>
+                            <div style="font-size: 11px; font-weight: 600; color: #92400E; margin-top: 2px;">Celebrating 365 Days of Creative Excellence, Innovation & Your Valuable Trust (25 October 2026)</div>
+                        </div>
+                    </div>
+                    <div style="background: #09090B; color: #FBBF24; padding: 5px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0; border: 1px solid #D97706;">1 YEAR STRONG ✨</div>
+                </div>
+
                 <!-- Footer & Digital Authenticity Stamp -->
                 <div style="margin: 20px 56px 0; padding-top: 24px; border-top: 1px solid #F4F4F5; display: flex; justify-content: space-between; align-items: center;">
                     <div>
@@ -1255,8 +1321,13 @@
                 
                 <!-- Dual Golden-Black Header Line -->
                 <div style="height: 8px; width: 100%; background: linear-gradient(90deg, #09090B 0%, #D97706 60%, #F59E0B 100%);"></div>
+
+                <!-- 1ST ANNIVERSARY RECEIPT CELEBRATION BANNER -->
+                <div style="background: linear-gradient(90deg, #09090B 0%, #78350F 50%, #09090B 100%); color: #FBBF24; text-align: center; padding: 8px 16px; font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; border-bottom: 1px solid #F59E0B;">
+                    🎉 CELEBRATING 1ST ANNIVERSARY • 25 OCTOBER 2026 ✨
+                </div>
                 
-                <div style="padding: 36px 36px 32px;">
+                <div style="padding: 30px 36px 32px;">
                     
                     <!-- Top Bar: Logo & Status Badge -->
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
@@ -1313,6 +1384,12 @@
                     <div style="background: #FFFBEB; border: 1px solid #FDE68A; padding: 12px 14px; border-radius: 12px; font-size: 11px; color: #92400E; margin-bottom: 24px; line-height: 1.45; font-weight: 600;">
                         <b>Special Note:</b> ${notesVal}
                     </div>` : ''}
+
+                    <!-- 1ST ANNIVERSARY BADGE ON RECEIPT -->
+                    <div style="background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%); border: 1px solid #F59E0B; border-radius: 14px; padding: 12px 14px; text-align: center; margin-bottom: 20px;">
+                        <div style="font-size: 10.5px; font-weight: 900; color: #78350F; text-transform: uppercase; letter-spacing: 0.8px;">🏆 1st Anniversary Celebration Edition</div>
+                        <div style="font-size: 10px; font-weight: 600; color: #92400E; margin-top: 3px;">Thank you for celebrating 1 Year of Algum Creations with us!</div>
+                    </div>
 
                     <!-- Receipt Footer -->
                     <div style="text-align: center; border-top: 1px solid #ECECEF; padding-top: 20px;">
@@ -1402,6 +1479,7 @@
         // 2026 Sleek Ultra-Premium Branded WhatsApp Notification
         let msg = `✨ *ALGUM CREATIONS*\n`;
         msg += `_Complete Solution for Digital Business_\n`;
+        msg += `🎉 *Celebrating Our 1st Anniversary (25 Oct 2026)* 🥂\n`;
         msg += `━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
         msg += `📄 *DIGITAL SERVICE INVOICE*\n`;
         msg += `• *Invoice Ref:* #${invRef}\n`;
@@ -1447,7 +1525,8 @@
             msg += `Thank you for your business! Your account is completely clear.\n`;
         }
 
-        msg += `\n━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        msg += `\n🏆 *Thank you for being a valued part of Algum Creations' 1-Year Journey!* ✨\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━━━━━\n`;
         msg += `_Algum Creations • Jamalpur (Munger), Bihar_\n`;
         msg += `_Design • Strategy • Marketing • Digital Growth_\n`;
         msg += `📞 *Helpline / WhatsApp:* +91 7352185767`;
